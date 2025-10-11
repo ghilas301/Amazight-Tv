@@ -331,3 +331,17 @@ body {
 .cta-button:hover {
   background-color: var(--color-hover);
 }
+.visitor-badge-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 10px;
+  gap: 8px;
+  font-family: var(--font-stack);
+  color: #e5e5e5;
+  font-size: 0.9em;
+}
+
+.visitor-badge {
+  height: 25px;
+}
