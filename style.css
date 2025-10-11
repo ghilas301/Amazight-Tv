@@ -331,17 +331,41 @@ body {
 .cta-button:hover {
   background-color: var(--color-hover);
 }
-.visitor-badge-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-top: 10px;
-  gap: 8px;
-  font-family: var(--font-stack);
-  color: #e5e5e5;
-  font-size: 0.9em;
+
+/* === STYLE DU MUR ADBLOCK === */
+.modal-adblock-content {
+    max-width: 600px;
+    padding: 30px;
+    text-align: center;
+    border: 3px solid var(--color-primary);
+    box-shadow: 0 0 40px rgba(229, 9, 20, 0.7);
 }
 
-.visitor-badge {
-  height: 25px;
+.adblock-title {
+    color: var(--color-primary);
+    font-size: 2em;
+    margin-bottom: 15px;
+    text-shadow: 0 0 5px rgba(229, 9, 20, 0.5);
+}
+
+.adblock-text {
+    font-size: 1.1em;
+    margin-bottom: 20px;
+    line-height: 1.5;
+}
+
+.adblock-instruction {
+    font-style: italic;
+    color: #aaa;
+    margin-top: 15px;
+}
+
+/* Masquer l'élément 'appât' (ad-bait) pour qu'il soit détecté */
+/* AdBlock le masquera de toute façon, mais c'est une bonne pratique. */
+#ad-bait {
+    width: 1px;
+    height: 1px;
+    position: absolute;
+    left: -9999px;
+    visibility: hidden;
 }
