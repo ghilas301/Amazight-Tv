@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amazigh TV</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+</head>
+<body>
+    <header class="header">
+        <h1 class="logo">Amazigh TV</h1>
+        <nav class="navigation">
+            <a href="#accueil">Accueil</a>
+            <a href="#films">Courts Métrages</a>
+            <a href="#contact">Contact</a>
+        </nav>
+    </header>
+
+    <main class="main-content">
+        <!-- Section Vedette -->
+        <section class="hero-section" id="accueil">
+            <div class="hero-details">
+                <h2 class="hero-title">Pucci 1</h2>
+                <p class="hero-description">
+                    Pucci 1 en kabyle film complet.
+                    Durée: 1h20. Genre: Comédie.
+                </p>
+                <button class="play-button" data-video-id="video-pucci1">▶ Regarder</button>
+            </div>
+        </section>
+
+        <!-- Section Films -->
+        <section class="film-list-section" id="films">
+            <h3>Explorer les Œuvres</h3>
+            <div class="film-grid">
+                <article class="film-card" data-video-id="video-silence-urbain">
+                    <div class="film-poster">[Affiche Silence Urbain]</div>
+                    <div class="film-info">
+                        <h4>Silence Urbain</h4>
+                        <p>Thriller psychologique, 8 min.</p>
+                    </div>
+                </article>
+                <article class="film-card" data-video-id="video-etoile-filante">
+                    <div class="film-poster">[Affiche Étoile Filante]</div>
+                    <div class="film-info">
+                        <h4>Étoile Filante</h4>
+                        <p>Science-fiction, 15 min.</p>
+                    </div>
+                </article>
+                <article class="film-card" data-video-id="video-derniere-danse">
+                    <div class="film-poster">[Affiche Dernière Danse]</div>
+                    <div class="film-info">
+                        <h4>Dernière Danse</h4>
+                        <p>Comédie dramatique, 10 min.</p>
+                    </div>
+                </article>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer" id="contact">
+        <p>&copy; 2025 Amazigh TV. Tous droits réservés.</p>
+        <p>Contact: <a href="mailto:votre_email@example.com">votre_email@example.com</a></p>
+    </footer>
+
+    <!-- Modale vidéo -->
+    <div id="video-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <div class="video-player-placeholder">
+                <p>Lecteur vidéo pour <strong><span id="video-title-placeholder"></span></strong></p>
+                <div id="video-iframe-container"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
