@@ -1,80 +1,119 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Amazigh TV</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="icon" href="favicon.ico" type="image/x-icon">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Amazigh TV: Films et Courts Métrages Kabyles en Streaming</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
 </head>
 <body>
-    <header class="header">
-        <h1 class="logo">Amazigh TV</h1>
-        <nav class="navigation">
-            <a href="#accueil">Accueil</a>
-            <a href="#films">Courts Métrages</a>
-            <a href="#contact">Contact</a>
-        </nav>
-    </header>
 
-    <main class="main-content">
-        <!-- Section Vedette -->
-        <section class="hero-section" id="accueil">
-            <div class="hero-details">
-                <h2 class="hero-title">Pucci 1</h2>
-                <p class="hero-description">
-                    Pucci 1 en kabyle film complet.
-                    Durée: 1h20. Genre: Comédie.
-                </p>
-                <button class="play-button" data-video-id="video-pucci1">▶ Regarder</button>
-            </div>
-        </section>
+<header class="header">
+  <h1 class="logo">Amazigh TV</h1>
+  <nav class="navigation">
+    <a href="#accueil">Accueil</a>
+    <a href="#films">Courts Métrages</a>
+    <a href="#contact">Contact</a>
+  </nav>
+</header>
 
-        <!-- Section Films -->
-        <section class="film-list-section" id="films">
-            <h3>Explorer les Œuvres</h3>
-            <div class="film-grid">
-                <article class="film-card" data-video-id="video-silence-urbain">
-                    <div class="film-poster">[Affiche Silence Urbain]</div>
-                    <div class="film-info">
-                        <h4>Silence Urbain</h4>
-                        <p>Thriller psychologique, 8 min.</p>
-                    </div>
-                </article>
-                <article class="film-card" data-video-id="video-etoile-filante">
-                    <div class="film-poster">[Affiche Étoile Filante]</div>
-                    <div class="film-info">
-                        <h4>Étoile Filante</h4>
-                        <p>Science-fiction, 15 min.</p>
-                    </div>
-                </article>
-                <article class="film-card" data-video-id="video-derniere-danse">
-                    <div class="film-poster">[Affiche Dernière Danse]</div>
-                    <div class="film-info">
-                        <h4>Dernière Danse</h4>
-                        <p>Comédie dramatique, 10 min.</p>
-                    </div>
-                </article>
-            </div>
-        </section>
-    </main>
+<main class="main-content">
 
-    <footer class="footer" id="contact">
-        <p>&copy; 2025 Amazigh TV. Tous droits réservés.</p>
-        <p>Contact: <a href="mailto:votre_email@example.com">votre_email@example.com</a></p>
-    </footer>
-
-    <!-- Modale vidéo -->
-    <div id="video-modal" class="modal">
-        <div class="modal-content">
-            <span class="close-button">&times;</span>
-            <div class="video-player-placeholder">
-                <p>Lecteur vidéo pour <strong><span id="video-title-placeholder"></span></strong></p>
-                <div id="video-iframe-container"></div>
-            </div>
-        </div>
+  <section class="hero-section" id="accueil">
+    <div class="hero-details">
+      <h2 class="hero-title">Pucci 1</h2>
+      <p class="hero-description">
+        Pucci 1 en kabyle film complet. Durée: 1h20. Genre: Comédie.
+      </p>
+      <button class="hero-play-button" data-video-id="video-pucci1">
+        <div class="play-icon"></div>
+        Lire le film
+      </button>
     </div>
+  </section>
 
-    <script src="script.js"></script>
+  <section class="film-list-section" id="films">
+    <h3>Explorer les Œuvres</h3>
+    <div class="film-grid">
+
+      <article class="film-card" data-video-type="mega" data-video-id="video-pucci1">
+        <div class="film-poster">
+          <img src="images/pucci1.jpg" alt="Pucci 1" loading="lazy">
+          <div class="play-overlay"><div class="play-icon"></div></div>
+        </div>
+        <div class="film-info">
+          <h4>Pucci 1</h4>
+          <p>Comédie, 120 min</p>
+        </div>
+      </article>
+
+      <article class="film-card" data-video-type="youtube" data-video-id="1">
+        <div class="film-poster">
+          <img src="images/pucci2.jpg" alt="Pucci 2" loading="lazy">
+          <div class="play-overlay"><div class="play-icon"></div></div>
+        </div>
+        <div class="film-info">
+          <h4>Pucci 2</h4>
+          <p>Comédie, 121 min</p>
+        </div>
+      </article>
+
+      <article class="film-card" data-video-type="drive" data-video-id="2">
+        <div class="film-poster">
+          <img src="images/pucci4.jpg" alt="Pucci 4" loading="lazy">
+          <div class="play-overlay"><div class="play-icon"></div></div>
+        </div>
+        <div class="film-info">
+          <h4>Pucci 4</h4>
+          <p>Courte description, genre et durée</p>
+        </div>
+      </article>
+
+      </div>
+  </section>
+
+</main>
+
+<footer class="footer" id="contact">
+  <p>&copy; 2025 Amazigh TV. Tous droits réservés.</p>
+  <p>Contact: <a href="mailto:votre_email@example.com">votre_email@example.com</a></p>
+</footer>
+
+<div id="modal-mega" class="modal">
+  <div class="modal-content">
+    <span class="close-button" data-modal-type="mega">&times;</span>
+    <div class="video-player-placeholder">
+      <h3>Accès au contenu</h3>
+      <p>Vous allez accéder à <strong><span id="video-title-placeholder"></span></strong> via Mega.</p>
+      <button id="mega-redirect-button" class="cta-button">Continuer vers la vidéo</button>
+    </div>
+  </div>
+</div>
+
+<div class="modale-youtube modal" id="modal-youtube-1">
+  <div class="modal-content modal-video-content">
+    <span class="close-button" data-modal-type="youtube">&times;</span>
+    <iframe width="100%" height="450"
+            src="https://www.youtube.com/embed/YKNneNOhosY?autoplay=0"
+            title="Pucci 3"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen>
+    </iframe>
+  </div>
+</div>
+
+<div class="modale-drive modal" id="modal-drive-2">
+  <div class="modal-content modal-video-content">
+    <span class="close-button" data-modal-type="drive">&times;</span>
+    <video controls width="100%">
+      <source src="https://drive.google.com/uc?export=download&id=1LspF-P1lzf2zrOFJBeUm_wk45LZixZLZ" type="video/mp4">
+      Votre navigateur ne supporte pas la vidéo HTML5.
+    </video>
+  </div>
+</div>
+
+<script src="script.js"></script>
 </body>
 </html>

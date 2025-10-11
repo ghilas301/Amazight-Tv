@@ -1,75 +1,333 @@
 :root {
-    --color-primary: #e50914;
-    --color-background: #141414;
-    --color-text: #e5e5e5;
-    --color-card-bg: #222;
-    --color-hover: #f40612;
-    --font-stack: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --color-primary: #e50914;
+  --color-background: #141414;
+  --color-text: #e5e5e5;
+  --color-card-bg: #222;
+  --color-hover: #f40612;
+  --font-stack: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
-* { margin: 0; padding: 0; box-sizing: border-box; }
+* { margin:0; padding:0; box-sizing:border-box; }
 
 body {
-    font-family: var(--font-stack);
-    background-color: var(--color-background);
-    color: var(--color-text);
-    line-height: 1.6;
+  font-family: var(--font-stack);
+  background-color: var(--color-background);
+  color: var(--color-text);
+  line-height: 1.6;
 }
 
+/* Header */
 .header {
-    display: flex; justify-content: space-between; align-items: center;
-    padding: 20px 50px;
-    background-color: rgba(0,0,0,0.8);
-    position: fixed; top: 0; width: 100%; z-index: 100;
+  display:flex; justify-content:space-between; align-items:center;
+  padding:15px 30px;
+  background-color: rgba(0,0,0,0.85);
+  position:fixed; top:0; width:100%; z-index:100;
+  /* Pour le responsive: Empêcher le logo et la nav de se chevaucher */
+  flex-wrap: wrap;
 }
-
-.logo { font-size: 1.8em; color: var(--color-primary); font-weight: bold; letter-spacing: 2px; }
-
+.logo {
+  font-size:1.8em; color:var(--color-primary); font-weight:bold; letter-spacing:2px;
+  /* Garder le logo à gauche sur mobile */
+  margin-right: auto;
+}
 .navigation a {
-    color: var(--color-text); text-decoration: none; margin-left: 20px; transition: color 0.3s;
+  color:var(--color-text); text-decoration:none; margin-left:15px; transition:color 0.3s;
+  /* Pour le responsive: Réduire l'espacement sur mobile si nécessaire */
+  font-size: 0.95em;
 }
 .navigation a:hover { color: var(--color-primary); }
 
-.main-content { padding-top: 80px; }
+/* Ajustement pour la navigation sur petits écrans */
+@media (max-width: 600px) {
+  .header {
+    flex-direction: column;
+    padding: 10px 20px;
+    align-items: flex-start;
+  }
+  .logo { margin-bottom: 10px; }
+  .navigation { width: 100%; display: flex; justify-content: space-around; }
+  .navigation a { margin: 0 5px; }
+}
 
+
+.main-content { padding-top:80px; }
+
+/* ===== Hero Section ===== */
 .hero-section {
-    display: flex; align-items: center; min-height: 60vh;
-    background-color: #333; padding: 50px; color: white; position: relative;
+  position: relative;
+  min-height: 80vh; /* Augmenter un peu la hauteur pour mieux voir l'effet */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 50px;
+  color: white;
+  background: url('images/pucci.jpeg') center center/cover no-repeat;
+  /* Réactivation de 'fixed' pour l'effet parallaxe */
+  background-attachment: fixed;
+  overflow: hidden;
 }
-.hero-details { max-width: 500px; background-color: rgba(0,0,0,0.5); padding: 20px; }
-.hero-title { font-size: 3em; margin-bottom: 10px; }
-.hero-description { margin-bottom: 20px; font-size: 1.1em; }
-.play-button {
-    background-color: var(--color-primary);
-    color: white; border: none; padding: 10px 25px; font-size: 1.2em;
-    cursor: pointer; border-radius: 5px; transition: background-color 0.3s, transform 0.2s;
+
+.hero-section::before {
+  content:'';
+  position:absolute;
+  inset:0;
+  background-color: rgba(0,0,0,0.6); /* Plus sombre pour le contraste */
+  /* === Ajout du filtre de flou === */
+  -webkit-backdrop-filter: blur(5px); /* Pour la compatibilité Webkit (Chrome, Safari) */
+  backdrop-filter: blur(5px);
+  z-index:1;
 }
-.play-button:hover { background-color: var(--color-hover); transform: scale(1.05); }
 
-.film-list-section { padding: 50px; }
-.film-list-section h3 { font-size: 2em; margin-bottom: 25px; color: var(--color-text); border-left:5px solid var(--color-primary); padding-left:10px; }
+.hero-details {
+  position: relative;
+  z-index:2;
+  max-width:600px;
+  text-align:center;
+  background-color: rgba(0,0,0,0.6); /* Légèrement plus sombre */
+  padding:30px;
+  border-radius:10px;
+  box-shadow: 0 0 20px rgba(0,0,0,0.5);
+  /* Pour le responsive: ajuster le padding sur mobile */
+  padding: 20px;
+}
 
-.film-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px,1fr)); gap: 20px; }
+.hero-title {
+  font-size: 2.5em; /* Un peu plus grand */
+  margin-bottom: 10px;
+}
+.hero-description {
+  font-size: 1.1em;
+  margin-bottom: 20px;
+}
+
+/* Responsive pour le texte du Hero */
+@media (max-width: 600px) {
+  .hero-title { font-size: 2em; }
+  .hero-description { font-size: 1em; }
+}
+
+
+/* Bouton principal pour le Hero (Conteneur du Play icon et texte) */
+.hero-play-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 20px auto 0;
+  padding: 10px 20px;
+  background-color: var(--color-primary);
+  color: white;
+  border: none;
+  border-radius: 50px;
+  font-size: 1.1em;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+}
+.hero-play-button:hover {
+  background-color: var(--color-hover);
+  transform: scale(1.05);
+}
+
+/* Bouton play rond (Réutilisé pour le Hero et les posters) */
+.play-overlay, .hero-play-button .play-icon-wrapper {
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.2);
+  display:flex; justify-content:center; align-items:center;
+  margin-right: 10px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Icône triangle - ajusté pour un meilleur affichage */
+.play-icon {
+  width: 0; height: 0;
+  border-left: 18px solid white;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  margin-left: 5px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-45%, -50%);
+}
+
+/* Overlay sur les cartes (pour les posters) */
+.film-poster .play-overlay {
+  position:absolute;
+  inset: 0;
+  width: auto;
+  height: auto;
+  background: rgba(0,0,0,0.6);
+  opacity:0; transition: opacity 0.3s, transform 0.3s;
+  pointer-events:none;
+  border-radius: 8px;
+  display:flex; justify-content:center; align-items:center;
+  margin-right: 0;
+}
+.film-poster:hover .play-overlay { opacity:1; }
+
+.film-poster .play-icon-wrapper {
+  width: 60px; height: 60px;
+  background-color: rgba(229,9,20,0.8);
+  margin: 0;
+  transform: scale(1);
+  transition: transform 0.2s;
+  pointer-events: auto;
+}
+.film-poster:hover .play-icon-wrapper { transform:scale(1.1); }
+
+
+/* Mobile: toujours visible sur les posters */
+@media (max-width:768px) {
+  .film-poster .play-overlay { opacity:1; pointer-events: auto; }
+}
+
+/* ===== Film Grid ===== */
+.film-list-section { padding:40px 20px; }
+.film-list-section h3 {
+  font-size:2em; margin-bottom:20px; border-left:5px solid var(--color-primary); padding-left:10px;
+  /* Pour le responsive: taille de police plus petite sur mobile */
+  font-size: 1.8em;
+}
+
+.film-grid {
+  display:grid;
+  /* Ajustement de la grille pour les petits écrans */
+  grid-template-columns:repeat(auto-fill,minmax(150px,1fr)); /* Min 150px pour mobile */
+  gap:20px;
+}
+
+/* Responsive pour la taille des cartes de film */
+@media (max-width: 480px) {
+  .film-grid {
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); /* Encore plus petit sur très petits écrans */
+    gap: 15px;
+  }
+  .film-info h4 { font-size: 1em; }
+  .film-info p { font-size: 0.8em; }
+}
 
 .film-card {
-    background-color: var(--color-card-bg); border-radius:5px; overflow:hidden;
-    cursor:pointer; transition: transform 0.3s, box-shadow 0.3s;
+  background-color: var(--color-card-bg);
+  border-radius:8px; overflow:hidden;
+  cursor:pointer; transition: transform 0.3s, box-shadow 0.3s;
 }
 .film-card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.5); }
 
-.film-poster { width:100%; padding-top:150%; background-color:#444; display:flex; justify-content:center; align-items:center; font-size:0.8em; text-align:center; }
+.film-poster {
+  position: relative;
+  width:100%;
+  padding-top:140%;
+  overflow:hidden;
+}
+
+.film-poster img {
+  position:absolute; top:0; left:0;
+  width:100%; height:100%;
+  object-fit:cover;
+  border-radius:5px 5px 0 0;
+}
+
 .film-info { padding:10px; }
-.film-info h4 { font-size:1.1em; margin-bottom:5px; color: var(--color-text); }
+.film-info h4 { font-size:1.1em; margin-bottom:5px; color:var(--color-text); }
 .film-info p { font-size:0.9em; color:#aaa; }
 
-.footer { background-color:#000; padding:20px 50px; text-align:center; color:#777; font-size:0.9em; margin-top:40px; }
+/* Footer */
+.footer {
+  background-color:#000; padding:20px 30px; text-align:center; color:#777; font-size:0.9em; margin-top:40px;
+  /* Pour le responsive: réduire le padding sur mobile */
+  padding: 15px 20px;
+  font-size: 0.85em;
+}
 .footer a { color: var(--color-primary); text-decoration:none; }
 .footer a:hover { text-decoration: underline; }
 
-.modal { display:none; position:fixed; z-index:200; left:0; top:0; width:100%; height:100%; overflow:auto; background-color: rgba(0,0,0,0.9); padding-top:50px; }
-.modal-content { background-color: var(--color-background); margin:auto; width:90%; max-width:800px; position:relative; }
-.close-button { color:#aaa; float:right; font-size:40px; font-weight:bold; position:absolute; top:10px; right:20px; cursor:pointer; transition: color 0.3s; }
-.close-button:hover { color: var(--color-primary); }
-.video-player-placeholder { padding:20px; text-align:center; }
-#video-iframe-container { position:relative; padding-bottom:56.25%; height:0; overflow:hidden; max-width:100%; background:black; }
-#video-iframe-container iframe { position:absolute; top:0; left:0; width:100%; height:100%; border:none; }
+/* Modales */
+.modal {
+  display:none;
+  position:fixed; z-index:200; left:0; top:0;
+  width:100%; height:100%; overflow:auto;
+  background-color: rgba(0,0,0,0.95);
+  padding:20px;
+  opacity:0;
+  transition: opacity 0.3s ease;
+}
+
+.modal.is-open {
+  display:flex;
+  opacity:1;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-content {
+  background-color: var(--color-background);
+  margin:auto;
+  padding:20px; border-radius:10px;
+  width:90%;
+  max-width:800px;
+  position:relative;
+  transform: translateY(20px);
+  transition: transform 0.3s ease-out;
+  /* Pour le responsive: ajuster le padding sur mobile */
+  padding: 15px;
+}
+
+.modal.is-open .modal-content {
+  transform: translateY(0);
+}
+
+.modal-video-content {
+  padding: 0;
+  max-width: 900px;
+}
+.modal-video-content iframe, .modal-video-content video {
+  display: block;
+  width: 100%;
+  height: auto;
+  min-height: 450px; /* Taille minimale pour desktop */
+  border-radius: 10px;
+}
+
+/* Responsive pour la hauteur des vidéos dans les modales */
+@media (max-width: 768px) {
+  .modal-video-content iframe, .modal-video-content video {
+    min-height: 250px; /* Réduire la hauteur sur mobile */
+  }
+}
+@media (max-width: 480px) {
+  .modal-video-content iframe, .modal-video-content video {
+    min-height: 200px; /* Encore plus petit sur très petits écrans */
+  }
+}
+
+
+.close-button {
+  color:#fff;
+  font-size:35px; font-weight:bold; cursor:pointer;
+  position:absolute; top:10px; right:20px; transition:color 0.3s;
+  z-index: 201;
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 50%;
+  padding: 0 10px;
+  line-height: 35px;
+}
+.close-button:hover { color:var(--color-primary); }
+
+/* Bouton CTA dans la modale Mega */
+.cta-button {
+  padding: 10px 25px;
+  background-color: var(--color-primary);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 1.1em;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 15px;
+  transition: background-color 0.3s;
+}
+.cta-button:hover {
+  background-color: var(--color-hover);
+}
