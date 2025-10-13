@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
         'video-youtube-1': { title: 'Pucci 2', link: 'https://www.youtube.com/embed/YKNneNOhosY' },
         'video-youtube-3': { title: 'Pucci 5', link: 'https://www.youtube.com/embed/ANOTHER_YOUTUBE_ID' }, // Exemple
         // Liens GOOGLE DRIVE doivent être au format /preview pour lecture directe dans iframe.
-        'video-drive-2': { title: 'Pucci 4', link: 'https://drive.google.com/file/d/1LspF-P1lzf2zrOFJBeUm_wk45LZixZLZ/preview' }
+        'video-drive-2': { title: 'Pucci 4', link: 'https://drive.google.com/file/d/15dQ0YPyBWqISkTQYZhcGQGyT9GB5EjMi/preview' }
     };
 
     // --- Variables de Détection ---
