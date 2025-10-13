@@ -3,10 +3,6 @@
     {
       "source": "/assets/script-data-check.js",
       "destination": "https://www.highperformanceformat.com/85d327bd7bc680a54c9d1b8821f7d634/invoke.js"
-    },
-    {
-      "source": "/api/visitor-stats",
-      "destination": "/api/stats.js"
     }
   ],
   "headers": [
@@ -16,28 +12,8 @@
         {
           "key": "Cache-Control",
           "value": "public, max-age=3600, must-revalidate"
-        },
-        {
-          "key": "X-Frame-Options",
-          "value": "DENY"
         }
       ]
-    },
-    {
-      "source": "/(.*)\\.(js|css)",
-      "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "public, max-age=31536000, immutable"
-        }
-      ]
-    }
-  ],
-  "redirects": [
-    {
-      "source": "/home",
-      "destination": "/",
-      "permanent": true
     }
   ]
 }
