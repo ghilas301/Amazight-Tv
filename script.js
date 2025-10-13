@@ -1,65 +1,81 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-    // --- Configuration des données ---
+    // --- Configuration des données (Ajoutez vos vrais liens Mega ici) ---
     const videoData = {
-        'video-pucci1': { title: 'Pucci 1', link: 'https://mega.nz/file/xIdjBbbL#t1BIaor6E9NsMRJIR4OQsI7AM3dNlLnwgg-lZ_2nqHc' }
-        // Ajoutez ici d'autres films Mega
+        'video-pucci1': { title: 'Pucci 1', link: 'https://mega.nz/file/xIdjBbbL#t1BIaor6E9NsMRJIR4OQsI7AM3dNlLnwgg-lZ_2nqHc' },
+        'video-pucci6': { title: 'Pucci 3', link: 'https://mega.nz/file/your-other-mega-link#t1BIaor6E9NsMRJIR4OQsI7AM3dNlLnwgg-lZ_2nqHc' }
+        // Ajoutez ici d'autres films Mega sous un nom unique
     };
 
-    // --- Variables Adblock ---
-    const adBait = document.getElementById('ad-bait');
-    const modalAdBlock = document.getElementById('modal-adblock');
-    
-    // --- FONCTION DE DÉTECTION ADBLOCK ---
-    function checkAdBlock() {
-        // La détection repose sur le masquage de l'élément 'ad-bait' par le bloqueur.
-        // Si l'élément n'a pas de hauteur, c'est qu'il est probablement bloqué.
-        // On vérifie également l'élément de pub Adsterra déjà présent (s'il existe et est bloqué)
-        const adsterraFrame = document.querySelector('[src*="highperformanceformat.com"]');
+    // --- Variables de Détection (Noms neutres) ---
+    const dataValidator = document.getElementById('data-check-box'); 
+    const modalAccessDenied = document.getElementById('modal-access-denied'); 
+    let isAdBlockedDetected = false;
+
+    // --- FONCTION DE DÉTECTION ADBLOCK AVANCÉE ---
+    function checkAdBlockAdvanced() {
+        if (isAdBlockedDetected) return true; 
+
+        let isBlocked = false;
         
-        let isAdBlocked = false;
-        
-        // 1. Vérification de l'élément 'appât'
-        if (adBait && (adBait.offsetHeight === 0 || adBait.style.display === 'none')) {
-            isAdBlocked = true;
+        // TEST 1: Leurre visuel. Si l'élément est masqué par le CSS/JS d'AdBlock.
+        if (dataValidator && (dataValidator.offsetHeight === 0 || dataValidator.style.display === 'none')) {
+            isBlocked = true;
         }
 
-        // 2. Vérification d'un frame Adsterra connu (facultatif mais plus précis)
-        // if (adsterraFrame && (adsterraFrame.offsetHeight === 0 || adsterraFrame.style.display === 'none')) {
-        //     isAdBlocked = true;
-        // }
+        // TEST 2: Leurre de Script (méthode Vercel Rewrite)
+        // Tentative de chargement du script via le chemin Vercel neutre.
+        if (!isBlocked) { 
+            const testScript = document.createElement('script');
+            
+            testScript.onerror = () => {
+                 // Bloqué (AdBlock actif)
+                 isAdBlockedDetected = true;
+                 // Ouvrir la modale AdBlock
+                 openModal(modalAccessDenied);
+            };
+            
+            // Le chemin cible qui sera réécrit par vercel.json
+            testScript.src = '/assets/script-data-check.js'; 
+            document.body.appendChild(testScript);
+        }
         
-        return isAdBlocked;
+        if (isBlocked) {
+            isAdBlockedDetected = true;
+            openModal(modalAccessDenied);
+        }
+
+        return isAdBlockedDetected;
     }
     
     // --- Fonctions génériques de Modale ---
 
-    /** Ouvre une modale en ajoutant la classe is-open */
+    /** Ouvre une modale avec transition */
     function openModal(modalElement) {
         if (!modalElement) return;
-        modalElement.style.display = 'flex'; // Affiche le conteneur flex
+        modalElement.style.display = 'flex';
         setTimeout(() => modalElement.classList.add('is-open'), 10);
     }
 
-    /** Ferme une modale en retirant la classe is-open */
+    /** Ferme une modale et arrête la vidéo si nécessaire */
     function closeModal(modalElement) {
         if (!modalElement) return;
         modalElement.classList.remove('is-open');
 
-        // Réinitialisation spécifique du contenu vidéo
+        // Stop la lecture vidéo pour le meilleur UX (comme YouTube)
         const videoPlayer = modalElement.querySelector('iframe, video');
         if (videoPlayer) {
             if (videoPlayer.tagName === 'IFRAME') {
-                // Stop YouTube video en réinitialisant la source
-                videoPlayer.src = videoPlayer.src.split('?')[0];
+                // Stop YouTube en réinitialisant la source
+                const src = videoPlayer.src.split('?')[0];
+                videoPlayer.src = src;
             } else if (videoPlayer.tagName === 'VIDEO') {
                 // Stop Drive video
                 videoPlayer.pause();
-                videoPlayer.currentTime = 0; // Remet au début
+                videoPlayer.currentTime = 0;
             }
         }
 
-        // Masque le conteneur après la transition
         setTimeout(() => modalElement.style.display = 'none', 300);
     }
 
@@ -68,12 +84,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const modalMega = document.getElementById('modal-mega');
     const videoTitlePlaceholder = document.getElementById('video-title-placeholder');
     const megaRedirectButton = document.getElementById('mega-redirect-button');
-    let currentMegaLink = ''; // Pour stocker le lien avant la redirection
+    let currentMegaLink = '';
 
     function setupMegaModal(videoId) {
-        // VÉRIFICATION ADBLOCK AVANT D'OUVRIR LA MODALE
-        if (checkAdBlock()) {
-            openModal(modalAdBlock);
+        // VÉRIFICATION ADBLOCK AVANT OUVERTURE
+        if (checkAdBlockAdvanced()) {
             return;
         }
         
@@ -83,10 +98,9 @@ document.addEventListener('DOMContentLoaded', () => {
         currentMegaLink = data.link;
         videoTitlePlaceholder.textContent = data.title;
 
-        // Événement pour le bouton "Continuer"
         megaRedirectButton.onclick = () => {
-            window.location.href = currentMegaLink;
-            closeModal(modalMega);
+            window.open(currentMegaLink, '_blank'); // Ouvrir dans un nouvel onglet pour que l'utilisateur puisse revenir
+            closeModal(modalMega); 
         };
 
         openModal(modalMega);
@@ -97,7 +111,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const filmCards = document.querySelectorAll('.film-card');
     const heroButton = document.querySelector('.hero-play-button');
 
-    // Événement sur le bouton du Hero
     if (heroButton) {
         heroButton.addEventListener('click', (e) => {
             const videoId = e.currentTarget.dataset.videoId;
@@ -105,16 +118,11 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Événement sur la grille de films
     filmCards.forEach(card => {
         card.addEventListener('click', (e) => {
-            // S'assurer que le clic n'est pas sur le lien 'a' d'une potentielle future carte
-            if (e.target.tagName === 'A') return;
-
-            // VÉRIFICATION ADBLOCK
-            if (checkAdBlock()) {
-                openModal(modalAdBlock);
-                return; // Stoppe le processus d'ouverture de la vidéo
+            // VÉRIFICATION ADBLOCK AVANT OUVERTURE
+            if (checkAdBlockAdvanced()) {
+                return; 
             }
 
             const videoType = card.dataset.videoType;
@@ -131,10 +139,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     const modalYT = document.getElementById(`modal-youtube-${videoId}`);
                     if (modalYT) {
                         openModal(modalYT);
-                        // Si l'autoplay a été bloqué, lancer la lecture si possible
                         const iframe = modalYT.querySelector('iframe');
+                        // Lancer l'autoplay 
                         if (iframe.src.indexOf('autoplay=0') > -1) {
-                            // On remplace par autoplay=1 uniquement si l'autoplay n'est pas déjà actif
                             iframe.src = iframe.src.replace('autoplay=0', 'autoplay=1');
                         }
                     }
@@ -152,21 +159,25 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // --- Gestion de la Fermeture des Modales (Uniformisée) ---
+    // --- Gestion de la Fermeture des Modales ---
 
     // 1. Bouton de fermeture (X)
     document.querySelectorAll('.close-button').forEach(button => {
         button.addEventListener('click', (e) => {
             const modal = e.currentTarget.closest('.modal');
+            // Empêche la fermeture du mur Adblock par le bouton 'X'
+            if (modal.id === 'modal-access-denied') return;
+            
             closeModal(modal);
         });
     });
 
     // 2. Clic en dehors de la modale (sur le fond sombre)
     window.addEventListener('click', e => {
-        // Empêche la fermeture du mur Adblock par clic en dehors
-        if (e.target.classList.contains('modal') && e.target.id !== 'modal-adblock') {
-            closeModal(e.target);
+        const modal = e.target;
+        // Empêche la fermeture du mur Adblock
+        if (modal.classList.contains('modal') && modal.id !== 'modal-access-denied') {
+            closeModal(modal);
         }
     });
 
@@ -174,11 +185,14 @@ document.addEventListener('DOMContentLoaded', () => {
     document.addEventListener('keydown', e => {
         if (e.key === 'Escape') {
             const openModalElement = document.querySelector('.modal.is-open');
-            // Empêche la fermeture du mur Adblock par 'Échap'
-            if (openModalElement && openModalElement.id !== 'modal-adblock') {
+            // Empêche la fermeture du mur Adblock
+            if (openModalElement && openModalElement.id !== 'modal-access-denied') {
                 closeModal(openModalElement);
             }
         }
     });
+    
+    // Lancer la vérification initiale après un petit délai pour le chargement du DOM
+    setTimeout(checkAdBlockAdvanced, 500);
 
 });

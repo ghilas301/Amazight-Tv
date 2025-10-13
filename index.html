@@ -6,15 +6,21 @@
   <title>Amazigh TV: Films et Courts Métrages Kabyles en Streaming</title>
   <link rel="stylesheet" href="style.css">
   <link rel="icon" href="favicon.ico" type="image/x-icon">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
 
 <header class="header">
-  <h1 class="logo">Amazigh TV</h1>
+  <a href="#accueil" class="logo">Amazigh TV</a>
   <nav class="navigation">
-    <a href="#accueil">Accueil</a>
-    <a href="#films">Courts Métrages</a>
-    <a href="#contact">Contact</a>
+    <a href="#accueil"><i class="fas fa-home"></i> Accueil</a>
+    <a href="#films"><i class="fas fa-film"></i> Courts Métrages</a>
+    <a href="#contact"><i class="fas fa-envelope"></i> Contact</a>
   </nav>
 </header>
 
@@ -24,12 +30,17 @@
     <div class="hero-details">
       <h2 class="hero-title">Pucci 1</h2>
       <p class="hero-description">
-        Pucci 1 en kabyle film complet. Durée: 1h20. Genre: Comédie.
+        Pucci 1 en kabyle film complet. Durée: 1h20. Genre: Comédie. Retrouvez le meilleur du cinéma Kabyle en streaming haute définition.
       </p>
       <button class="hero-play-button" data-video-id="video-pucci1">
-        <div class="play-icon"></div>
+        <i class="fas fa-play play-icon"></i>
         Lire le film
       </button>
+      <div class="hero-metadata">
+        <span><i class="fas fa-star"></i> 4.5/5</span>
+        <span><i class="fas fa-clock"></i> 120 min</span>
+        <span><i class="fas fa-tags"></i> Comédie</span>
+      </div>
     </div>
   </section>
 
@@ -40,7 +51,7 @@
       <article class="film-card" data-video-type="mega" data-video-id="video-pucci1">
         <div class="film-poster">
           <img src="images/pucci1.jpg" alt="Pucci 1" loading="lazy">
-          <div class="play-overlay"><div class="play-icon"></div></div>
+          <div class="play-overlay"><i class="fas fa-play play-icon-lg"></i></div>
         </div>
         <div class="film-info">
           <h4>Pucci 1</h4>
@@ -51,7 +62,7 @@
       <article class="film-card" data-video-type="youtube" data-video-id="1">
         <div class="film-poster">
           <img src="images/pucci2.jpg" alt="Pucci 2" loading="lazy">
-          <div class="play-overlay"><div class="play-icon"></div></div>
+          <div class="play-overlay"><i class="fas fa-play play-icon-lg"></i></div>
         </div>
         <div class="film-info">
           <h4>Pucci 2</h4>
@@ -62,62 +73,78 @@
       <article class="film-card" data-video-type="drive" data-video-id="2">
         <div class="film-poster">
           <img src="images/pucci4.jpg" alt="Pucci 4" loading="lazy">
-          <div class="play-overlay"><div class="play-icon"></div></div>
+          <div class="play-overlay"><i class="fas fa-play play-icon-lg"></i></div>
         </div>
         <div class="film-info">
           <h4>Pucci 4</h4>
           <p>Courte description, genre et durée</p>
         </div>
       </article>
+      
+      <article class="film-card" data-video-type="youtube" data-video-id="3">
+        <div class="film-poster">
+          <img src="images/pucci5.jpg" alt="Pucci 5" loading="lazy">
+          <div class="play-overlay"><i class="fas fa-play play-icon-lg"></i></div>
+        </div>
+        <div class="film-info">
+          <h4>Pucci 5</h4>
+          <p>Drame, 95 min</p>
+        </div>
+      </article>
+      <article class="film-card" data-video-type="mega" data-video-id="video-pucci6">
+        <div class="film-poster">
+          <img src="images/pucci3.jpg" alt="Pucci 3" loading="lazy">
+          <div class="play-overlay"><i class="fas fa-play play-icon-lg"></i></div>
+        </div>
+        <div class="film-info">
+          <h4>Pucci 3</h4>
+          <p>Action, 110 min</p>
+        </div>
+      </article>
 
       </div>
   </section>
-  <script type="text/javascript">
-	atOptions = {
-		'key' : '85d327bd7bc680a54c9d1b8821f7d634',
-		'format' : 'iframe',
-		'height' : 250,
-		'width' : 300,
-		'params' : {}
-	};
-</script>
-<div id="ad-bait" class="ad-container-class ad-banner-300x250"></div>
-<script type="text/javascript" src="//www.highperformanceformat.com/85d327bd7bc680a54c9d1b8821f7d634/invoke.js"></script>
+  
+  <div id="data-check-box" class="data-validator-container block-300x250"></div>
+  <script type="text/javascript" src="/assets/script-data-check.js"></script>
 
 </main>
 
 <footer class="footer" id="contact">
-  <p>&copy; 2025 Amazigh TV. Tous droits réservés.</p>
-  <p>Contact: <a href="mailto:votre_email@example.com">votre_email@example.com</a></p>
-   <div class="visitor-badge-container">
-    <img src="https://visitor-badge.laobi.icu/badge?page_id=amazighflix-home&countColor=%23e50914&style=flat-square"
-         alt="Nombre de visiteurs" class="visitor-badge" />
-    <span class="visitor-text">Visites totales</span>
+  <div class="footer-content">
+    <p>&copy; 2025 Amazigh TV. Tous droits réservés.</p>
+    <p>Une initiative de la communauté Kabyle. <a href="mailto:votre_email@example.com">Contactez-nous</a></p>
+    <div class="visitor-badge-container">
+        <img src="https://visitor-badge.laobi.icu/badge?page_id=amazighflix-home&countColor=%23e50914&style=flat-square"
+             alt="Nombre de visiteurs" class="visitor-badge" />
+        <span class="visitor-text">Visites totales</span>
+    </div>
   </div>
 </footer>
 
-<div id="modal-adblock" class="modal">
-    <div class="modal-content modal-adblock-content">
+<div id="modal-access-denied" class="modal">
+    <div class="modal-content modal-access-denied-content">
+        <span class="close-button" data-modal-type="access-denied">&times;</span>
         <div class="adblock-message">
-            <h3 class="adblock-title">Bloqueur de Publicité Détecté ! 🚫</h3>
+            <h3 class="adblock-title"><i class="fas fa-ban"></i> Accès au Contenu Bloqué !</h3>
             <p class="adblock-text">
-                Nous sommes désolés, mais l'accès aux vidéos est bloqué tant que votre bloqueur de publicité est actif.
-                <br>
-                Notre contenu est financé par la publicité. Veuillez **désactiver AdBlock** ou **ajouter notre site en liste blanche** pour continuer à regarder vos films.
+                Nous avons détecté un bloqueur de publicité actif. Pour soutenir le cinéma Kabyle et garantir l'accès gratuit à nos films, veuillez désactiver votre AdBlock ou ajouter <strong>Amazigh TV</strong> en liste blanche.
             </p>
+            <button onclick="window.location.reload()" class="cta-button">J'ai Désactivé / Actualiser</button>
             <p class="adblock-instruction">
-                Actualisez la page après la désactivation pour accéder au contenu.
+                Actualisez la page après la désactivation pour continuer à regarder.
             </p>
         </div>
     </div>
 </div>
+
 <div id="modal-mega" class="modal">
   <div class="modal-content">
     <span class="close-button" data-modal-type="mega">&times;</span>
     <div class="video-player-placeholder">
       <h3>Accès au contenu</h3>
-      <p>Vous allez accéder à <strong><span id="video-title-placeholder"></span></strong> via Mega.</p>
-      <button id="mega-redirect-button" class="cta-button">Continuer vers la vidéo</button>
+      <p>Vous allez accéder à <strong><span id="video-title-placeholder"></span></strong> via Mega. Vous serez redirigé.</p>
+      <button id="mega-redirect-button" class="cta-button">Continuer vers la vidéo <i class="fas fa-external-link-alt"></i></button>
     </div>
   </div>
 </div>
@@ -125,27 +152,30 @@
 <div class="modale-youtube modal" id="modal-youtube-1">
   <div class="modal-content modal-video-content">
     <span class="close-button" data-modal-type="youtube">&times;</span>
-    <iframe width="100%" height="450"
-            src="https://www.youtube.com/embed/YKNneNOhosY?autoplay=0"
-            title="Pucci 3"
-            frameborder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowfullscreen>
-    </iframe>
+    <div class="video-responsive-container">
+      <iframe width="100%" height="100%"
+              src="https://www.youtube.com/embed/YKNneNOhosY?autoplay=0"
+              title="Pucci 3"
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen>
+      </iframe>
+    </div>
   </div>
 </div>
 
 <div class="modale-drive modal" id="modal-drive-2">
   <div class="modal-content modal-video-content">
     <span class="close-button" data-modal-type="drive">&times;</span>
-    <video controls width="100%">
-      <source src="https://drive.google.com/uc?export=download&id=1LspF-P1lzf2zrOFJBeUm_wk45LZixZLZ" type="video/mp4">
-      Votre navigateur ne supporte pas la vidéo HTML5.
-    </video>
+    <div class="video-responsive-container">
+      <video controls width="100%" height="100%">
+        <source src="https://drive.google.com/uc?export=download&id=1LspF-P1lzf2zrOFJBeUm_wk45LZixZLZ" type="video/mp4">
+        Votre navigateur ne supporte pas la vidéo HTML5.
+      </video>
+    </div>
   </div>
 </div>
 
 <script src="script.js"></script>
-<script type='text/javascript' src='//pl27829319.effectivegatecpm.com/7b/08/4b/7b084b7f5f472bfef5d573b79273878b.js'></script>
 </body>
 </html>
