@@ -59,7 +59,7 @@
         </div>
       </article>
 
-      <article class="film-card" data-video-type="youtube" data-video-id="1">
+      <article class="film-card" data-video-type="youtube" data-video-id="video-youtube-1">
         <div class="film-poster">
           <img src="images/pucci2.jpg" alt="Pucci 2" loading="lazy">
           <div class="play-overlay"><i class="fas fa-play play-icon-lg"></i></div>
@@ -70,7 +70,7 @@
         </div>
       </article>
 
-      <article class="film-card" data-video-type="drive" data-video-id="2">
+      <article class="film-card" data-video-type="drive" data-video-id="video-drive-2">
         <div class="film-poster">
           <img src="images/pucci4.jpg" alt="Pucci 4" loading="lazy">
           <div class="play-overlay"><i class="fas fa-play play-icon-lg"></i></div>
@@ -81,7 +81,7 @@
         </div>
       </article>
       
-      <article class="film-card" data-video-type="youtube" data-video-id="3">
+      <article class="film-card" data-video-type="youtube" data-video-id="video-youtube-3">
         <div class="film-poster">
           <img src="images/pucci5.jpg" alt="Pucci 5" loading="lazy">
           <div class="play-overlay"><i class="fas fa-play play-icon-lg"></i></div>
@@ -91,6 +91,7 @@
           <p>Drame, 95 min</p>
         </div>
       </article>
+      
       <article class="film-card" data-video-type="mega" data-video-id="video-pucci6">
         <div class="film-poster">
           <img src="images/pucci3.jpg" alt="Pucci 3" loading="lazy">
@@ -138,40 +139,18 @@
     </div>
 </div>
 
-<div id="modal-mega" class="modal">
-  <div class="modal-content">
-    <span class="close-button" data-modal-type="mega">&times;</span>
-    <div class="video-player-placeholder">
-      <h3>Accès au contenu</h3>
-      <p>Vous allez accéder à <strong><span id="video-title-placeholder"></span></strong> via Mega. Vous serez redirigé.</p>
-      <button id="mega-redirect-button" class="cta-button">Continuer vers la vidéo <i class="fas fa-external-link-alt"></i></button>
-    </div>
-  </div>
-</div>
-
-<div class="modale-youtube modal" id="modal-youtube-1">
+<div id="generic-video-modal" class="modal">
   <div class="modal-content modal-video-content">
-    <span class="close-button" data-modal-type="youtube">&times;</span>
+    <span class="close-button" data-modal-type="generic">&times;</span>
     <div class="video-responsive-container">
-      <iframe width="100%" height="100%"
-              src="https://www.youtube.com/embed/YKNneNOhosY?autoplay=0"
-              title="Pucci 3"
+      <iframe id="video-iframe" 
+              width="100%" 
+              height="100%"
+              src="" 
               frameborder="0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
               allowfullscreen>
       </iframe>
-    </div>
-  </div>
-</div>
-
-<div class="modale-drive modal" id="modal-drive-2">
-  <div class="modal-content modal-video-content">
-    <span class="close-button" data-modal-type="drive">&times;</span>
-    <div class="video-responsive-container">
-      <video controls width="100%" height="100%">
-        <source src="https://drive.google.com/uc?export=download&id=1LspF-P1lzf2zrOFJBeUm_wk45LZixZLZ" type="video/mp4">
-        Votre navigateur ne supporte pas la vidéo HTML5.
-      </video>
     </div>
   </div>
 </div>

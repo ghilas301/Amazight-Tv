@@ -1,37 +1,43 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-    // --- Configuration des données (Ajoutez vos vrais liens Mega ici) ---
+    // --- Configuration des données (UTILISEZ LES LIENS EMBED UNIQUEMENT) ---
     const videoData = {
-        'video-pucci1': { title: 'Pucci 1', link: 'https://mega.nz/file/xIdjBbbL#t1BIaor6E9NsMRJIR4OQsI7AM3dNlLnwgg-lZ_2nqHc' },
-        'video-pucci6': { title: 'Pucci 3', link: 'https://mega.nz/file/your-other-mega-link#t1BIaor6E9NsMRJIR4OQsI7AM3dNlLnwgg-lZ_2nqHc' }
-        // Ajoutez ici d'autres films Mega sous un nom unique
+        // Liens MEGA doivent être au format /embed/ pour lecture directe.
+        'video-pucci1': { title: 'Pucci 1', link: 'https://mega.nz/embed/xIdjBbbL#t1BIaor6E9NsMRJIR4OQsI7AM3dNlLnwgg-lZ_2nqHc' },
+        'video-pucci6': { title: 'Pucci 3', link: 'https://mega.nz/embed/your-other-mega-link#t1BIaor6E9NsMRJIR4OQsI7AM3dNlLnwgg-lZ_2nqHc' },
+        // Liens YOUTUBE doivent être au format /embed/ (sans paramètre d'autoplay pour le moment)
+        'video-youtube-1': { title: 'Pucci 2', link: 'https://www.youtube.com/embed/YKNneNOhosY' },
+        'video-youtube-3': { title: 'Pucci 5', link: 'https://www.youtube.com/embed/ANOTHER_YOUTUBE_ID' }, // Exemple
+        // Liens GOOGLE DRIVE doivent être au format /preview pour lecture directe dans iframe.
+        'video-drive-2': { title: 'Pucci 4', link: 'https://drive.google.com/file/d/1LspF-P1lzf2zrOFJBeUm_wk45LZixZLZ/preview' }
     };
 
-    // --- Variables de Détection (Noms neutres) ---
+    // --- Variables de Détection ---
     const dataValidator = document.getElementById('data-check-box'); 
     const modalAccessDenied = document.getElementById('modal-access-denied'); 
     let isAdBlockedDetected = false;
 
-    // --- FONCTION DE DÉTECTION ADBLOCK AVANCÉE ---
+    // --- Variables de la Modale Générique ---
+    const genericModal = document.getElementById('generic-video-modal');
+    const videoIframe = document.getElementById('video-iframe');
+
+    // --- FONCTION DE DÉTECTION ADBLOCK AVANCÉE (Inchangée) ---
     function checkAdBlockAdvanced() {
         if (isAdBlockedDetected) return true; 
 
         let isBlocked = false;
         
-        // TEST 1: Leurre visuel. Si l'élément est masqué par le CSS/JS d'AdBlock.
+        // TEST 1: Leurre visuel.
         if (dataValidator && (dataValidator.offsetHeight === 0 || dataValidator.style.display === 'none')) {
             isBlocked = true;
         }
 
         // TEST 2: Leurre de Script (méthode Vercel Rewrite)
-        // Tentative de chargement du script via le chemin Vercel neutre.
         if (!isBlocked) { 
             const testScript = document.createElement('script');
             
             testScript.onerror = () => {
-                 // Bloqué (AdBlock actif)
                  isAdBlockedDetected = true;
-                 // Ouvrir la modale AdBlock
                  openModal(modalAccessDenied);
             };
             
@@ -62,31 +68,17 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!modalElement) return;
         modalElement.classList.remove('is-open');
 
-        // Stop la lecture vidéo pour le meilleur UX (comme YouTube)
-        const videoPlayer = modalElement.querySelector('iframe, video');
-        if (videoPlayer) {
-            if (videoPlayer.tagName === 'IFRAME') {
-                // Stop YouTube en réinitialisant la source
-                const src = videoPlayer.src.split('?')[0];
-                videoPlayer.src = src;
-            } else if (videoPlayer.tagName === 'VIDEO') {
-                // Stop Drive video
-                videoPlayer.pause();
-                videoPlayer.currentTime = 0;
-            }
+        // VÉRIFIER et ARRÊTER la vidéo UNIQUEMENT si c'est la modale vidéo générique
+        if (modalElement === genericModal) {
+            videoIframe.src = ''; // Réinitialise l'iframe pour stopper la lecture (essentiel)
         }
 
         setTimeout(() => modalElement.style.display = 'none', 300);
     }
 
-    // --- Logique Mega (Redirection par bouton) ---
+    // --- LOGIQUE UNIFIÉE POUR OUVRIR LE LECTEUR VIDÉO ---
 
-    const modalMega = document.getElementById('modal-mega');
-    const videoTitlePlaceholder = document.getElementById('video-title-placeholder');
-    const megaRedirectButton = document.getElementById('mega-redirect-button');
-    let currentMegaLink = '';
-
-    function setupMegaModal(videoId) {
+    function setupGenericVideoModal(videoId) {
         // VÉRIFICATION ADBLOCK AVANT OUVERTURE
         if (checkAdBlockAdvanced()) {
             return;
@@ -95,16 +87,22 @@ document.addEventListener('DOMContentLoaded', () => {
         const data = videoData[videoId];
         if (!data) return;
 
-        currentMegaLink = data.link;
-        videoTitlePlaceholder.textContent = data.title;
+        let videoLink = data.link;
 
-        megaRedirectButton.onclick = () => {
-            window.open(currentMegaLink, '_blank'); // Ouvrir dans un nouvel onglet pour que l'utilisateur puisse revenir
-            closeModal(modalMega); 
-        };
+        // Ajouter l'autoplay à l'URL pour une expérience fluide
+        if (videoLink.includes('youtube.com')) {
+            // Pour YouTube: ajoute l'autoplay
+            videoLink += (videoLink.includes('?') ? '&' : '?') + 'autoplay=1';
+        } 
+        // Pour Mega/Drive, l'autoplay est souvent géré par l'embed ou bloqué par le navigateur
+        
+        // 1. Charger le lien dans l'iframe
+        videoIframe.src = videoLink;
 
-        openModal(modalMega);
+        // 2. Ouvrir la modale
+        openModal(genericModal);
     }
+
 
     // --- Gestion des Clics sur les Films ---
 
@@ -114,47 +112,16 @@ document.addEventListener('DOMContentLoaded', () => {
     if (heroButton) {
         heroButton.addEventListener('click', (e) => {
             const videoId = e.currentTarget.dataset.videoId;
-            if (videoId) setupMegaModal(videoId);
+            if (videoId) setupGenericVideoModal(videoId);
         });
     }
 
     filmCards.forEach(card => {
         card.addEventListener('click', (e) => {
-            // VÉRIFICATION ADBLOCK AVANT OUVERTURE
-            if (checkAdBlockAdvanced()) {
-                return; 
-            }
-
-            const videoType = card.dataset.videoType;
             const videoId = card.dataset.videoId;
-
-            if (!videoType || !videoId) return;
-
-            switch (videoType) {
-                case 'mega':
-                    setupMegaModal(videoId);
-                    break;
-
-                case 'youtube':
-                    const modalYT = document.getElementById(`modal-youtube-${videoId}`);
-                    if (modalYT) {
-                        openModal(modalYT);
-                        const iframe = modalYT.querySelector('iframe');
-                        // Lancer l'autoplay 
-                        if (iframe.src.indexOf('autoplay=0') > -1) {
-                            iframe.src = iframe.src.replace('autoplay=0', 'autoplay=1');
-                        }
-                    }
-                    break;
-
-                case 'drive':
-                    const modalDrive = document.getElementById(`modal-drive-${videoId}`);
-                    if (modalDrive) {
-                        openModal(modalDrive);
-                        const video = modalDrive.querySelector('video');
-                        video.play().catch(error => console.log("La lecture auto a été bloquée par le navigateur.", error));
-                    }
-                    break;
+            if (videoId) {
+                // Pour TOUS les types (mega, youtube, drive), on utilise le lecteur générique
+                setupGenericVideoModal(videoId);
             }
         });
     });
