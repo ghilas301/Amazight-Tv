@@ -5,9 +5,9 @@ document.addEventListener('DOMContentLoaded', () => {
         // Liens MEGA doivent être au format /embed/ pour lecture directe.
         'video-pucci1': { title: 'Pucci 1', link: 'https://mega.nz/embed/xIdjBbbL#t1BIaor6E9NsMRJIR4OQsI7AM3dNlLnwgg-lZ_2nqHc' },
         'video-pucci6': { title: 'Pucci 3', link: 'https://mega.nz/embed/your-other-mega-link#t1BIaor6E9NsMRJIR4OQsI7AM3dNlLnwgg-lZ_2nqHc' },
-        // Liens YOUTUBE doivent être au format /embed/ (sans paramètre d'autoplay pour le moment)
+        // Liens YOUTUBE doivent être au format /embed/
         'video-youtube-1': { title: 'Pucci 2', link: 'https://www.youtube.com/embed/YKNneNOhosY' },
-        'video-youtube-3': { title: 'Pucci 5', link: 'https://www.youtube.com/embed/ANOTHER_YOUTUBE_ID' }, // Exemple
+        'video-youtube-3': { title: 'Pucci 5', link: 'https://www.youtube.com/embed/ANOTHER_YOUTUBE_ID' }, 
         // Liens GOOGLE DRIVE doivent être au format /preview pour lecture directe dans iframe.
         'video-drive-2': { title: 'Pucci 4', link: 'https://drive.google.com/file/d/15dQ0YPyBWqISkTQYZhcGQGyT9GB5EjMi/preview' }
     };
@@ -17,11 +17,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const modalAccessDenied = document.getElementById('modal-access-denied'); 
     let isAdBlockedDetected = false;
 
-    // --- Variables de la Modale Générique ---
+    // --- Variables du Lecteur Universel ---
     const genericModal = document.getElementById('generic-video-modal');
     const videoIframe = document.getElementById('video-iframe');
 
-    // --- FONCTION DE DÉTECTION ADBLOCK AVANCÉE (Inchangée) ---
+    // --- FONCTION DE DÉTECTION ADBLOCK AVANCÉE ---
     function checkAdBlockAdvanced() {
         if (isAdBlockedDetected) return true; 
 
@@ -68,9 +68,9 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!modalElement) return;
         modalElement.classList.remove('is-open');
 
-        // VÉRIFIER et ARRÊTER la vidéo UNIQUEMENT si c'est la modale vidéo générique
+        // Arrête la lecture vidéo si c'est le lecteur générique
         if (modalElement === genericModal) {
-            videoIframe.src = ''; // Réinitialise l'iframe pour stopper la lecture (essentiel)
+            videoIframe.src = ''; 
         }
 
         setTimeout(() => modalElement.style.display = 'none', 300);
@@ -79,7 +79,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- LOGIQUE UNIFIÉE POUR OUVRIR LE LECTEUR VIDÉO ---
 
     function setupGenericVideoModal(videoId) {
-        // VÉRIFICATION ADBLOCK AVANT OUVERTURE
+        // 1. VÉRIFICATION ADBLOCK
         if (checkAdBlockAdvanced()) {
             return;
         }
@@ -87,19 +87,18 @@ document.addEventListener('DOMContentLoaded', () => {
         const data = videoData[videoId];
         if (!data) return;
 
+        // Note: La monétisation (Pop-Under) est déclenchée par le script inséré dans index.html au moment du clic.
+        
+        // 2. Préparer et lancer la vidéo
         let videoLink = data.link;
 
-        // Ajouter l'autoplay à l'URL pour une expérience fluide
         if (videoLink.includes('youtube.com')) {
             // Pour YouTube: ajoute l'autoplay
             videoLink += (videoLink.includes('?') ? '&' : '?') + 'autoplay=1';
-        } 
-        // Pour Mega/Drive, l'autoplay est souvent géré par l'embed ou bloqué par le navigateur
+        }
         
-        // 1. Charger le lien dans l'iframe
+        // Charger l'embed et ouvrir la modale
         videoIframe.src = videoLink;
-
-        // 2. Ouvrir la modale
         openModal(genericModal);
     }
 
@@ -120,7 +119,6 @@ document.addEventListener('DOMContentLoaded', () => {
         card.addEventListener('click', (e) => {
             const videoId = card.dataset.videoId;
             if (videoId) {
-                // Pour TOUS les types (mega, youtube, drive), on utilise le lecteur générique
                 setupGenericVideoModal(videoId);
             }
         });
@@ -159,7 +157,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
     
-    // Lancer la vérification initiale après un petit délai pour le chargement du DOM
+    // Lancer la vérification initiale après un petit délai
     setTimeout(checkAdBlockAdvanced, 500);
 
 });
