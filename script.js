@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Liens MEGA doivent être au format /embed/ pour lecture directe.
         'video-pucci1': { title: 'Pucci 1', link: 'https://mega.nz/embed/xIdjBbbL#t1BIaor6E9NsMRJIR4OQsI7AM3dNlLnwgg-lZ_2nqHc' },
         'video-pucci6': { title: 'Pucci 3', link: 'https://mega.nz/embed/your-other-mega-link#t1BIaor6E9NsMRJIR4OQsI7AM3dNlLnwgg-lZ_2nqHc' },
+        'video-qezbul1': { title: 'Qezbul 1', link: 'https://mega.nz/embed/oZcT3IaZ#nM7WvZslzasQYnrdVr9mghwy-U_UExKRaMYZGpk_1SQ' },
         // Liens YOUTUBE doivent être au format /embed/
         'video-youtube-1': { title: 'Pucci 2', link: 'https://www.youtube.com/embed/YKNneNOhosY' },
         'video-youtube-3': { title: 'Pucci 5', link: 'https://www.youtube.com/embed/ANOTHER_YOUTUBE_ID' }, 
