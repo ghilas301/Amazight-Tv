@@ -17,6 +17,13 @@ document.addEventListener('DOMContentLoaded', () => {
             link: 'https://mega.nz/embed/oZcT3IaZ#nM7WvZslzasQYnrdVr9mghwy-U_UExKRaMYZGpk_1SQ',
             type: 'mega'
         },
+
+        'video-narnia1': { 
+            title: 'Narnia 1', 
+            link: 'https://mega.nz/embed/MEEBhQJD#d9spP13vp9e9OjQDX5rru1_-mkp9noZNGpeEWdNmsFY',
+            type: 'mega'
+        },
+
         'video-youtube-1': { 
             title: 'Pucci 2', 
             link: 'https://www.youtube.com/embed/YKNneNOhosY',
@@ -24,7 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
         },
         'video-youtube-3': { 
             title: 'Pucci 5', 
-            link: 'https://www.youtube.com/embed/ANOTHER_YOUTUBE_ID',
+            link: 'https://www.youtube.com/watch?v=bHIDRBJQmjE&t=2s',
             type: 'youtube'
         },
         'video-drive-2': { 
