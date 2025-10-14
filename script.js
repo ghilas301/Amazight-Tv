@@ -162,30 +162,25 @@ document.addEventListener('DOMContentLoaded', () => {
             videoLink += (videoLink.includes('?') ? '&' : '?') + 'autoplay=1&rel=0';
         }
 
- // 4. Charger l'embed
+        // 4. Charger l'embed
+      // 4. Charger l'embed
 videoIframe.src = videoLink;
 
-// ✅ Réinitialise le style à chaque ouverture
+// ✅ Réinitialise le style à chaque ouverture (évite le "plein écran forcé")
 videoIframe.removeAttribute('style');
 
-// ✅ Configuration de base pour un centrage fluide (mobile + desktop)
-videoIframe.style.display = 'block';
-videoIframe.style.margin = '0 auto';
-videoIframe.style.maxWidth = '100%';
-videoIframe.style.width = '100%';
-videoIframe.style.height = '100dvh'; // hauteur totale réelle sur mobile
-videoIframe.style.border = 'none';
-videoIframe.style.background = 'black';
-videoIframe.style.borderRadius = '8px';
-
-// ✅ Spécifique aux vidéos Drive ou Mega
+// ✅ Si c'est une vidéo Drive ou Mega : bien centrée au départ (pas plein écran)
 if (data.type === 'drive' || data.type === 'mega') {
-    videoIframe.style.objectFit = 'contain'; // garde le ratio original
-    videoIframe.style.aspectRatio = '16 / 9';
+    videoIframe.style.width = '100%';
+    videoIframe.style.height = '100%';
+    videoIframe.style.position = 'absolute';
+    videoIframe.style.top = '0';
+    videoIframe.style.left = '0';
+    videoIframe.style.border = 'none';
+    videoIframe.style.background = 'black';
 }
 
 openModal(genericModal);
-
 
         // 5. Masquer le loading quand la vidéo est prête
         videoIframe.onload = () => {
