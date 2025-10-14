@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
         },
         'video-drive-2': { 
             title: 'Pucci 4', 
-            link: 'https://drive.google.com/file/d/15dQ0YPyBWqISkTQYZhcGQGyT9GB5EjMi/preview',
+            link: 'https://drive.google.com/file/d/1gdQ2vmyZnUptTMia6Cq3QzHLDQWy2uRj/preview',
             type: 'drive'
         }
     };
