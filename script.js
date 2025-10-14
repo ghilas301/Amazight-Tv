@@ -162,25 +162,59 @@ document.addEventListener('DOMContentLoaded', () => {
             videoLink += (videoLink.includes('?') ? '&' : '?') + 'autoplay=1&rel=0';
         }
 
-        // 4. Charger l'embed
-      // 4. Charger l'embed
+   // 4. Charger l'embed
 videoIframe.src = videoLink;
 
-// ✅ Réinitialise le style à chaque ouverture (évite le "plein écran forcé")
+// Réinitialise tout style inline sur l'iframe (on laisse le CSS faire le travail)
 videoIframe.removeAttribute('style');
 
-// ✅ Si c'est une vidéo Drive ou Mega : bien centrée au départ (pas plein écran)
-if (data.type === 'drive' || data.type === 'mega') {
-    videoIframe.style.width = '100%';
-    videoIframe.style.height = '100%';
-    videoIframe.style.position = 'absolute';
-    videoIframe.style.top = '0';
-    videoIframe.style.left = '0';
-    videoIframe.style.border = 'none';
-    videoIframe.style.background = 'black';
+// Assure que l'iframe occupe correctement le conteneur responsive
+// (le conteneur .video-responsive-container contrôle le ratio via CSS)
+videoIframe.style.position = 'absolute';
+videoIframe.style.top = '0';
+videoIframe.style.left = '0';
+videoIframe.style.width = '100%';
+videoIframe.style.height = '100%';
+videoIframe.style.border = 'none';
+videoIframe.style.background = 'black';
+videoIframe.style.display = 'block';
+videoIframe.style.borderRadius = ''; // laisse le CSS décider
+
+// Pour YouTube : demande autoplay proprement (on avait déjà ajouté, garde au cas où)
+if (data.type === 'youtube' && !videoLink.includes('autoplay')) {
+    videoIframe.src += (videoIframe.src.includes('?') ? '&' : '?') + 'autoplay=1&rel=0';
 }
 
+// Ouvre la modale
 openModal(genericModal);
+
+// Affichage loader -> container quand l'iframe est ready
+let loadHandled = false;
+videoIframe.onload = () => {
+    if (loadHandled) return;
+    loadHandled = true;
+    videoLoading.style.display = 'none';
+    videoContainer.style.display = 'block';
+};
+
+// Fallback : si onload ne se déclenche pas (certains embeds sur mobile), on force l'affichage proprement après 1.6s
+setTimeout(() => {
+    if (!loadHandled) {
+        loadHandled = true;
+        videoLoading.style.display = 'none';
+        videoContainer.style.display = 'block';
+    }
+}, 1600);
+
+// En cas d'erreur de chargement
+videoIframe.onerror = () => {
+    videoLoading.innerHTML = `
+        <i class="fas fa-exclamation-triangle"></i>
+        <p>Erreur de chargement de la vidéo</p>
+        <button onclick="closeModal(genericModal)" class="cta-button">Fermer</button>
+    `;
+};
+
 
         // 5. Masquer le loading quand la vidéo est prête
         videoIframe.onload = () => {
