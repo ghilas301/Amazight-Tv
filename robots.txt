@@ -1,0 +1,17 @@
+# =========================================
+# Robots.txt pour Amazigh-TV
+# Optimisé pour indexation complète par Google
+# =========================================
+
+User-agent: *
+Disallow: 
+
+# Indique le sitemap pour faciliter l'indexation
+Sitemap: https://amazigh-tv.vercel.app/sitemap.xml
+
+# =========================================
+# Notes :
+# - 'Disallow:' vide → aucune page bloquée
+# - Tous les robots peuvent explorer le site
+# - Sitemap permet à Google de trouver toutes tes pages plus rapidement
+# =========================================
