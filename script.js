@@ -163,8 +163,24 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         // 4. Charger l'embed
-        videoIframe.src = videoLink;
-        openModal(genericModal);
+      // 4. Charger l'embed
+videoIframe.src = videoLink;
+
+// ✅ Réinitialise le style à chaque ouverture (évite le "plein écran forcé")
+videoIframe.removeAttribute('style');
+
+// ✅ Si c'est une vidéo Drive ou Mega : bien centrée au départ (pas plein écran)
+if (data.type === 'drive' || data.type === 'mega') {
+    videoIframe.style.width = '100%';
+    videoIframe.style.height = '100%';
+    videoIframe.style.position = 'absolute';
+    videoIframe.style.top = '0';
+    videoIframe.style.left = '0';
+    videoIframe.style.border = 'none';
+    videoIframe.style.background = 'black';
+}
+
+openModal(genericModal);
 
         // 5. Masquer le loading quand la vidéo est prête
         videoIframe.onload = () => {
