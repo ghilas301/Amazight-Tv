@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="https://www.sitemaps.org/schemas/sitemap/0.9">
+   <url>
+      <loc>https://amazigh-tv.vercel.app/</loc>
+      <lastmod>2025-10-14</lastmod>
+      <priority>1.0</priority>
+   </url>
+   <url>
+      <loc>https://amazigh-tv.vercel.app/films.html</loc>
+      <lastmod>2025-10-14</lastmod>
+      <priority>0.8</priority>
+   </url>
+   <url>
+      <loc>https://amazigh-tv.vercel.app/contact.html</loc>
+      <lastmod>2025-10-14</lastmod>
+      <priority>0.5</priority>
+   </url>
+</urlset>
