@@ -14,14 +14,14 @@ document.addEventListener('DOMContentLoaded', () => {
         },
         'video-qezbul1': { 
             title: 'Qezbul 1', 
-            link: 'https://mega.nz/embed/oZcT3IaZ#nM7WvZslzasQYnrdVr9mghwy-U_UExKRaMYZGpk_1SQ',
-            type: 'mega'
+            link: 'https://dsvplay.com/e/za8jrxvpw6rq',
+            type: 'dood'
         },
 
         'video-narnia1': { 
             title: 'Narnia 1', 
-            link: 'https://mega.nz/embed/MEEBhQJD#d9spP13vp9e9OjQDX5rru1_-mkp9noZNGpeEWdNmsFY',
-            type: 'mega'
+            link: 'https://dsvplay.com/e/11961y4m8yua',
+            type: 'dood'
         },
 
         'video-youtube-1': { 
@@ -36,8 +36,8 @@ document.addEventListener('DOMContentLoaded', () => {
         },
         'video-drive-2': { 
             title: 'Pucci 4', 
-            link: 'https://drive.google.com/file/d/1gdQ2vmyZnUptTMia6Cq3QzHLDQWy2uRj/preview',
-            type: 'drive'
+            link: 'https://dsvplay.com/e/ncwnm3u4qofq',
+            type: 'dood'
         }
     };
 
@@ -157,10 +157,17 @@ document.addEventListener('DOMContentLoaded', () => {
         
         let videoLink = data.link;
 
-        // Configuration par type de plateforme
-        if (data.type === 'youtube') {
-            videoLink += (videoLink.includes('?') ? '&' : '?') + 'autoplay=1&rel=0';
-        }
+        
+
+if (data.type === 'youtube') {
+    videoLink += (videoLink.includes('?') ? '&' : '?') + 'autoplay=1&rel=0';
+} else if (data.type === 'dood') {
+    // DoodStream / DSVPlay : on met juste le lien embed
+    videoLink = data.link;
+} else {
+    // Mega / Drive
+    videoLink = data.link;
+}
 
    // 4. Charger l'embed
 videoIframe.src = videoLink;
