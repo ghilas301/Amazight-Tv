@@ -24,6 +24,13 @@ document.addEventListener('DOMContentLoaded', () => {
             type: 'dood'
         },
 
+        
+        'video-limucucu1': { 
+            title: 'Li mucucu 1', 
+            link: 'https://dsvplay.com/e/kx1vbsc02c1k',
+            type: 'dood'
+        },
+
         'video-youtube-1': { 
             title: 'Pucci 2', 
             link: 'https://www.youtube.com/embed/YKNneNOhosY',
