@@ -345,17 +345,17 @@ body {
 
 /* Modales améliorées */
 .modal {
-  display: none; 
-  position: fixed; 
-  z-index: 200; 
-  left: 0; top: 0;
-  width: 100%; height: 100%;
-  overflow: auto; 
-  background-color: rgba(0,0,0,0.95); 
-  align-items: center;
-  justify-content: center;
-  opacity: 0;
-  transition: opacity var(--transition-smooth);
+ display: none; 
+ position: fixed; 
+ z-index: 200; 
+ left: 0; top: 0;
+ width: 100%; height: 100%;
+ overflow: auto; 
+ background-color: rgba(0,0,0,0.95); 
+ align-items: flex-start; /* IMPORTANT: Alignement en haut */
+ justify-content: flex-start; /* IMPORTANT: Alignement à gauche */
+ opacity: 0;
+ transition: opacity var(--transition-smooth);
 }
 .modal.is-open {
   display: flex;
@@ -435,10 +435,15 @@ body {
 }
 
 /* Styles du Lecteur Vidéo amélioré */
+/* Styles du Lecteur Vidéo amélioré */
 .modal-video-content {
-  padding: 0;
-  max-width: 1000px;
-  background: none;
+ padding: 0;
+ max-width: 100vw; /* Utilise 100% de la largeur du viewport */
+ width: 100%; /* S'assure de la largeur */
+background: none;
+ /* BONUS: Retirez la transition pour que l'ouverture soit immédiate et pleine */
+ transform: none !important; 
+transition:  none !important;
 }
 
 .video-responsive-container {
@@ -693,4 +698,22 @@ a:focus {
   .suggested-films .film-info p {
     font-size: 0.8em !important;
   }
+}
+
+/* FORCE LE PLEIN ÉCRAN POUR LA VIDÉO SUR MOBILE */
+@media (max-width: 1024px) {
+.modal-video-content {
+   /* Annule toutes les marges et ombres inutiles */
+   width: 100% !important;
+   max-width: 100% !important;
+   padding: 0 !important;
+   border-radius: 0 !important;
+   box-shadow: none !important;
+ }
+
+  .video-responsive-container {
+  /* S'assure que la modale vidéo prend toute la hauteur pour centrer le 16:9 */
+   min-height: 100vh;
+   border-radius: 0 !important;
+}
 }
