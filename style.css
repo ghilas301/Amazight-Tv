@@ -583,3 +583,38 @@ a:focus {
     }
 }
 
+/* === CORRECTIONS MOBILE - ESPACE === */
+@media (max-width: 768px) {
+  .main-content {
+    padding-top: 60px;
+  }
+  
+  .hero-section {
+    min-height: 70vh;
+  }
+  
+  .film-list-section {
+    margin-top: -30px;
+    padding: 20px 20px 30px 20px;
+  }
+  
+  .hero-details {
+    padding-bottom: 30px;
+  }
+}
+
+/* Correction encore plus forte pour très petits écrans */
+@media (max-width: 480px) {
+  .main-content {
+    padding-top: 50px;
+  }
+  
+  .hero-section {
+    min-height: 60vh;
+  }
+  
+  .film-list-section {
+    margin-top: -40px;
+    padding: 15px 15px 25px 15px;
+  }
+}
