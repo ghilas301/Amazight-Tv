@@ -202,6 +202,17 @@ body {
   transform: scale(0.97);
 }
 
+/* Supprimer le soulignement de tous les liens dans les cartes de films */
+.film-card,
+.film-card * {
+    text-decoration: none !important;
+}
+
+.film-card:hover,
+.film-card:hover * {
+    text-decoration: none !important;
+}
+
 .film-poster {
   position: relative;
   width:100%;
@@ -223,27 +234,50 @@ body {
 .film-info h4 { font-size:1.2em; margin-bottom:5px; color:var(--color-text); font-weight: 700; }
 .film-info p { font-size:0.9em; color:#aaa; }
 
-/* Overlay Play Icon */
-.film-poster .play-overlay {
-  position:absolute; inset: 0;
-  background: rgba(0,0,0,0.7);
-  opacity:0; transition: opacity var(--transition-smooth);
-  pointer-events:none;
-  border-radius: var(--border-radius);
-  display:flex; justify-content:center; align-items:center;
-  z-index: 5;
+/* === Overlay Play Icon - CORRECTION === */
+.film-poster {
+    position: relative;
+    width: 100%;
+    padding-top: 140%; /* Cette ligne est importante */
+    overflow: hidden;
 }
-.film-card:hover .play-overlay { opacity:1; }
+
+.film-poster .play-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.7);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 5;
+}
+
+.film-card:hover .play-overlay {
+    opacity: 1;
+}
 
 .play-icon-lg {
-  font-size: 3em;
-  color: var(--color-primary);
-  text-shadow: 0 0 10px rgba(229,9,20,0.8);
-  transition: transform 0.2s;
+    font-size: 3em;
+    color: #e50914;
+    text-shadow: 0 0 20px rgba(229, 9, 20, 0.8);
+    transition: transform 0.3s ease;
 }
-.film-card:hover .play-icon-lg { transform: scale(1.1); }
-@media (max-width:768px) {
-  .film-poster .play-overlay { opacity:1; pointer-events: auto; }
+
+.film-card:hover .play-icon-lg {
+    transform: scale(1.2);
+}
+
+/* Sur mobile, toujours afficher l'overlay */
+@media (max-width: 768px) {
+    .film-poster .play-overlay {
+        opacity: 1;
+    }
 }
 
 /* === Statistiques Visiteurs === */
@@ -415,12 +449,13 @@ body {
   border-radius: var(--border-radius);
   box-shadow: 0 0 30px rgba(0,0,0,0.8);
 }
-.modal-video-content iframe {
+.video-responsive-container iframe {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
+  border: none; /* J'ajoute ça pour enlever les bordures moches */
 }
 
 
@@ -479,3 +514,72 @@ a:focus {
 .loading-pulse {
   animation: pulse 1.5s ease-in-out infinite;
 }
+
+/* ======== Transition fluide entre le hero et le lecteur vidéo ======== */
+
+.film-page-hero {
+  position: relative;
+  min-height: 70vh;
+  background: 
+    linear-gradient(to bottom, rgba(13,13,13,0) 60%, var(--color-background) 100%),
+    linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.8)),
+    url('../images/li mucucu 1.jpg') center center/cover no-repeat;
+  background-blend-mode: overlay; /* BONUS activé : effet cinéma plus contrasté */
+  display: flex;
+  align-items: center;
+  padding: 120px 40px 40px;
+  overflow: hidden;
+}
+
+.film-page-hero::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 200px;
+  background: linear-gradient(to bottom, rgba(13,13,13,0) 0%, var(--color-background) 100%);
+  z-index: 2;
+}
+
+.film-details-container {
+  position: relative;
+  z-index: 3; /* Pour passer au-dessus des couches de dégradé */
+}
+
+.video-section {
+  background-color: var(--color-background);
+  color: var(--color-text);
+  position: relative;
+  z-index: 3;
+}
+/* === Styles pour le logo dans le header === */
+.header .logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+}
+
+.logo-image {
+    height: 40px;
+    width: auto;
+    border-radius: 6px;
+}
+
+/* Responsive pour le logo */
+@media (max-width: 768px) {
+    .header .logo {
+        gap: 8px;
+    }
+    .logo-image {
+        height: 32px;
+    }
+}
+
+@media (max-width: 480px) {
+    .logo-image {
+        height: 28px;
+    }
+}
+

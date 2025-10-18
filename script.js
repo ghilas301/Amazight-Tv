@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', () => {
             link: 'https://www.youtube.com/watch?v=bHIDRBJQmjE&t=2s',
             type: 'youtube'
         },
-        'video-drive-2': { 
+        'video-pucci4': { 
             title: 'Pucci 4', 
             link: 'https://dsvplay.com/e/ncwnm3u4qofq',
             type: 'dood'
