@@ -24,6 +24,12 @@ document.addEventListener('DOMContentLoaded', () => {
             type: 'dood'
         },
 
+         'video-crek1': { 
+            title: 'Crek 1', 
+            link: 'https://streamtape.com/e/P9avZje4apT0apz',
+            type: 'dood'
+        },
+
         
         'video-limucucu1': { 
             title: 'Li mucucu 1', 
