@@ -746,4 +746,104 @@ a:focus {
         width: 100%; /* Pleine largeur sur mobile */
         justify-content: center;
     }
+}/* === SÉLECTEUR DE LECTEUR === */
+.player-selector {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 25px; 
+    justify-content: center;
+    padding: 0 10px; /* Ajout d'un petit padding pour les bords sur mobile */
+}
+
+.player-button {
+    background-color: var(--color-card-bg);
+    color: var(--color-text);
+    border: 2px solid #333;
+    padding: 12px 25px;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: 600;
+    transition: all var(--transition-smooth);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-grow: 1; /* Pour que les boutons prennent plus de place */
+    max-width: 250px; /* Limite la taille des boutons sur grand écran */
+    text-align: center;
+    justify-content: center;
+}
+
+.player-button:hover {
+    background-color: #333;
+    border-color: var(--color-primary);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-soft);
+}
+
+.player-button.active {
+    background-color: var(--color-primary);
+    color: var(--color-background);
+    border-color: var(--color-primary);
+    transform: none;
+}
+
+.player-button.active i {
+    color: var(--color-background);
+}
+
+/* Responsive pour les petits écrans */
+@media (max-width: 600px) {
+    .player-selector {
+        flex-direction: column;
+        gap: 10px;
+        margin-bottom: 20px;
+    }
+    .player-button {
+        width: 100%;
+        max-width: none;
+    }
+}
+
+/* === CORRECTION FINALE DE L'ANIMATION DE CHARGEMENT (SPÉCIFICITÉ FORCÉE) === */
+
+/* Clé d'animation pour la rotation */
+@keyframes fa-spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(359deg);
+    }
+}
+
+/* 1. Applique l'animation à la classe fa-spin avec un sélecteur plus spécifique */
+/* On cible l'icône de chargement à l'intérieur de son conteneur */
+#video-loading-player .fa-spin {
+    /* Utilisation de !important pour garantir que l'animation n'est pas écrasée */
+    -webkit-animation: fa-spin 2s infinite linear !important; 
+    animation: fa-spin 2s infinite linear !important;
+}
+
+/* 2. Style de l'indicateur de chargement pour s'assurer qu'il est bien au-dessus */
+#video-loading-player {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.9); /* Fond légèrement plus sombre */
+    color: var(--color-primary);
+    font-size: 2.5em; 
+    z-index: 999; /* Assurez-vous qu'il est au-dessus de tout */
+}
+
+#video-loading-player p {
+    font-size: 0.7em;
+    color: var(--color-text);
+    margin-top: 15px;
 }

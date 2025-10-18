@@ -16,6 +16,9 @@
 
   <link rel="canonical" href="https://amazigh-tv.vercel.app/films/pucci4.html">
   <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1yOQ/Lp02H1lq1+8YcR/Wk80zL0c/s11D4n5bJkU5l0O7tY5U/PzG0h1O1h5zO7Wk5vA7r5/j4g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="icon" type="image/png" sizes="32x32" href="../images/logo-32.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="../images/logo-180.png">
   <link rel="icon" type="image/png" sizes="32x32" href="../images/logo-32.png">
   <link rel="apple-touch-icon" sizes="180x180" href="../images/logo-180.png">
   
@@ -289,18 +292,34 @@
   </section>
 
   <section class="video-section">
-    <h3>Regarder Pucci 4 en Streaming HD</h3>
+    <h3>Regarder Pucci 4 en Streaming HD</h3> <div class="player-selector" id="player-selector">
+        <button class="player-button active" data-player-id="dood">
+            <i class="fas fa-video"></i> Lecteur 1 (Dood)
+        </button>
+        <button class="player-button" data-player-id="streamtape">
+            <i class="fas fa-video"></i> Lecteur 2 (Streamtape)
+        </button>
+    </div>
     <div class="video-responsive-container">
-        <div id="video-play-overlay">
+        <div class="video-play-overlay" id="video-play-overlay">
             <i class="fas fa-play play-icon-lg"></i>
         </div>
-        <iframe id="video-iframe-player" src="" frameborder="0" allow="autoplay; fullscreen" allowfullscreen title="Lecteur vidéo pour le film Pucci 4"></iframe>
+        
+        <iframe id="video-iframe-player" 
+                src="" 
+                allow="autoplay; fullscreen" 
+                allowfullscreen 
+                title="Lecteur vidéo Crek 1"
+                width="100%" 
+                height="100%">
+        </iframe>
+        
         <div class="video-loading" id="video-loading-player" style="display: none;">
             <i class="fas fa-spinner fa-spin loading-pulse"></i>
             <p>Chargement de la vidéo...</p>
         </div>
     </div>
-  </section>
+</section>
   
   <section class="film-list-section suggested-films">
     <h3>Films Kabyles Similaires</h3>
@@ -361,53 +380,97 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-    const playButton = document.querySelector('.hero-play-button');
-    const videoIframe = document.getElementById('video-iframe-player');
-    const videoLoading = document.getElementById('video-loading-player');
-    const playOverlay = document.getElementById('video-play-overlay');
 
-    const videoData = {
-        'video-pucci4': { 
-            link: 'https://streamtape.com/e/A3RwbbxeqxSXV1b'
-        }
+    // ----------------------------------------------------
+    // --- LIENS CONFIRMÉS POUR CREK 1 (à changer pour les autres films) ---
+    // ----------------------------------------------------
+    const videoLinks = {
+        'dood': 'https://dsvplay.com/e/ncwnm3u4qofq', 
+        'streamtape': 'https://streamtape.com/e/A3RwbbxeqxSXV1b' 
     };
+    // ----------------------------------------------------
     
-    function launchVideo() {
-        const videoId = playButton.dataset.videoId;
-        const videoInfo = videoData[videoId];
+    // SÉLECTEURS CORRIGÉS : utilisent maintenant les IDs -player et -loading-player
+    const playOverlay = document.getElementById('video-play-overlay');
+    const videoLoading = document.getElementById('video-loading-player'); // ✅ ID CORRIGÉ
+    const videoIframe = document.getElementById('video-iframe-player');   // ✅ ID CORRIGÉ
+    const playerButtons = document.querySelectorAll('.player-button');
+    const playButton = document.querySelector('.hero-play-button');
+    
+    let activePlayer = 'dood'; // Le lecteur par défaut
 
-        if (videoInfo) {
-            playOverlay.style.display = 'none';
-            videoLoading.style.display = 'flex';
-            videoIframe.style.display = 'none';
-            videoIframe.src = videoInfo.link;
-
-            document.querySelector('.video-section').scrollIntoView({
-                behavior: 'smooth',
-                block: 'center'
-            });
-
-            videoIframe.onload = () => {
-                videoLoading.style.display = 'none';
-                videoIframe.style.display = 'block';
-            };
-
-            videoIframe.onerror = () => {
-                videoLoading.innerHTML = `
-                    <i class="fas fa-exclamation-triangle"></i>
-                    <p>Erreur de chargement de la vidéo</p>
-                    <button onclick="location.reload()" class="cta-button">Réessayer</button>
-                `;
-            };
-        } else {
-            alert('Vidéo non disponible pour le moment.');
+    // Fonction principale pour charger ou changer le lecteur
+    function updateIframeSource() {
+        const link = videoLinks[activePlayer];
+        
+        // Sécurité : vérifie que le lien existe
+        if (!link) {
+            console.error(`Erreur: Le lien pour le lecteur ${activePlayer} n'est pas configuré.`);
+            videoLoading.style.display = 'none';
+            playOverlay.style.display = 'flex';
+            videoIframe.src = '';
+            alert(`Le lecteur ${activePlayer} n'a pas de lien configuré.`);
+            return;
         }
+
+        // AFFICHAGE DU CHARGEMENT (C'est cette partie qui fait tourner l'icône)
+        playOverlay.style.display = 'none';
+        videoLoading.style.display = 'flex'; 
+        videoIframe.style.display = 'none';
+        
+        // On charge la nouvelle source
+        videoIframe.src = link;
+
+        // Quand le lecteur est chargé (retire le chargement)
+        videoIframe.onload = () => {
+            videoLoading.style.display = 'none'; 
+            videoIframe.style.display = 'block'; 
+        };
+
+        // Gestion des erreurs
+        videoIframe.onerror = () => {
+            videoLoading.innerHTML = `
+                <i class="fas fa-exclamation-triangle"></i>
+                <p>Erreur de chargement du Lecteur ${activePlayer}</p>
+                <button onclick="location.reload()" class="cta-button">Réessayer</button>
+            `;
+        };
     }
 
-    playButton.addEventListener('click', launchVideo);
-    playOverlay.addEventListener('click', launchVideo);
+    // Gérer le clic sur les boutons Lecteur 1 / Lecteur 2
+    playerButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            // Changer le style "active"
+            playerButtons.forEach(btn => btn.classList.remove('active'));
+            this.classList.add('active');
+            
+            // Mettre à jour le lecteur actif
+            activePlayer = this.dataset.playerId;
+            
+            // Recharger la vidéo uniquement si elle est déjà lancée
+            if (videoIframe.src) { 
+                updateIframeSource();
+            }
+        });
+    });
+
+    // Gérer le clic initial sur le gros bouton Play
+    function launchVideo() {
+        updateIframeSource();
+
+        // Scroll vers la vidéo
+        document.querySelector('.video-section').scrollIntoView({
+            behavior: 'smooth',
+            block: 'center'
+        });
+    }
+
+    // Attacher la fonction aux clics
+    if (playButton) playButton.addEventListener('click', launchVideo);
+    if (playOverlay) playOverlay.addEventListener('click', launchVideo);
 });
 </script>
+
 <script type='text/javascript' src='//pl27872732.effectivegatecpm.com/a0/de/52/a0de529083a01b3b72e7e46c528c84ef.js'></script>
 
 </body>

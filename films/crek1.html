@@ -18,8 +18,10 @@
 
   <link rel="canonical" href="https://amazigh-tv.vercel.app/films/crek1.html">
   <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1yOQ/Lp02H1lq1+8YcR/Wk80zL0c/s11D4n5bJkU5l0O7tY5U/PzG0h1O1h5zO7Wk5vA7r5/j4g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="icon" type="image/png" sizes="32x32" href="../images/logo-32.png">
   <link rel="apple-touch-icon" sizes="180x180" href="../images/logo-180.png">
+  
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -290,10 +292,8 @@
     </div>
   </section>
 
-  <section class="video-section">
-    <h3>Regarder Crek 1 en Streaming HD</h3>
-
-    <div class="player-selector" id="player-selector">
+<section class="video-section">
+    <h3>Regarder Crek 1 en Streaming HD</h3> <div class="player-selector" id="player-selector">
         <button class="player-button active" data-player-id="dood">
             <i class="fas fa-video"></i> Lecteur 1 (Dood)
         </button>
@@ -382,104 +382,93 @@
 <script>
 document.addEventListener('DOMContentLoaded', () => {
 
-    const playButton = document.querySelector('.hero-play-button');
-    const playOverlay = document.getElementById('video-play-overlay');
-    const videoLoading = document.getElementById('video-loading');
-    const videoIframe = document.getElementById('video-iframe');
-    const playerButtons = document.querySelectorAll('.player-button'); // NOUVEAU
-    
-    // NOUVEAU: Les deux liens (Dood et Streamtape) pour ce film
-    // REMPLACEZ LES PLACEHOLDERS PAR VOS VRAIS LIENS EMBED
+    // ----------------------------------------------------
+    // --- LIENS CONFIRMÉS POUR CREK 1 (à changer pour les autres films) ---
+    // ----------------------------------------------------
     const videoLinks = {
         'dood': 'https://dsvplay.com/e/2mi71p1yjehy', 
-        'streamtape': 'https://streamtape.com/e/P9avZjeM9Oa7Qk' // Lien actuel dans crek1.html
+        'streamtape': 'https://streamtape.com/e/P9avZjeM9Oa7Qk' 
     };
+    // ----------------------------------------------------
+    
+    // SÉLECTEURS CORRIGÉS : utilisent maintenant les IDs -player et -loading-player
+    const playOverlay = document.getElementById('video-play-overlay');
+    const videoLoading = document.getElementById('video-loading-player'); // ✅ ID CORRIGÉ
+    const videoIframe = document.getElementById('video-iframe-player');   // ✅ ID CORRIGÉ
+    const playerButtons = document.querySelectorAll('.player-button');
+    const playButton = document.querySelector('.hero-play-button');
+    
+    let activePlayer = 'dood'; // Le lecteur par défaut
 
-    let activePlayer = 'dood'; // Définir le lecteur par défaut
-
-    // Fonction pour mettre à jour la source de l'iframe
+    // Fonction principale pour charger ou changer le lecteur
     function updateIframeSource() {
         const link = videoLinks[activePlayer];
         
-        if (link && videoIframe.src !== link) {
-             // Si la vidéo est déjà lancée, on change le lecteur
-            playOverlay.style.display = 'none'; // S'assurer que l'overlay est masqué
-            videoLoading.style.display = 'flex'; // Afficher l'indicateur de chargement
-            videoIframe.style.display = 'none'; // Cacher l'ancienne vidéo
-            videoIframe.src = link; // Charger la nouvelle source
-
-            // Mise à jour de l'affichage après le chargement
-            videoIframe.onload = () => {
-                videoLoading.style.display = 'none';
-                videoIframe.style.display = 'block';
-            };
-            
-            videoIframe.onerror = () => {
-                videoLoading.innerHTML = `
-                    <i class="fas fa-exclamation-triangle"></i>
-                    <p>Erreur de chargement du Lecteur ${activePlayer}</p>
-                    <button onclick="location.reload()" class="cta-button">Réessayer</button>
-                `;
-            };
-        }
-    }
-
-    // Événement pour le changement de lecteur (boutons sous la vidéo)
-    playerButtons.forEach(button => {
-        button.addEventListener('click', function() {
-            // Mise à jour visuelle des boutons
-            playerButtons.forEach(btn => btn.classList.remove('active'));
-            this.classList.add('active');
-            
-            // Mise à jour du lecteur actif
-            activePlayer = this.dataset.playerId;
-            
-            // Tenter de mettre à jour l'iframe si elle est déjà visible
-            updateIframeSource();
-        });
-    });
-
-
-    // L'ancienne fonction launchVideo est simplifiée pour utiliser le lien actif
-    function launchVideo() {
-        const link = videoLinks[activePlayer];
-
-        if (!link || link === 'VOTRE_LIEN_EMBED_DOODSTREAM_ICI') { // Vérifie aussi le placeholder
-            alert(`Le lecteur ${activePlayer} n'a pas de lien configuré ou le lien est invalide.`);
+        // Sécurité : vérifie que le lien existe
+        if (!link) {
+            console.error(`Erreur: Le lien pour le lecteur ${activePlayer} n'est pas configuré.`);
+            videoLoading.style.display = 'none';
+            playOverlay.style.display = 'flex';
+            videoIframe.src = '';
+            alert(`Le lecteur ${activePlayer} n'a pas de lien configuré.`);
             return;
         }
 
-        // Préparation (identique à l'ancienne logique)
+        // AFFICHAGE DU CHARGEMENT (C'est cette partie qui fait tourner l'icône)
         playOverlay.style.display = 'none';
-        videoLoading.style.display = 'flex';
+        videoLoading.style.display = 'flex'; 
         videoIframe.style.display = 'none';
-        videoIframe.src = link; // Utilise le lien actif
+        
+        // On charge la nouvelle source
+        videoIframe.src = link;
+
+        // Quand le lecteur est chargé (retire le chargement)
+        videoIframe.onload = () => {
+            videoLoading.style.display = 'none'; 
+            videoIframe.style.display = 'block'; 
+        };
+
+        // Gestion des erreurs
+        videoIframe.onerror = () => {
+            videoLoading.innerHTML = `
+                <i class="fas fa-exclamation-triangle"></i>
+                <p>Erreur de chargement du Lecteur ${activePlayer}</p>
+                <button onclick="location.reload()" class="cta-button">Réessayer</button>
+            `;
+        };
+    }
+
+    // Gérer le clic sur les boutons Lecteur 1 / Lecteur 2
+    playerButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            // Changer le style "active"
+            playerButtons.forEach(btn => btn.classList.remove('active'));
+            this.classList.add('active');
+            
+            // Mettre à jour le lecteur actif
+            activePlayer = this.dataset.playerId;
+            
+            // Recharger la vidéo uniquement si elle est déjà lancée
+            if (videoIframe.src) { 
+                updateIframeSource();
+            }
+        });
+    });
+
+    // Gérer le clic initial sur le gros bouton Play
+    function launchVideo() {
+        updateIframeSource();
 
         // Scroll vers la vidéo
         document.querySelector('.video-section').scrollIntoView({
             behavior: 'smooth',
             block: 'center'
         });
-
-        // Quand la vidéo est prête (identique à l'ancienne logique)
-        videoIframe.onload = () => {
-            videoLoading.style.display = 'none';
-            videoIframe.style.display = 'block';
-        };
-
-        // Gestion des erreurs (identique à l'ancienne logique)
-        videoIframe.onerror = () => {
-            videoLoading.innerHTML = `
-                <i class="fas fa-exclamation-triangle"></i>
-                <p>Erreur de chargement de la vidéo</p>
-                <button onclick="location.reload()" class="cta-button">Réessayer</button>
-            `;
-        };
     }
 
-    // Événements (identique à l'ancienne logique)
-    playButton.addEventListener('click', launchVideo);
-    playOverlay.addEventListener('click', launchVideo);
+    // Attacher la fonction aux clics
+    if (playButton) playButton.addEventListener('click', launchVideo);
+    if (playOverlay) playOverlay.addEventListener('click', launchVideo);
 });
 </script>
 >
