@@ -4,4 +4,12 @@
   X-Content-Type-Options: nosniff
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: camera=(), microphone=(), geolocation=()
-  Content-Security-Policy: default-src 'self'; img-src *; media-src *; frame-src https:; script-src 'self' https:;
+  Content-Security-Policy:
+    default-src 'self';
+    img-src *;
+    media-src *;
+    frame-src https://doodstream.com https://dood.pm https:;
+    script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com https://cdnjs.cloudflare.com https://pl27829319.effectivegatecpm.com https:;
+    connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com;
+    style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com;
+    font-src 'self' https://fonts.gstatic.com;
