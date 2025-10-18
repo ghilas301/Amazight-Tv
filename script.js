@@ -43,7 +43,7 @@ document.addEventListener('DOMContentLoaded', () => {
         },
         'video-pucci4': { 
             title: 'Pucci 4', 
-            link: 'https://dsvplay.com/e/ncwnm3u4qofq',
+            link: 'https://streamtape.com/e/A3RwbbxeqxSXV1b',
             type: 'dood'
         }
     };
