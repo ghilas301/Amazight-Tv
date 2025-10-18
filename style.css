@@ -71,7 +71,7 @@ body {
   .navigation a i { display: block; margin: 0 auto 3px; }
 }
 
-.main-content { padding-top:80px; }
+.main-content { padding-top:60px; }
 
 /* Hero Section améliorée */
 .hero-section {
@@ -153,7 +153,7 @@ body {
 
 /* Responsive Hero */
 @media (max-width: 768px) {
-  .hero-details { padding: 0 20px 40px 20px; }
+  .hero-details { padding: 0 20px 30px 20px; }
   .hero-title { font-size: 3em; }
   .hero-description { font-size: 1em; }
   .hero-play-button { font-size: 1em; padding: 10px 20px; }
@@ -179,7 +179,7 @@ body {
   gap:25px;
 }
 @media (max-width: 600px) {
-  .film-list-section { padding: 20px; }
+  .film-list-section { padding: 30px; }
   .film-grid {
     grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
     gap: 15px;
