@@ -442,27 +442,21 @@ body {
 }
 
 .video-responsive-container {
-  position: fixed;       /* fixe la vidéo sur tout l'écran */
-  top: 0;
-  left: 0;
-  width: 100vw;          /* largeur totale de l'écran */
-  height: 100vh;         /* hauteur totale de l'écran */
+  position: relative;
+  padding-bottom: 56.25%;
+  height: 0;
   overflow: hidden;
-  z-index: 999;          /* au-dessus de tout */
-  background: #000;      /* fond noir en cas de chargement lent */
+  border-radius: var(--border-radius);
+  box-shadow: 0 0 30px rgba(0,0,0,0.8);
 }
-
 .video-responsive-container iframe {
   position: absolute;
-  top: 50%;
-  left: 50%;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
-  transform: translate(-50%, -50%);
-  object-fit: cover;     /* remplit tout l'espace, peut couper un peu */
-  border: none;
+  border: none; /* J'ajoute ça pour enlever les bordures moches */
 }
-
 
 
 /* État de chargement vidéo */
