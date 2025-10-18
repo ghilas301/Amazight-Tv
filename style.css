@@ -642,27 +642,15 @@ a:focus {
     margin-bottom: 20px !important;
   }
 }
-/* === CORRECTION PAGE FILMS.HTML === */
+/* === CORRECTION FORCE POUR FILMS.HTML === */
 @media (max-width: 768px) {
-  /* Spécifique à la page films.html */
-  .film-list-section[id="films"] {
-    padding-top: 40px !important;
+  /* Cible spécifiquement la page films */
+  body .film-list-section {
+    padding-top: 50px !important;
   }
   
-  .film-list-section h3 {
-    margin-top: 20px !important;
-    margin-bottom: 25px !important;
-  }
-}
-
-/* Pour les très petits écrans */
-@media (max-width: 480px) {
-  .film-list-section[id="films"] {
-    padding-top: 30px !important;
-  }
-  
-  .film-list-section h3 {
-    margin-top: 15px !important;
-    margin-bottom: 20px !important;
+  body .film-list-section h3 {
+    margin-top: 25px !important;
+    margin-bottom: 30px !important;
   }
 }
