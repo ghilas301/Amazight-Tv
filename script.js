@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
         },
         'video-qezbul1': { 
             title: 'Qezbul 1', 
-            link: 'https://dsvplay.com/e/za8jrxvpw6rq',
+            link: 'https://streamtape.com/e/QbgypGOLYAH99m',
             type: 'dood'
         },
 
@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
         
         'video-limucucu1': { 
             title: 'Li mucucu 1', 
-            link: 'https://dsvplay.com/e/kx1vbsc02c1k',
+            link: 'https://streamtape.com/e/jjo9qGYWaRuzAD2',
             type: 'dood'
         },
 
