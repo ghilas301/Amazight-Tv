@@ -666,3 +666,31 @@ a:focus {
     margin-bottom: 30px !important;
   }
 }
+/* === CORRECTION GRILLE FILMS SUGGÉRÉS === */
+@media (max-width: 768px) {
+  /* Forcer 2 colonnes sur mobile pour les films suggérés */
+  .suggested-films .film-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 15px !important;
+  }
+  
+  .suggested-films .film-poster {
+    padding-top: 140% !important; /* Même ratio que l'accueil */
+  }
+}
+
+/* Pour les très petits écrans, garder 2 colonnes mais réduire l'écart */
+@media (max-width: 480px) {
+  .suggested-films .film-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 12px !important;
+  }
+  
+  .suggested-films .film-info h4 {
+    font-size: 1em !important;
+  }
+  
+  .suggested-films .film-info p {
+    font-size: 0.8em !important;
+  }
+}
