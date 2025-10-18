@@ -694,3 +694,56 @@ a:focus {
     font-size: 0.8em !important;
   }
 }
+/* === SÉLECTEUR DE LECTEUR === */
+.player-selector {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 25px; /* Espace avant le lecteur */
+    justify-content: center; /* Centrer les boutons sous la vidéo */
+}
+
+.player-button {
+    background-color: var(--color-card-bg); /* Utilise la couleur de fond des cartes #1f1f1f */
+    color: var(--color-text);
+    border: 2px solid #333;
+    padding: 12px 25px;
+    border-radius: var(--border-radius); /* Bords arrondis de 8px */
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: 600;
+    transition: all var(--transition-smooth);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.player-button:hover {
+    background-color: #333;
+    border-color: var(--color-primary); /* Bordure rouge au survol */
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-soft); /* Ombre douce au survol */
+}
+
+.player-button.active {
+    background-color: var(--color-primary); /* Couleur principale rouge */
+    color: var(--color-background); /* Texte sombre sur fond rouge */
+    border-color: var(--color-primary);
+    transform: none;
+}
+
+.player-button.active i {
+    color: var(--color-background);
+}
+
+/* Responsive pour les petits écrans */
+@media (max-width: 600px) {
+    .player-selector {
+        flex-direction: column;
+        gap: 10px;
+        margin-bottom: 20px;
+    }
+    .player-button {
+        width: 100%; /* Pleine largeur sur mobile */
+        justify-content: center;
+    }
+}

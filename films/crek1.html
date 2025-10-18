@@ -292,18 +292,35 @@
 
   <section class="video-section">
     <h3>Regarder Crek 1 en Streaming HD</h3>
-    <div class="video-responsive-container">
-    <div id="video-play-overlay">
-        <i class="fas fa-play play-icon-lg"></i>
-    </div>
-    <iframe id="video-iframe-player" src="" allow="autoplay; fullscreen" allowfullscreen title="Lecteur vidéo Crek 1"></iframe>
-    <div class="video-loading" id="video-loading-player" style="display: none;">
-        <i class="fas fa-spinner fa-spin loading-pulse"></i>
-        <p>Chargement de la vidéo...</p>
-    </div>
-</div>
 
-  </section>
+    <div class="player-selector" id="player-selector">
+        <button class="player-button active" data-player-id="dood">
+            <i class="fas fa-video"></i> Lecteur 1 (Dood)
+        </button>
+        <button class="player-button" data-player-id="streamtape">
+            <i class="fas fa-video"></i> Lecteur 2 (Streamtape)
+        </button>
+    </div>
+    <div class="video-responsive-container">
+        <div class="video-play-overlay" id="video-play-overlay">
+            <i class="fas fa-play play-icon-lg"></i>
+        </div>
+        
+        <iframe id="video-iframe-player" 
+                src="" 
+                allow="autoplay; fullscreen" 
+                allowfullscreen 
+                title="Lecteur vidéo Crek 1"
+                width="100%" 
+                height="100%">
+        </iframe>
+        
+        <div class="video-loading" id="video-loading-player" style="display: none;">
+            <i class="fas fa-spinner fa-spin loading-pulse"></i>
+            <p>Chargement de la vidéo...</p>
+        </div>
+    </div>
+</section>
   
   <section class="film-list-section suggested-films">
     <h3>Films Kabyles Similaires</h3>
@@ -364,32 +381,79 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
+
     const playButton = document.querySelector('.hero-play-button');
     const playOverlay = document.getElementById('video-play-overlay');
-    const videoIframe = document.getElementById('video-iframe-player');
-    const videoLoading = document.getElementById('video-loading-player');
-
-    // Lien de la vidéo
-    const videoData = {
-        'video-crek1': { 
-            link: 'https://streamtape.com/e/P9avZje4apT0apz'
-        }
+    const videoLoading = document.getElementById('video-loading');
+    const videoIframe = document.getElementById('video-iframe');
+    const playerButtons = document.querySelectorAll('.player-button'); // NOUVEAU
+    
+    // NOUVEAU: Les deux liens (Dood et Streamtape) pour ce film
+    // REMPLACEZ LES PLACEHOLDERS PAR VOS VRAIS LIENS EMBED
+    const videoLinks = {
+        'dood': 'https://dsvplay.com/e/2mi71p1yjehy', 
+        'streamtape': 'https://streamtape.com/e/P9avZjeM9Oa7Qk' // Lien actuel dans crek1.html
     };
 
-    function launchVideo() {
-        const videoId = playButton.dataset.videoId;
-        const videoInfo = videoData[videoId];
+    let activePlayer = 'dood'; // Définir le lecteur par défaut
 
-        if (!videoInfo) {
-            alert('Vidéo non disponible pour le moment.');
+    // Fonction pour mettre à jour la source de l'iframe
+    function updateIframeSource() {
+        const link = videoLinks[activePlayer];
+        
+        if (link && videoIframe.src !== link) {
+             // Si la vidéo est déjà lancée, on change le lecteur
+            playOverlay.style.display = 'none'; // S'assurer que l'overlay est masqué
+            videoLoading.style.display = 'flex'; // Afficher l'indicateur de chargement
+            videoIframe.style.display = 'none'; // Cacher l'ancienne vidéo
+            videoIframe.src = link; // Charger la nouvelle source
+
+            // Mise à jour de l'affichage après le chargement
+            videoIframe.onload = () => {
+                videoLoading.style.display = 'none';
+                videoIframe.style.display = 'block';
+            };
+            
+            videoIframe.onerror = () => {
+                videoLoading.innerHTML = `
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <p>Erreur de chargement du Lecteur ${activePlayer}</p>
+                    <button onclick="location.reload()" class="cta-button">Réessayer</button>
+                `;
+            };
+        }
+    }
+
+    // Événement pour le changement de lecteur (boutons sous la vidéo)
+    playerButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            // Mise à jour visuelle des boutons
+            playerButtons.forEach(btn => btn.classList.remove('active'));
+            this.classList.add('active');
+            
+            // Mise à jour du lecteur actif
+            activePlayer = this.dataset.playerId;
+            
+            // Tenter de mettre à jour l'iframe si elle est déjà visible
+            updateIframeSource();
+        });
+    });
+
+
+    // L'ancienne fonction launchVideo est simplifiée pour utiliser le lien actif
+    function launchVideo() {
+        const link = videoLinks[activePlayer];
+
+        if (!link || link === 'VOTRE_LIEN_EMBED_DOODSTREAM_ICI') { // Vérifie aussi le placeholder
+            alert(`Le lecteur ${activePlayer} n'a pas de lien configuré ou le lien est invalide.`);
             return;
         }
 
-        // Préparation
+        // Préparation (identique à l'ancienne logique)
         playOverlay.style.display = 'none';
         videoLoading.style.display = 'flex';
         videoIframe.style.display = 'none';
-        videoIframe.src = videoInfo.link;
+        videoIframe.src = link; // Utilise le lien actif
 
         // Scroll vers la vidéo
         document.querySelector('.video-section').scrollIntoView({
@@ -397,13 +461,13 @@ document.addEventListener('DOMContentLoaded', () => {
             block: 'center'
         });
 
-        // Quand la vidéo est prête
+        // Quand la vidéo est prête (identique à l'ancienne logique)
         videoIframe.onload = () => {
             videoLoading.style.display = 'none';
             videoIframe.style.display = 'block';
         };
 
-        // Gestion des erreurs
+        // Gestion des erreurs (identique à l'ancienne logique)
         videoIframe.onerror = () => {
             videoLoading.innerHTML = `
                 <i class="fas fa-exclamation-triangle"></i>
@@ -413,7 +477,7 @@ document.addEventListener('DOMContentLoaded', () => {
         };
     }
 
-    // Événements
+    // Événements (identique à l'ancienne logique)
     playButton.addEventListener('click', launchVideo);
     playOverlay.addEventListener('click', launchVideo);
 });
