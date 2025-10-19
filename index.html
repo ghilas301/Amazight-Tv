@@ -10,6 +10,7 @@
   <meta property="og:description" content="Films et courts métrages Kabyles en HD. Pucci, Qezbul et bien d'autres.">
   <meta property="og:type" content="website">
   <meta property="og:image" content="/images/og-image.jpg">
+
   
   <link rel="stylesheet" href="style.css">
   <!-- Favicon navigateur -->
@@ -78,6 +79,29 @@
       }
     }
   </style>
+
+  <!-- PWA Configuration -->
+<meta name="theme-color" content="#e50914">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Amazigh TV">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="images/logo-180.png">
+
+<!-- Service Worker -->
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', function() {
+    navigator.serviceWorker.register('/sw.js')
+      .then(function(registration) {
+        console.log('PWA activée !');
+      })
+      .catch(function(error) {
+        console.log('PWA échec: ', error);
+      });
+  });
+}
+</script>
 </head>
 <body>
 
@@ -263,6 +287,45 @@
 </div>
 
 <script src="script.js"></script>
+
+<script>
+let installPrompt = null;
+const installButton = document.createElement('button');
+
+window.addEventListener('beforeinstallprompt', (event) => {
+  event.preventDefault();
+  installPrompt = event;
+  
+  installButton.innerHTML = '📱 Installer l\'App';
+  installButton.style.cssText = `
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    padding: 12px 18px;
+    background: #e50914;
+    color: white;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    z-index: 1000;
+    font-weight: bold;
+    box-shadow: 0 4px 12px rgba(229, 9, 20, 0.3);
+    font-size: 14px;
+  `;
+  
+  installButton.onclick = async () => {
+    if (!installPrompt) return;
+    await installPrompt.prompt();
+    installButton.style.display = 'none';
+  };
+  
+  document.body.appendChild(installButton);
+});
+
+window.addEventListener('appinstalled', () => {
+  installButton.style.display = 'none';
+});
+</script>
 
 <script type='text/javascript' src='//imbueprescriptionhumiliation.com/7b/08/4b/7b084b7f5f472bfef5d573b79273878b.js'></script>
 </body>
