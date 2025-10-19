@@ -364,7 +364,63 @@ if (manifestLink) {
     .catch(error => console.log('Erreur manifest:', error));
 }
 </script>
+<script>
+// Diagnostic PWA complet
+console.log('=== DIAGNOSTIC PWA ===');
 
+// 1. Vérifications de base
+console.log('Service Worker support:', 'serviceWorker' in navigator);
+console.log('HTTPS:', window.location.protocol === 'https:');
+console.log('Display mode:', window.matchMedia('(display-mode: standalone)').matches);
+
+// 2. Vérification du Manifest
+const manifestLink = document.querySelector('link[rel="manifest"]');
+console.log('Lien manifest trouvé:', !!manifestLink);
+if (manifestLink) {
+    console.log('URL manifest:', manifestLink.href);
+    fetch(manifestLink.href)
+        .then(response => {
+            console.log('Statut HTTP manifest:', response.status);
+            return response.json();
+        })
+        .then(manifest => console.log('Contenu manifest:', manifest))
+        .catch(error => console.log('Erreur fetch manifest:', error));
+}
+
+// 3. Test Service Worker
+if ('serviceWorker' in navigator) {
+    // Test les deux chemins
+    const testPaths = ['/sw.js', './sw.js'];
+    
+    testPaths.forEach(path => {
+        fetch(path)
+            .then(response => {
+                console.log(`SW ${path} - Statut:`, response.status);
+            })
+            .catch(error => {
+                console.log(`SW ${path} - Erreur:`, error.message);
+            });
+    });
+
+    // Tentative d'enregistrement
+    setTimeout(() => {
+        console.log('Tentative enregistrement SW...');
+        navigator.serviceWorker.register('/sw.js')
+            .then(registration => {
+                console.log('✅ SW enregistré avec succès!');
+                console.log('Scope:', registration.scope);
+                console.log('State:', registration.installing?.state || 'unknown');
+            })
+            .catch(error => {
+                console.log('❌ Erreur enregistrement SW:', error);
+                console.log('Message:', error.message);
+                console.log('Stack:', error.stack);
+            });
+    }, 1000);
+}
+
+console.log('=== FIN DIAGNOSTIC ===');
+</script>
 <script type='text/javascript' src='//imbueprescriptionhumiliation.com/7b/08/4b/7b084b7f5f472bfef5d573b79273878b.js'></script>
 </body>
 </html>
