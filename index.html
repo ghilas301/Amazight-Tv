@@ -10,7 +10,6 @@
   <meta property="og:description" content="Films et courts métrages Kabyles en HD. Pucci, Qezbul et bien d'autres.">
   <meta property="og:type" content="website">
   <meta property="og:image" content="/images/og-image.jpg">
-
   
   <link rel="stylesheet" href="style.css">
   <!-- Favicon navigateur -->
@@ -79,29 +78,6 @@
       }
     }
   </style>
-
-  <!-- PWA Configuration -->
-<meta name="theme-color" content="#e50914">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="Amazigh TV">
-<link rel="manifest" href="manifest.json">
-<link rel="apple-touch-icon" href="images/logo-180.png">
-
-<!-- Service Worker -->
-<script>
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', function() {
-    navigator.serviceWorker.register('/sw.js')
-      .then(function(registration) {
-        console.log('PWA activée !');
-      })
-      .catch(function(error) {
-        console.log('PWA échec: ', error);
-      });
-  });
-}
-</script>
 </head>
 <body>
 
@@ -288,139 +264,6 @@ if ('serviceWorker' in navigator) {
 
 <script src="script.js"></script>
 
-<script>
-let installPrompt = null;
-const installButton = document.createElement('button');
-
-// Vérifier si l'app est déjà installée
-if (window.matchMedia('(display-mode: standalone)').matches) {
-  console.log('App déjà installée');
-} else {
-  window.addEventListener('beforeinstallprompt', (event) => {
-    event.preventDefault();
-    installPrompt = event;
-    
-    installButton.innerHTML = '📱 Installer l\'App';
-    installButton.style.cssText = `
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      padding: 12px 18px;
-      background: #e50914;
-      color: white;
-      border: none;
-      border-radius: 25px;
-      cursor: pointer;
-      z-index: 1000;
-      font-weight: bold;
-      box-shadow: 0 4px 12px rgba(229, 9, 20, 0.3);
-      font-size: 14px;
-      font-family: 'Inter', sans-serif;
-    `;
-    
-    installButton.onclick = async () => {
-      if (!installPrompt) return;
-      const result = await installPrompt.prompt();
-      console.log('Résultat installation:', result);
-      installButton.style.display = 'none';
-      installPrompt = null;
-    };
-    
-    document.body.appendChild(installButton);
-  });
-}
-
-window.addEventListener('appinstalled', (event) => {
-  console.log('App installée avec succès!');
-  installButton.style.display = 'none';
-  installPrompt = null;
-});
-
-// Vérification PWA
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', function() {
-    navigator.serviceWorker.register('./sw.js')
-      .then(function(registration) {
-        console.log('PWA activée! Scope:', registration.scope);
-      })
-      .catch(function(error) {
-        console.log('PWA échec:', error);
-      });
-  });
-}
-</script>
-
-<script>
-// Debug PWA
-console.log('Service Worker support:', 'serviceWorker' in navigator);
-console.log('Display mode:', window.matchMedia('(display-mode: standalone)').matches);
-
-// Vérifier le manifest
-const manifestLink = document.querySelector('link[rel="manifest"]');
-if (manifestLink) {
-  fetch(manifestLink.href)
-    .then(response => response.json())
-    .then(manifest => console.log('Manifest chargé:', manifest))
-    .catch(error => console.log('Erreur manifest:', error));
-}
-</script>
-<script>
-// Diagnostic PWA complet
-console.log('=== DIAGNOSTIC PWA ===');
-
-// 1. Vérifications de base
-console.log('Service Worker support:', 'serviceWorker' in navigator);
-console.log('HTTPS:', window.location.protocol === 'https:');
-console.log('Display mode:', window.matchMedia('(display-mode: standalone)').matches);
-
-// 2. Vérification du Manifest
-const manifestLink = document.querySelector('link[rel="manifest"]');
-console.log('Lien manifest trouvé:', !!manifestLink);
-if (manifestLink) {
-    console.log('URL manifest:', manifestLink.href);
-    fetch(manifestLink.href)
-        .then(response => {
-            console.log('Statut HTTP manifest:', response.status);
-            return response.json();
-        })
-        .then(manifest => console.log('Contenu manifest:', manifest))
-        .catch(error => console.log('Erreur fetch manifest:', error));
-}
-
-// 3. Test Service Worker
-if ('serviceWorker' in navigator) {
-    // Test les deux chemins
-    const testPaths = ['/sw.js', './sw.js'];
-    
-    testPaths.forEach(path => {
-        fetch(path)
-            .then(response => {
-                console.log(`SW ${path} - Statut:`, response.status);
-            })
-            .catch(error => {
-                console.log(`SW ${path} - Erreur:`, error.message);
-            });
-    });
-
-    // Tentative d'enregistrement
-    setTimeout(() => {
-        console.log('Tentative enregistrement SW...');
-        navigator.serviceWorker.register('/sw.js')
-            .then(registration => {
-                console.log('✅ SW enregistré avec succès!');
-                console.log('Scope:', registration.scope);
-                console.log('State:', registration.installing?.state || 'unknown');
-            })
-            .catch(error => {
-                console.log('❌ Erreur enregistrement SW:', error);
-                console.log('Message:', error.message);
-                console.log('Stack:', error.stack);
-            });
-    }, 1000);
-}
-
-console.log('=== FIN DIAGNOSTIC ===');
-</script>
-<script type='text/javascript' src='//imbueprescriptionhumiliation.com/7b/08/4b/7b084b7f5f472bfef5d573b79273878b.js'></script>
+<script type='text/javascript' src='//pl27829319.effectivegatecpm.com/7b/08/4b/7b084b7f5f472bfef5d573b79273878b.js'></script>
 </body>
 </html>
