@@ -307,8 +307,7 @@
      <iframe id="video-iframe-player" 
                 loading="lazy" 
                 decoding="async"
-                referrerpolicy="no-referrer-when-downgrade"
-                sandbox="allow-scripts allow-same-origin allow-presentation"
+               
                 src="" 
                 allow="autoplay; fullscreen" 
                 allowfullscreen 
@@ -384,104 +383,100 @@
 <script>
 document.addEventListener('DOMContentLoaded', () => {
 
-    // ----------------------------------------------------
-    // --- LIENS CONFIRMÉS POUR CREK 1 (à changer pour les autres films) ---
-    // ----------------------------------------------------
     const videoLinks = {
         'dood': 'https://dsvplay.com/e/ncwnm3u4qofq', 
+        // IMPORTANT : utiliser l'embed /e/ pour Streamtape
         'streamtape': 'https://streamtape.com/e/A3RwbbxeqxSXV1b' 
     };
-    // ----------------------------------------------------
-    
-    // SÉLECTEURS CORRIGÉS : utilisent maintenant les IDs -player et -loading-player
+
     const playOverlay = document.getElementById('video-play-overlay');
-    const videoLoading = document.getElementById('video-loading-player'); // ✅ ID CORRIGÉ
-    const videoIframe = document.getElementById('video-iframe-player');   // ✅ ID CORRIGÉ
+    const videoLoading = document.getElementById('video-loading-player');
+    let videoIframe = document.getElementById('video-iframe-player'); // <-- LET (réassignable)
     const playerButtons = document.querySelectorAll('.player-button');
     const playButton = document.querySelector('.hero-play-button');
-    
-    let activePlayer = 'dood'; // Le lecteur par défaut
 
-   function updateIframeSource() {
-    const link = videoLinks[activePlayer];
-    
-    // Sécurité : vérifie que le lien existe
-    if (!link) {
-        console.error(`Erreur: Le lien pour le lecteur ${activePlayer} n'est pas configuré.`);
-        videoLoading.style.display = 'none';
-        playOverlay.style.display = 'flex';
-        videoIframe.src = '';
-        alert(`Le lecteur ${activePlayer} n'a pas de lien configuré.`);
-        return;
+    let activePlayer = 'dood';
+
+    function updateIframeSource() {
+        const link = videoLinks[activePlayer];
+        if (!link) {
+            console.error(`Lien non configuré pour ${activePlayer}`);
+            videoLoading.style.display = 'none';
+            playOverlay.style.display = 'flex';
+            return;
+        }
+
+        playOverlay.style.display = 'none';
+        videoLoading.style.display = 'flex';
+
+        // Vider l'iframe existante
+        if (videoIframe) {
+            videoIframe.src = 'about:blank';
+        }
+
+        // Créer une nouvelle iframe propre
+        const newIframe = document.createElement('iframe');
+        newIframe.id = 'video-iframe-player';
+        newIframe.src = link;
+        newIframe.setAttribute('loading', 'lazy');
+        newIframe.setAttribute('decoding', 'async');
+        // retirer/refuser referrerPolicy pendant les tests ; si besoin, mettre 'origin'
+        // newIframe.referrerPolicy = 'origin';
+        newIframe.allow = 'autoplay; fullscreen; encrypted-media';
+        newIframe.allowFullscreen = true;
+        // retire sandbox si le player a besoin de plus de permissions ; test sans sandbox d'abord
+        // newIframe.sandbox = 'allow-scripts allow-same-origin allow-presentation';
+        newIframe.style.width = '100%';
+        newIframe.style.height = '100%';
+        newIframe.style.border = 'none';
+
+        const container = document.getElementById('video-iframe-player').parentNode;
+        container.replaceChild(newIframe, videoIframe);
+
+        videoIframe = newIframe; // met à jour la référence
+
+        // Timeout de secours si pas d'onload
+        const loadingTimeout = setTimeout(() => {
+            videoLoading.style.display = 'none';
+        }, 8000);
+
+        videoIframe.onload = () => {
+            clearTimeout(loadingTimeout);
+            videoLoading.style.display = 'none';
+        };
+
+        videoIframe.onerror = () => {
+            clearTimeout(loadingTimeout);
+            videoLoading.style.display = 'none';
+            alert('Lecteur bloqué ou indisponible. Essaie l\'autre lecteur.');
+        };
     }
 
-    // AFFICHER LE CHARGEMENT IMMÉDIATEMENT
-    playOverlay.style.display = 'none';
-    videoLoading.style.display = 'flex'; 
-    videoIframe.style.display = 'none';
-    
-    // ⭐⭐ NOUVEAU : DÉLAI de 1 seconde avant de charger l'iframe ⭐⭐
-    setTimeout(() => {
-        // Maintenant on charge la vidéo
-        videoIframe.src = link;
+    function switchToBackupPlayer() {
+        activePlayer = (activePlayer === 'dood' && videoLinks['streamtape']) ? 'streamtape' : 'dood';
+        playerButtons.forEach(btn => {
+            btn.classList.toggle('active', btn.dataset.playerId === activePlayer);
+        });
+        updateIframeSource();
+    }
 
-        // ⭐⭐ NOUVEAU : Timeout de sécurité (cache le loading après 3s max)
-        const loadingTimeout = setTimeout(() => {
-            videoLoading.style.display = 'none'; 
-            videoIframe.style.display = 'block';
-        }, 3000);
-
-        // Quand le lecteur est chargé (retire le chargement)
-        videoIframe.onload = () => {
-            clearTimeout(loadingTimeout); // Annule le timeout
-            videoLoading.style.display = 'none'; 
-            videoIframe.style.display = 'block'; 
-        };
-
-        // Gestion des erreurs
-        videoIframe.onerror = () => {
-            clearTimeout(loadingTimeout); // Annule le timeout
-            videoLoading.innerHTML = `
-                <i class="fas fa-exclamation-triangle"></i>
-                <p>Erreur de chargement du Lecteur ${activePlayer}</p>
-                <button onclick="location.reload()" class="cta-button">Réessayer</button>
-            `;
-        };
-        
-    }, 1000); // ⭐⭐ Délai de 1 seconde avant de commencer le chargement
-}
-
-    // Gérer le clic sur les boutons Lecteur 1 / Lecteur 2
     playerButtons.forEach(button => {
         button.addEventListener('click', function() {
-            // Changer le style "active"
             playerButtons.forEach(btn => btn.classList.remove('active'));
             this.classList.add('active');
-            
-            // Mettre à jour le lecteur actif
             activePlayer = this.dataset.playerId;
-            
-            // Recharger la vidéo uniquement si elle est déjà lancée
-            if (videoIframe.src) { 
-                updateIframeSource();
-            }
+            updateIframeSource();
         });
     });
 
-    // Gérer le clic initial sur le gros bouton Play
     function launchVideo() {
         updateIframeSource();
-
-        // Scroll vers la vidéo
-        document.querySelector('.video-section').scrollIntoView({
-            behavior: 'smooth',
-            block: 'center'
-        });
+        document.querySelector('.video-section').scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
 
-    // Attacher la fonction aux clics
     if (playButton) playButton.addEventListener('click', launchVideo);
     if (playOverlay) playOverlay.addEventListener('click', launchVideo);
+
 });
 </script>
 
