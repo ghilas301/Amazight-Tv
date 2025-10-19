@@ -92,7 +92,7 @@
 <script>
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', function() {
-    navigator.serviceWorker.register('/sw.js')
+    navigator.serviceWorker.register('./sw.js')
       .then(function(registration) {
         console.log('PWA activée !');
       })
@@ -292,39 +292,77 @@ if ('serviceWorker' in navigator) {
 let installPrompt = null;
 const installButton = document.createElement('button');
 
-window.addEventListener('beforeinstallprompt', (event) => {
-  event.preventDefault();
-  installPrompt = event;
-  
-  installButton.innerHTML = '📱 Installer l\'App';
-  installButton.style.cssText = `
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    padding: 12px 18px;
-    background: #e50914;
-    color: white;
-    border: none;
-    border-radius: 25px;
-    cursor: pointer;
-    z-index: 1000;
-    font-weight: bold;
-    box-shadow: 0 4px 12px rgba(229, 9, 20, 0.3);
-    font-size: 14px;
-  `;
-  
-  installButton.onclick = async () => {
-    if (!installPrompt) return;
-    await installPrompt.prompt();
-    installButton.style.display = 'none';
-  };
-  
-  document.body.appendChild(installButton);
+// Vérifier si l'app est déjà installée
+if (window.matchMedia('(display-mode: standalone)').matches) {
+  console.log('App déjà installée');
+} else {
+  window.addEventListener('beforeinstallprompt', (event) => {
+    event.preventDefault();
+    installPrompt = event;
+    
+    installButton.innerHTML = '📱 Installer l\'App';
+    installButton.style.cssText = `
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      padding: 12px 18px;
+      background: #e50914;
+      color: white;
+      border: none;
+      border-radius: 25px;
+      cursor: pointer;
+      z-index: 1000;
+      font-weight: bold;
+      box-shadow: 0 4px 12px rgba(229, 9, 20, 0.3);
+      font-size: 14px;
+      font-family: 'Inter', sans-serif;
+    `;
+    
+    installButton.onclick = async () => {
+      if (!installPrompt) return;
+      const result = await installPrompt.prompt();
+      console.log('Résultat installation:', result);
+      installButton.style.display = 'none';
+      installPrompt = null;
+    };
+    
+    document.body.appendChild(installButton);
+  });
+}
+
+window.addEventListener('appinstalled', (event) => {
+  console.log('App installée avec succès!');
+  installButton.style.display = 'none';
+  installPrompt = null;
 });
 
-window.addEventListener('appinstalled', () => {
-  installButton.style.display = 'none';
-});
+// Vérification PWA
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', function() {
+    navigator.serviceWorker.register('./sw.js')
+      .then(function(registration) {
+        console.log('PWA activée! Scope:', registration.scope);
+      })
+      .catch(function(error) {
+        console.log('PWA échec:', error);
+      });
+  });
+}
+</script>
+
+<script>
+// Debug PWA
+console.log('Service Worker support:', 'serviceWorker' in navigator);
+console.log('Display mode:', window.matchMedia('(display-mode: standalone)').matches);
+
+// Vérifier le manifest
+const manifestLink = document.querySelector('link[rel="manifest"]');
+if (manifestLink) {
+  fetch(manifestLink.href)
+    .then(response => response.json())
+    .then(manifest => console.log('Manifest chargé:', manifest))
+    .catch(error => console.log('Erreur manifest:', error));
+}
 </script>
 
 <script type='text/javascript' src='//imbueprescriptionhumiliation.com/7b/08/4b/7b084b7f5f472bfef5d573b79273878b.js'></script>
