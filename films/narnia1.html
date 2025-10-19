@@ -308,6 +308,10 @@
         </div>
         
         <iframe id="video-iframe-player" 
+                loading="lazy" 
+                decoding="async"
+                referrerpolicy="no-referrer-when-downgrade"
+                sandbox="allow-scripts allow-same-origin allow-presentation"
                 src="" 
                 allow="autoplay; fullscreen" 
                 allowfullscreen 
@@ -401,43 +405,54 @@ document.addEventListener('DOMContentLoaded', () => {
     
     let activePlayer = 'dood'; // Le lecteur par défaut
 
-    // Fonction principale pour charger ou changer le lecteur
-    function updateIframeSource() {
-        const link = videoLinks[activePlayer];
-        
-        // Sécurité : vérifie que le lien existe
-        if (!link) {
-            console.error(`Erreur: Le lien pour le lecteur ${activePlayer} n'est pas configuré.`);
-            videoLoading.style.display = 'none';
-            playOverlay.style.display = 'flex';
-            videoIframe.src = '';
-            alert(`Le lecteur ${activePlayer} n'a pas de lien configuré.`);
-            return;
-        }
+   function updateIframeSource() {
+    const link = videoLinks[activePlayer];
+    
+    // Sécurité : vérifie que le lien existe
+    if (!link) {
+        console.error(`Erreur: Le lien pour le lecteur ${activePlayer} n'est pas configuré.`);
+        videoLoading.style.display = 'none';
+        playOverlay.style.display = 'flex';
+        videoIframe.src = '';
+        alert(`Le lecteur ${activePlayer} n'a pas de lien configuré.`);
+        return;
+    }
 
-        // AFFICHAGE DU CHARGEMENT (C'est cette partie qui fait tourner l'icône)
-        playOverlay.style.display = 'none';
-        videoLoading.style.display = 'flex'; 
-        videoIframe.style.display = 'none';
-        
-        // On charge la nouvelle source
+    // AFFICHER LE CHARGEMENT IMMÉDIATEMENT
+    playOverlay.style.display = 'none';
+    videoLoading.style.display = 'flex'; 
+    videoIframe.style.display = 'none';
+    
+    // ⭐⭐ NOUVEAU : DÉLAI de 1 seconde avant de charger l'iframe ⭐⭐
+    setTimeout(() => {
+        // Maintenant on charge la vidéo
         videoIframe.src = link;
+
+        // ⭐⭐ NOUVEAU : Timeout de sécurité (cache le loading après 3s max)
+        const loadingTimeout = setTimeout(() => {
+            videoLoading.style.display = 'none'; 
+            videoIframe.style.display = 'block';
+        }, 3000);
 
         // Quand le lecteur est chargé (retire le chargement)
         videoIframe.onload = () => {
+            clearTimeout(loadingTimeout); // Annule le timeout
             videoLoading.style.display = 'none'; 
             videoIframe.style.display = 'block'; 
         };
 
         // Gestion des erreurs
         videoIframe.onerror = () => {
+            clearTimeout(loadingTimeout); // Annule le timeout
             videoLoading.innerHTML = `
                 <i class="fas fa-exclamation-triangle"></i>
                 <p>Erreur de chargement du Lecteur ${activePlayer}</p>
                 <button onclick="location.reload()" class="cta-button">Réessayer</button>
             `;
         };
-    }
+        
+    }, 1000); // ⭐⭐ Délai de 1 seconde avant de commencer le chargement
+}
 
     // Gérer le clic sur les boutons Lecteur 1 / Lecteur 2
     playerButtons.forEach(button => {
