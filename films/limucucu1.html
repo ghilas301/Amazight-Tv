@@ -24,7 +24,6 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-
   <script type="text/javascript" src="//ads.vidoomy.com/amazigh-tvvercelapp_26776.js" ></script>
   
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-2L50HTQ2Z6"></script>
@@ -305,36 +304,18 @@
             <i class="fas fa-play play-icon-lg"></i>
         </div>
         
-       <!-- === LECTEUR FLUIDPLAYER AVEC PUB EXOCLICK === -->
-<link rel="stylesheet" href="https://cdn.fluidplayer.com/v3/current/fluidplayer.min.css">
-<script src="https://cdn.fluidplayer.com/v3/current/fluidplayer.min.js"></script>
-
-<video id="amazighPlayer" controls preload="none" style="width:100%;border-radius:10px;">
-  <source src="https://dsvplay.com/e/ncwnm3u4qofq" type="video/mp4">
-</video>
-
-<script>
-  var amazighPlayer = fluidPlayer('amazighPlayer', {
-    layoutControls: {
-      fillToContainer: true,
-      autoPlay: false,
-      mute: false,
-      allowDownload: false,
-      controlBar: { autoHide: true, autoHideTimeout: 3 }
-    },
-    vastOptions: {
-      adList: [{
-        roll: 'preRoll',
-        vastTag: 'https://s.magsrv.com/v1/vast.php?idzone=5753860',
-        adText: 'Publicité'
-      }],
-      skipButtonCaption: 'Passer la pub en {{seconds}}s',
-      adCTAText: false
-    }
-  });
-</script>
-<!-- === FIN FLUIDPLAYER === -->
-
+         <iframe id="video-iframe-player" 
+                loading="lazy" 
+                decoding="async"
+              
+                src="" 
+                allow="autoplay; fullscreen" 
+                allowfullscreen 
+                title="Lecteur vidéo Crek 1"
+                width="100%" 
+                height="100%">
+        </iframe>
+        
         <div class="video-loading" id="video-loading-player" style="display: none;">
             <i class="fas fa-spinner fa-spin loading-pulse"></i>
             <p>Chargement de la vidéo...</p>
@@ -398,39 +379,6 @@
         <p>Cinéma Kabyle en streaming gratuit</p>
     </div>
 </footer>
-
-<link rel="stylesheet" href="https://cdn.fluidplayer.com/v3/current/fluidplayer.min.css">
-<script src="https://cdn.fluidplayer.com/v3/current/fluidplayer.min.js"></script>
-
-<video id="amazighPlayer" controls preload="none" style="width:100%;max-width:900px;">
-  <source src="https://dsvplay.com/e/ncwnm3u4qofq" type="video/mp4">
-</video>
-
-<script>
-  var amazighPlayer = fluidPlayer('amazighPlayer', {
-    layoutControls: {
-      fillToContainer: true,
-      autoPlay: false,
-      mute: false,
-      allowDownload: false,
-      controlBar: {
-        autoHide: true,
-        autoHideTimeout: 3
-      }
-    },
-    vastOptions: {
-      adList: [{
-        roll: 'preRoll',
-        vastTag: 'https://s.magsrv.com/v1/vast.php?idzone=5753860',
-        adText: 'Publicité'
-      }],
-      skipButtonCaption: 'Passer la pub en {{seconds}}s',
-      adCTAText: false,
-      adCTATextPosition: ''
-    }
-  });
-</script>
-
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
@@ -533,6 +481,5 @@ document.addEventListener('DOMContentLoaded', () => {
 </script>
 
 <script type='text/javascript' src='//pl27829319.effectivegatecpm.com/7b/08/4b/7b084b7f5f472bfef5d573b79273878b.js'></script>
-
 </body>
 </html>
