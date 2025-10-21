@@ -305,18 +305,36 @@
             <i class="fas fa-play play-icon-lg"></i>
         </div>
         
-         <iframe id="video-iframe-player" 
-                loading="lazy" 
-                decoding="async"
-              
-                src="" 
-                allow="autoplay; fullscreen" 
-                allowfullscreen 
-                title="Lecteur vidéo Crek 1"
-                width="100%" 
-                height="100%">
-        </iframe>
-        
+       <!-- === LECTEUR FLUIDPLAYER AVEC PUB EXOCLICK === -->
+<link rel="stylesheet" href="https://cdn.fluidplayer.com/v3/current/fluidplayer.min.css">
+<script src="https://cdn.fluidplayer.com/v3/current/fluidplayer.min.js"></script>
+
+<video id="amazighPlayer" controls preload="none" style="width:100%;border-radius:10px;">
+  <source src="https://dsvplay.com/e/ncwnm3u4qofq" type="video/mp4">
+</video>
+
+<script>
+  var amazighPlayer = fluidPlayer('amazighPlayer', {
+    layoutControls: {
+      fillToContainer: true,
+      autoPlay: false,
+      mute: false,
+      allowDownload: false,
+      controlBar: { autoHide: true, autoHideTimeout: 3 }
+    },
+    vastOptions: {
+      adList: [{
+        roll: 'preRoll',
+        vastTag: 'https://s.magsrv.com/v1/vast.php?idzone=5753860',
+        adText: 'Publicité'
+      }],
+      skipButtonCaption: 'Passer la pub en {{seconds}}s',
+      adCTAText: false
+    }
+  });
+</script>
+<!-- === FIN FLUIDPLAYER === -->
+
         <div class="video-loading" id="video-loading-player" style="display: none;">
             <i class="fas fa-spinner fa-spin loading-pulse"></i>
             <p>Chargement de la vidéo...</p>
@@ -380,6 +398,39 @@
         <p>Cinéma Kabyle en streaming gratuit</p>
     </div>
 </footer>
+
+<link rel="stylesheet" href="https://cdn.fluidplayer.com/v3/current/fluidplayer.min.css">
+<script src="https://cdn.fluidplayer.com/v3/current/fluidplayer.min.js"></script>
+
+<video id="amazighPlayer" controls preload="none" style="width:100%;max-width:900px;">
+  <source src="https://dsvplay.com/e/ncwnm3u4qofq" type="video/mp4">
+</video>
+
+<script>
+  var amazighPlayer = fluidPlayer('amazighPlayer', {
+    layoutControls: {
+      fillToContainer: true,
+      autoPlay: false,
+      mute: false,
+      allowDownload: false,
+      controlBar: {
+        autoHide: true,
+        autoHideTimeout: 3
+      }
+    },
+    vastOptions: {
+      adList: [{
+        roll: 'preRoll',
+        vastTag: 'https://s.magsrv.com/v1/vast.php?idzone=5753860',
+        adText: 'Publicité'
+      }],
+      skipButtonCaption: 'Passer la pub en {{seconds}}s',
+      adCTAText: false,
+      adCTATextPosition: ''
+    }
+  });
+</script>
+
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
@@ -482,59 +533,6 @@ document.addEventListener('DOMContentLoaded', () => {
 </script>
 
 <script type='text/javascript' src='//pl27829319.effectivegatecpm.com/7b/08/4b/7b084b7f5f472bfef5d573b79273878b.js'></script>
-<script>
-document.addEventListener('DOMContentLoaded', () => {
-  const adContainer = document.createElement('div');
-  adContainer.id = 'pre-roll-ad';
-  adContainer.style.position = 'fixed';
-  adContainer.style.top = 0;
-  adContainer.style.left = 0;
-  adContainer.style.width = '100vw';
-  adContainer.style.height = '100vh';
-  adContainer.style.background = '#000';
-  adContainer.style.display = 'flex';
-  adContainer.style.alignItems = 'center';
-  adContainer.style.justifyContent = 'center';
-  adContainer.style.zIndex = 9999;
-  adContainer.innerHTML = `
-    <video id="adVideo" autoplay playsinline muted style="width:100%;height:100%;object-fit:contain;background:#000;"></video>
-    <div id="adTimer" style="position:absolute;bottom:20px;right:30px;color:#fff;font-size:18px;font-weight:bold;">Pub...</div>
-  `;
-  document.body.appendChild(adContainer);
-
-  // Charger la pub VAST ExoClick
-  const vastURL = "https://s.magsrv.com/v1/vast.php?idzone=5753860";
-  const video = document.getElementById('adVideo');
-  const timer = document.getElementById('adTimer');
-
-  // Sécurité : durée max pub (10 s)
-  let remaining = 10;
-  const countdown = setInterval(() => {
-    remaining--;
-    timer.textContent = `Le film commence dans ${remaining}s`;
-    if (remaining <= 0) {
-      clearInterval(countdown);
-      endAd();
-    }
-  }, 1000);
-
-  // Fallback si la pub ne charge pas
-  const adTimeout = setTimeout(endAd, 10000);
-
-  function endAd() {
-    clearInterval(countdown);
-    clearTimeout(adTimeout);
-    adContainer.remove();
-
-    // Déclenche la lecture du film
-    const playButton = document.querySelector('.hero-play-button');
-    if (playButton) playButton.click();
-  }
-
-  // Optionnel : tu peux aussi charger ta pub VAST dans un <video> compatible
-  // mais ExoClick gère souvent ça côté player
-});
-</script>
 
 </body>
 </html>
