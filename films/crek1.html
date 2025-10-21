@@ -18,6 +18,9 @@
 
   <link rel="canonical" href="https://amazigh-tv.vercel.app/films/crek1.html">
   <link rel="stylesheet" href="../style.css">
+  
+  <link href="https://vjs.zencdn.net/8.10.0/video-js.css" rel="stylesheet" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/videojs-ima/2.1.0/videojs.ima.css" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1yOQ/Lp02H1lq1+8YcR/Wk80zL0c/s11D4n5bJkU5l0O7tY5U/PzG0h1O1h5zO7Wk5vA7r5/j4g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="icon" type="image/png" sizes="32x32" href="../images/logo-32.png">
   <link rel="apple-touch-icon" sizes="180x180" href="../images/logo-180.png">
@@ -38,6 +41,8 @@
   </script>
 
   <style>
+    /* ... (tous vos styles existants de .film-page-hero, etc. restent ici) ... */
+    
     .film-page-hero {
         position: relative; 
         min-height: 60vh;
@@ -119,8 +124,6 @@
         padding-left: 15px;
         color: #ffffff;
     }
-
-    /* Bouton hero SIMPLE et FONCTIONNEL */
     .hero-play-button {
         padding: 15px 35px;
         border-radius: 8px;
@@ -150,8 +153,6 @@
         color: #e50914; 
         margin-right: 12px; 
     }
-
-    /* Overlay vidéo */
     #video-play-overlay {
         position: absolute;
         top: 0;
@@ -175,13 +176,10 @@
         color: var(--color-primary);
         text-shadow: 0 0 20px rgba(0,0,0,0.5);
     }
-
-    /* Section films suggérés */
     .suggested-films {
         background: var(--color-background);
         padding: 50px 40px;
     }
-
     @media (max-width: 768px) {
         .film-page-hero { 
             padding: 100px 20px 40px; 
@@ -230,7 +228,6 @@
             gap: 15px;
         }
     }
-
     @media (max-width: 480px) {
         .film-info-main h1 { 
             font-size: 2.5em; 
@@ -246,13 +243,36 @@
             padding: 12px 24px; 
         }
     }
-
     .video-section {
       padding-bottom: 40px;
     }
-
     .film-list-section {
       margin-top: 0;
+    }
+
+    /* === NOUVEAUX STYLES POUR LA PUB === */
+
+    /* Conteneur pour le lecteur de pub Video.js */
+    #ad-player-container {
+        position: relative;
+        width: 100%;
+        /* Calcule le ratio 16:9 (9 / 16 * 100 = 56.25%) */
+        padding-top: 56.25%; 
+        background-color: #000;
+        display: none; /* Caché par défaut */
+    }
+
+    #ad-player {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+    }
+
+    /* Le conteneur du film est maintenant caché par défaut */
+    #film-player-container {
+        display: none; /* Caché par défaut, sera montré après la pub */
     }
   </style>
 </head>
@@ -286,15 +306,16 @@
                 <span><i class="fas fa-eye"></i> HD</span>
             </div>
             <p class="description">Crek, un ogre solitaire, voit son marais envahi par des créatures féeriques exilées par le tyrannique Farqou3a. Pour récupérer son calme, il accepte de sauver la princesse Selyuna, promise à Farqou3a. Mais au fil de l’aventure, Crek découvre l’amitié, l’amour et que la véritable beauté vient de l’intérieur.</p>
-            <button class="hero-play-button" data-video-id="video-crek1">
+            <button class="hero-play-button">
                 <i class="fas fa-play play-icon"></i> LANCER LE FILM
             </button>
         </div>
     </div>
   </section>
 
-<section class="video-section">
-    <h3>Regarder Crek 1 en Streaming HD</h3> <div class="player-selector" id="player-selector">
+<section class="video-section" id="player-section">
+    <h3>Regarder Crek 1 en Streaming HD</h3> 
+    <div class="player-selector" id="player-selector">
         <button class="player-button active" data-player-id="dood">
             <i class="fas fa-video"></i> Lecteur 1 (Dood)
         </button>
@@ -302,7 +323,13 @@
             <i class="fas fa-video"></i> Lecteur 2 (Streamtape)
         </button>
     </div>
-    <div class="video-responsive-container">
+
+    <div id="ad-player-container">
+        <video id="ad-player" class="video-js vjs-default-skin" playsinline controls preload="auto" width="640" height="360">
+            </video>
+    </div>
+
+    <div class="video-responsive-container" id="film-player-container">
         <div class="video-play-overlay" id="video-play-overlay">
             <i class="fas fa-play play-icon-lg"></i>
         </div>
@@ -310,7 +337,6 @@
          <iframe id="video-iframe-player" 
                 loading="lazy" 
                 decoding="async"
-
                 src="" 
                 allow="autoplay; fullscreen" 
                 allowfullscreen 
@@ -355,7 +381,6 @@
     </div>
   </section>
 
-  <!-- Structured Data for SEO -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -383,103 +408,188 @@
     </div>
 </footer>
 
+<script src="https://vjs.zencdn.net/8.10.0/video.min.js"></script>
+<script src="//imasdk.googleapis.com/js/sdkloader/ima3.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/videojs-ima/2.1.0/videojs.ima.min.js"></script>
 <script>
 document.addEventListener('DOMContentLoaded', () => {
 
+    // === URL DE VOTRE PUBLICITÉ ===
+    const VAST_AD_TAG_URL = 'https://s.magsrv.com/v1/vast.php?idzone=5753860';
+
+    // === LIENS DES LECTEURS DE FILM ===
     const videoLinks = {
         'dood': 'https://dsvplay.com/e/2mi71p1yjehy', 
-        // IMPORTANT : utiliser l'embed /e/ pour Streamtape
         'streamtape': 'https://streamtape.com/e/P9avZje4apT0apz' 
     };
 
+    // === ÉLÉMENTS DU DOM ===
+    const adPlayerContainer = document.getElementById('ad-player-container');
+    const filmPlayerContainer = document.getElementById('film-player-container');
     const playOverlay = document.getElementById('video-play-overlay');
     const videoLoading = document.getElementById('video-loading-player');
-    let videoIframe = document.getElementById('video-iframe-player'); // <-- LET (réassignable)
+    let videoIframe = document.getElementById('video-iframe-player');
     const playerButtons = document.querySelectorAll('.player-button');
     const playButton = document.querySelector('.hero-play-button');
 
-    let activePlayer = 'dood';
+    let activePlayerId = 'dood'; // Lecteur par défaut
+    let adPlayer; // Référence au lecteur de pub
+    let adPlayed = false; // Pour s'assurer que la pub ne joue qu'une fois
 
-    function updateIframeSource() {
-        const link = videoLinks[activePlayer];
+    // === FONCTIONS ===
+
+    /**
+     * 1. PRÉ-CHARGE LE LECTEUR DE FILM (IFRAME)
+     * Cette fonction prépare l'iframe du film en arrière-plan pendant que la pub est demandée.
+     * Elle ne l'affiche PAS.
+     */
+    function preloadFilm(link) {
         if (!link) {
-            console.error(`Lien non configuré pour ${activePlayer}`);
-            videoLoading.style.display = 'none';
-            playOverlay.style.display = 'flex';
+            console.error(`Lien non configuré pour ${activePlayerId}`);
             return;
         }
 
         playOverlay.style.display = 'none';
         videoLoading.style.display = 'flex';
 
-        // Vider l'iframe existante
-        if (videoIframe) {
-            videoIframe.src = 'about:blank';
-        }
-
-        // Créer une nouvelle iframe propre
+        // Crée une nouvelle iframe pour forcer le rechargement
         const newIframe = document.createElement('iframe');
         newIframe.id = 'video-iframe-player';
         newIframe.src = link;
         newIframe.setAttribute('loading', 'lazy');
         newIframe.setAttribute('decoding', 'async');
-        // retirer/refuser referrerPolicy pendant les tests ; si besoin, mettre 'origin'
-        // newIframe.referrerPolicy = 'origin';
         newIframe.allow = 'autoplay; fullscreen; encrypted-media';
         newIframe.allowFullscreen = true;
-        // retire sandbox si le player a besoin de plus de permissions ; test sans sandbox d'abord
-        // newIframe.sandbox = 'allow-scripts allow-same-origin allow-presentation';
         newIframe.style.width = '100%';
         newIframe.style.height = '100%';
         newIframe.style.border = 'none';
 
-        const container = document.getElementById('video-iframe-player').parentNode;
+        const container = videoIframe.parentNode;
         container.replaceChild(newIframe, videoIframe);
-
-        videoIframe = newIframe; // met à jour la référence
-
-        // Timeout de secours si pas d'onload
-        const loadingTimeout = setTimeout(() => {
-            videoLoading.style.display = 'none';
-        }, 8000);
+        videoIframe = newIframe; // Met à jour la référence
 
         videoIframe.onload = () => {
-            clearTimeout(loadingTimeout);
             videoLoading.style.display = 'none';
-        };
-
-        videoIframe.onerror = () => {
-            clearTimeout(loadingTimeout);
-            videoLoading.style.display = 'none';
-            alert('Lecteur bloqué ou indisponible. Essaie l\'autre lecteur.');
         };
     }
 
-    function switchToBackupPlayer() {
-        activePlayer = (activePlayer === 'dood' && videoLinks['streamtape']) ? 'streamtape' : 'dood';
-        playerButtons.forEach(btn => {
-            btn.classList.toggle('active', btn.dataset.playerId === activePlayer);
+    /**
+     * 2. AFFICHE LE LECTEUR DE FILM
+     * Appelée après la fin de la pub (ou en cas d'erreur).
+     */
+    function showFilmPlayer() {
+        adPlayerContainer.style.display = 'none';
+        filmPlayerContainer.style.display = 'block';
+
+        // Détruit le lecteur de pub pour libérer la mémoire
+        if (adPlayer) {
+            adPlayer.dispose();
+            adPlayer = null;
+        }
+        
+        // Fait défiler jusqu'au lecteur
+        document.getElementById('player-section').scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+
+    /**
+     * 3. JOUE LA PUBLICITÉ
+     * Initialise Video.js et le plugin IMA pour jouer la pub VAST.
+     */
+    function playAdFirst(filmUrlToPreload) {
+        if (adPlayed) {
+            showFilmPlayer();
+            return;
+        }
+        
+        adPlayed = true; // Marque comme joué
+
+        // Prépare le film en arrière-plan
+        preloadFilm(filmUrlToPreload);
+
+        // Affiche le conteneur de la pub
+        adPlayerContainer.style.display = 'block';
+        filmPlayerContainer.style.display = 'none';
+
+        // Configure le lecteur de pub
+        const playerOptions = {
+            controls: true,
+            autoplay: true, // L'autoplay est nécessaire pour le pre-roll
+            muted: true, // Souvent requis par les navigateurs pour l'autoplay
+            width: 640,
+            height: 360
+        };
+
+        adPlayer = videojs('ad-player', playerOptions);
+
+        // Configure le plugin IMA
+        const imaOptions = {
+            adTagUrl: VAST_AD_TAG_URL,
+            // debug: true // Décommentez pour voir les logs de Google IMA
+        };
+
+        adPlayer.ima(imaOptions);
+
+        // --- GESTION DES ÉVÉNEMENTS DE PUB ---
+
+        // Cas 1: La pub se termine normalement
+        adPlayer.on('ima:allAdsCompleted', () => {
+            console.log('Pub terminée');
+            showFilmPlayer();
         });
-        updateIframeSource();
+
+        // Cas 2: La pub est ignorée (si skippable)
+        adPlayer.on('ima:contentResumeRequested', () => {
+            console.log('Pub ignorée');
+            showFilmPlayer();
+        });
+
+        // Cas 3: Erreur de pub (ex: pas de pub dispo, adblocker)
+        adPlayer.on('ima:adError', (err) => {
+            console.warn('Erreur de pub, affichage du film.', err);
+            showFilmPlayer();
+        });
+        
+        adPlayer.on('adserror', (err) => {
+            console.warn('Erreur ADS, affichage du film.', err);
+            showFilmPlayer();
+        });
+        
+        // Déclenche la demande de pub
+        // adPlayer.ima.requestAds(); // Est souvent automatique avec l'init
+        adPlayer.play();
     }
 
+    /**
+     * 4. POINT D'ENTRÉE QUAND L'UTILISATEUR CLIQUE SUR "PLAY"
+     */
+    function onPlayClicked() {
+        // Récupère l'URL du film à partir du bouton actif
+        const filmUrl = videoLinks[activePlayerId];
+        playAdFirst(filmUrl);
+    }
+
+    // === ÉCOUTEURS D'ÉVÉNEMENTS ===
+
+    // Gère le changement de lecteur (Dood/Streamtape)
     playerButtons.forEach(button => {
         button.addEventListener('click', function() {
             playerButtons.forEach(btn => btn.classList.remove('active'));
             this.classList.add('active');
-            activePlayer = this.dataset.playerId;
-            updateIframeSource();
+            activePlayerId = this.dataset.playerId;
+            // Si la pub a déjà été jouée, on change directement le lecteur
+            if (adPlayed) {
+                preloadFilm(videoLinks[activePlayerId]);
+            }
         });
     });
 
-    function launchVideo() {
-        updateIframeSource();
-        document.querySelector('.video-section').scrollIntoView({ behavior: 'smooth', block: 'center' });
+    // Attache la fonction de lecture aux deux boutons "Play"
+    if (playButton) {
+        playButton.addEventListener('click', onPlayClicked);
     }
-
-    if (playButton) playButton.addEventListener('click', launchVideo);
-    if (playOverlay) playOverlay.addEventListener('click', launchVideo);
-
+    if (playOverlay) {
+        playOverlay.addEventListener('click', onPlayClicked);
+    }
 });
 </script>
 

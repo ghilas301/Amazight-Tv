@@ -26,6 +26,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <script type="text/javascript" src="//ads.vidoomy.com/amazigh-tvvercelapp_26776.js" ></script>
   
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-2L50HTQ2Z6"></script>
   <script>
@@ -481,60 +482,6 @@ document.addEventListener('DOMContentLoaded', () => {
 </script>
 
 <script type='text/javascript' src='//pl27829319.effectivegatecpm.com/7b/08/4b/7b084b7f5f472bfef5d573b79273878b.js'></script>
-
-<script>
-document.addEventListener('DOMContentLoaded', () => {
-  const adContainer = document.createElement('div');
-  adContainer.id = 'pre-roll-ad';
-  adContainer.style.position = 'fixed';
-  adContainer.style.top = 0;
-  adContainer.style.left = 0;
-  adContainer.style.width = '100vw';
-  adContainer.style.height = '100vh';
-  adContainer.style.background = '#000';
-  adContainer.style.display = 'flex';
-  adContainer.style.alignItems = 'center';
-  adContainer.style.justifyContent = 'center';
-  adContainer.style.zIndex = 9999;
-  adContainer.innerHTML = `
-    <video id="adVideo" autoplay playsinline muted style="width:100%;height:100%;object-fit:contain;background:#000;"></video>
-    <div id="adTimer" style="position:absolute;bottom:20px;right:30px;color:#fff;font-size:18px;font-weight:bold;">Pub...</div>
-  `;
-  document.body.appendChild(adContainer);
-
-  // Charger la pub VAST ExoClick
-  const vastURL = "https://s.magsrv.com/v1/vast.php?idzone=5753860";
-  const video = document.getElementById('adVideo');
-  const timer = document.getElementById('adTimer');
-
-  // Sécurité : durée max pub (10 s)
-  let remaining = 10;
-  const countdown = setInterval(() => {
-    remaining--;
-    timer.textContent = `Le film commence dans ${remaining}s`;
-    if (remaining <= 0) {
-      clearInterval(countdown);
-      endAd();
-    }
-  }, 1000);
-
-  // Fallback si la pub ne charge pas
-  const adTimeout = setTimeout(endAd, 10000);
-
-  function endAd() {
-    clearInterval(countdown);
-    clearTimeout(adTimeout);
-    adContainer.remove();
-
-    // Déclenche la lecture du film
-    const playButton = document.querySelector('.hero-play-button');
-    if (playButton) playButton.click();
-  }
-
-  // Optionnel : tu peux aussi charger ta pub VAST dans un <video> compatible
-  // mais ExoClick gère souvent ça côté player
-});
-</script>
 
 </body>
 </html>
