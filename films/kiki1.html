@@ -427,7 +427,7 @@ document.addEventListener('DOMContentLoaded', () => {
         newIframe.allow = 'autoplay; fullscreen; encrypted-media';
         newIframe.allowFullscreen = true;
         // retire sandbox si le player a besoin de plus de permissions ; test sans sandbox d'abord
-        newIframe.sandbox = 'allow-scripts allow-same-origin allow-fullscreen allow-presentation';
+        
         // newIframe.sandbox = 'allow-scripts allow-same-origin allow-presentation';
         newIframe.style.width = '100%';
         newIframe.style.height = '100%';
