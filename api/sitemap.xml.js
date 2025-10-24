@@ -1,0 +1,87 @@
+export default function handler(req, res) {
+  res.setHeader('Content-Type', 'application/xml');
+  
+  const xmlContent = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+   <url>
+      <loc>https://amazigh-tv.vercel.app/</loc>
+      <lastmod>2025-01-25</lastmod>
+      <changefreq>daily</changefreq>
+      <priority>1.0</priority>
+   </url>
+   <url>
+      <loc>https://amazigh-tv.vercel.app/films.html</loc>
+      <lastmod>2025-01-25</lastmod>
+      <changefreq>weekly</changefreq>
+      <priority>0.9</priority>
+   </url>
+   <url>
+      <loc>https://amazigh-tv.vercel.app/contact.html</loc>
+      <lastmod>2025-01-25</lastmod>
+      <changefreq>monthly</changefreq>
+      <priority>0.5</priority>
+   </url>
+   <url>
+      <loc>https://amazigh-tv.vercel.app/films/limucucu1.html</loc>
+      <lastmod>2025-01-25</lastmod>
+      <changefreq>monthly</changefreq>
+      <priority>0.8</priority>
+   </url>
+   <url>
+      <loc>https://amazigh-tv.vercel.app/films/qezbul1.html</loc>
+      <lastmod>2025-01-25</lastmod>
+      <changefreq>monthly</changefreq>
+      <priority>0.8</priority>
+   </url>
+   <url>
+      <loc>https://amazigh-tv.vercel.app/films/pucci1.html</loc>
+      <lastmod>2025-01-25</lastmod>
+      <changefreq>monthly</changefreq>
+      <priority>0.8</priority>
+   </url>
+   <url>
+      <loc>https://amazigh-tv.vercel.app/films/pucci2.html</loc>
+      <lastmod>2025-01-25</lastmod>
+      <changefreq>monthly</changefreq>
+      <priority>0.8</priority>
+   </url>
+   <url>
+      <loc>https://amazigh-tv.vercel.app/films/pucci4.html</loc>
+      <lastmod>2025-01-25</lastmod>
+      <changefreq>monthly</changefreq>
+      <priority>0.8</priority>
+   </url>
+   <url>
+      <loc>https://amazigh-tv.vercel.app/films/narnia1.html</loc>
+      <lastmod>2025-01-25</lastmod>
+      <changefreq>monthly</changefreq>
+      <priority>0.8</priority>
+   </url>
+   <url>
+      <loc>https://amazigh-tv.vercel.app/films/narnia2.html</loc>
+      <lastmod>2025-01-25</lastmod>
+      <changefreq>monthly</changefreq>
+      <priority>0.8</priority>
+   </url>
+   <url>
+      <loc>https://amazigh-tv.vercel.app/films/crek1.html</loc>
+      <lastmod>2025-01-25</lastmod>
+      <changefreq>monthly</changefreq>
+      <priority>0.8</priority>
+   </url>
+   <url>
+      <loc>https://amazigh-tv.vercel.app/films/kiki1.html</loc>
+      <lastmod>2025-01-25</lastmod>
+      <changefreq>monthly</changefreq>
+      <priority>0.8</priority>
+   </url>
+   <url>
+      <loc>https://amazigh-tv.vercel.app/films/qiqi1.html</loc>
+      <lastmod>2025-01-25</lastmod>
+      <changefreq>monthly</changefreq>
+      <priority>0.8</priority>
+   </url>
+</urlset>`;
+
+  res.send(xmlContent);
+}
