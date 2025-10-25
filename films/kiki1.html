@@ -2,43 +2,24 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <title>Test VAST - ExoClick vs Google</title>
+  <title>Test brut du flux VAST</title>
   <style>
-    body { background:#111; color:#fff; font-family:sans-serif; text-align:center; padding:40px; }
-    iframe { width:640px; height:360px; border:none; margin:20px auto; display:block; background:#000; }
-    button { background:#e50914; border:none; color:#fff; padding:12px 25px; border-radius:8px; cursor:pointer; font-size:16px; }
-    h2 { margin-top:40px; }
+    body { font-family: monospace; background: #111; color: #0f0; padding: 20px; white-space: pre-wrap; }
   </style>
 </head>
 <body>
+  <h2>Résultat brut du flux VAST :</h2>
+  <div id="result">Chargement...</div>
 
-  <h1>🎬 Test VAST Player</h1>
-
-  <h2>➡️ Test Google (pub de test, doit fonctionner)</h2>
-  <video id="videoGoogle" width="640" height="360" controls autoplay muted></video>
-
-  <h2>➡️ Test ExoClick (ta zone VAST)</h2>
-  <video id="videoExo" width="640" height="360" controls autoplay muted></video>
-
-  <script src="https://cdn.jsdelivr.net/npm/vast-player@1.2.3/dist/vast-player.min.js"></script>
   <script>
-    // --- Player test Google ---
-    const googleVAST = "https://pubads.g.doubleclick.net/gampad/ads?sz=640x480&iu=/124319096/external/ad_rule_samples&ciu_szs=300x250,728x90&ad_rule=1&impl=s&gdfp_req=1&env=vp&output=vast&unviewed_position_start=1&cust_params=deployment%3Ddevsite%26sample_ct%3Dlinear&correlator=123456";
-    const exoVAST = "https://s.magsrv.com/v1/vast.php?idzone=5756872";
-
-    async function playVAST(url, videoElement) {
-      try {
-        const player = new VASTPlayer(videoElement);
-        await player.load(url);
-        await player.startAd();
-        console.log("✅ Pub lancée :", url);
-      } catch (err) {
-        console.error("❌ Erreur VAST :", err);
-      }
-    }
-
-    playVAST(googleVAST, document.getElementById("videoGoogle"));
-    playVAST(exoVAST, document.getElementById("videoExo"));
+    fetch("https://s.magsrv.com/v1/vast.php?idzone=5756872")
+      .then(response => response.text())
+      .then(text => {
+        document.getElementById("result").textContent = text;
+      })
+      .catch(err => {
+        document.getElementById("result").textContent = "Erreur de chargement : " + err;
+      });
   </script>
 </body>
 </html>
