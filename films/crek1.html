@@ -324,6 +324,15 @@
         </div>
     </div>
 </section>
+
+
+
+<!-- Bloc Native Ads Adsterra -->
+<div style="text-align:center; margin:30px 0;">
+  <script async type="text/javascript" src="//YOUR_NATIVE_BANNER_CODE.js"></script>
+</div>
+
+
   
   <section class="film-list-section suggested-films">
     <h3>Films Kabyles Similaires</h3>
@@ -483,6 +492,44 @@ document.addEventListener('DOMContentLoaded', () => {
 </script>
 
 <script type='text/javascript' src='//imbueprescriptionhumiliation.com/a0/de/52/a0de529083a01b3b72e7e46c528c84ef.js'></script>
+
+<script type="text/javascript" src="//YOUR_SOCIALBAR_CODE.js"></script>
+
+<!-- === ADSTERRA SMARTLINK SCRIPT === -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const playButton = document.querySelector('.hero-play-button');
+    const SMARTLINK_URL = 'https://www.adsterralink.com/your_smartlink_id'; // 🔥 remplace par ton lien Adsterra
+    
+    function launchVideo() {
+        try {
+            // Lance la vidéo principale (si ton site a une fonction existante)
+            if (typeof updateIframeSource === 'function') {
+                updateIframeSource();
+            }
+
+            // Ouvre ton lien Adsterra dans un nouvel onglet
+            window.open(SMARTLINK_URL, '_blank');
+
+            // Fait défiler la page jusqu’à la vidéo
+            const videoSection = document.querySelector('.video-section');
+            if (videoSection) {
+                videoSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        } catch (err) {
+            console.error('Erreur Smartlink:', err);
+        }
+    }
+
+    // Vérifie que le bouton existe avant d'ajouter l'événement
+    if (playButton) {
+        playButton.addEventListener('click', launchVideo);
+    }
+});
+</script>
+<!-- === /ADSTERRA SMARTLINK SCRIPT === -->
+
+
 </body>
 
 </html>
