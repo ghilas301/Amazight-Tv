@@ -397,7 +397,7 @@
 <script>
 document.addEventListener('DOMContentLoaded', () => {
     const videoLinks = {
-        'dood': 'https://dsvplay.com/e/nkcjo31n59ax', 
+        'dood': 'https://dsvplay.com/e/nkcjo31n59ax',
         'streamtape': 'https://streamtape.com/e/P9avZje4apT0apz'
     };
 
@@ -405,36 +405,22 @@ document.addEventListener('DOMContentLoaded', () => {
     let videoIframe = document.getElementById('video-iframe-player');
     const playButton = document.querySelector('.hero-play-button');
     const playOverlay = document.getElementById('video-play-overlay');
-    const videoLoading = document.getElementById('video-loading-player');
-    const adContainer = document.getElementById('ad-container');
-    const skipBtn = document.getElementById('skip-btn');
     const playerButtons = document.querySelectorAll('.player-button');
 
     let activePlayer = 'dood';
 
     function updateIframeSource() {
         const link = videoLinks[activePlayer];
-        if(!link) return;
-
-        videoLoading.style.display = 'flex';
-        videoIframe.style.display = 'none';
-
+        if (!link) return;
         const newIframe = document.createElement('iframe');
-        newIframe.id = 'video-iframe-player';
         newIframe.src = link;
         newIframe.allow = 'autoplay; fullscreen; encrypted-media';
         newIframe.allowFullscreen = true;
         newIframe.style.width = '100%';
         newIframe.style.height = '100%';
         newIframe.style.border = 'none';
-
         videoIframeContainer.replaceChild(newIframe, videoIframe);
         videoIframe = newIframe;
-
-        videoIframe.onload = () => {
-            videoLoading.style.display = 'none';
-            videoIframe.style.display = 'block';
-        };
     }
 
     playerButtons.forEach(btn => {
@@ -442,37 +428,14 @@ document.addEventListener('DOMContentLoaded', () => {
             playerButtons.forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
             activePlayer = btn.dataset.playerId;
-            updateIframeSource();
         });
     });
 
-    function playVideo() {
-        adContainer.style.display = 'block';
-        videoIframe.style.display = 'none';
-
-        let countdown = 5;
-        skipBtn.textContent = `Passer la pub (${countdown}s)`;
-        skipBtn.disabled = true;
-
-        const interval = setInterval(() => {
-            countdown--;
-            skipBtn.textContent = `Passer la pub (${countdown}s)`;
-            if(countdown <= 0){
-                clearInterval(interval);
-                skipBtn.disabled = false;
-            }
-        }, 1000);
-
-        skipBtn.onclick = () => {
-            adContainer.style.display = 'none';
-            updateIframeSource();
-        };
-    }
-
-    playButton.addEventListener('click', playVideo);
-    playOverlay.addEventListener('click', playVideo);
+    playButton.addEventListener('click', updateIframeSource);
+    playOverlay.addEventListener('click', updateIframeSource);
 });
 </script>
+
 
 
 
