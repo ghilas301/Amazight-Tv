@@ -26,7 +26,12 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<head>
+  <link rel="stylesheet" href="https://cdn.fluidplayer.com/v3/current/fluidplayer.min.css" type="text/css"/>
+  
+  <script src="https://cdn.fluidplayer.com/v3/current/fluidplayer.min.js"></script>
 
+  </head>
   <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-4NKY9G2SBN"></script>
 <script>
@@ -294,7 +299,8 @@
   </section>
 
 <section class="video-section">
-    <h3>Regarder Pucci 2 en Streaming HD</h3> <div class="player-selector" id="player-selector">
+    <h3>Regarder Pucci 1 en Streaming HD</h3>
+    <div class="player-selector" id="player-selector">
         <button class="player-button active" data-player-id="dood">
             <i class="fas fa-video"></i> Lecteur 1 (Dood)
         </button>
@@ -302,25 +308,34 @@
             <i class="fas fa-video"></i> Lecteur 2 (Streamtape)
         </button>
     </div>
+    
     <div class="video-responsive-container">
-        <div class="video-play-overlay" id="video-play-overlay">
-            <i class="fas fa-play play-icon-lg"></i>
-        </div>
         
-      <iframe id="video-iframe-player" 
-                loading="lazy" 
-                decoding="async"
-               
-                src="" 
-                allow="autoplay; fullscreen" 
-                allowfullscreen 
-                title="Lecteur vidéo Crek 1"
-                width="100%" 
-                height="100%">
-        </iframe>
-        <div class="video-loading" id="video-loading-player" style="display: none;">
-            <i class="fas fa-spinner fa-spin loading-pulse"></i>
-            <p>Chargement de la vidéo...</p>
+        <div id="ad-player-container">
+            <video id="my-ad-player" style="width: 100%; height: 100%;">
+                </video>
+        </div>
+
+        <div id="film-player-container" style="display: none; position: relative; width: 100%; height: 100%;">
+            <div class="video-play-overlay" id="video-play-overlay" style="display: none;">
+                <i class="fas fa-play play-icon-lg"></i>
+            </div>
+            
+            <iframe id="video-iframe-player" 
+                    loading="lazy" 
+                    decoding="async"
+                    src="" 
+                    allow="autoplay; fullscreen" 
+                    allowfullscreen 
+                    title="Lecteur vidéo"
+                    width="100%" 
+                    height="100%">
+            </iframe>
+            
+            <div class="video-loading" id="video-loading-player" style="display: none;">
+                <i class="fas fa-spinner fa-spin loading-pulse"></i>
+                <p>Chargement de la vidéo...</p>
+            </div>
         </div>
     </div>
 </section>
@@ -392,41 +407,131 @@
 <script>
 document.addEventListener('DOMContentLoaded', () => {
 
-    // Liens des lecteurs vidéo
+    // --- CONFIGURATION ---
     const videoLinks = {
-        'dood': 'https://dsvplay.com/e/911e5e3ip8cz', 
-        'streamtape': 'https://streamtape.com/e/P9avZje4apT0apz'
+        'dood': 'https://dsvplay.com/e/efqqry59eit5', 
+        'streamtape': 'https://streamtape.com/e/JYm93KBoPYIjM7J'
     };
+    const SMARTLINK_URL = 'https://imbueprescriptionhumiliation.com/ivjv31vgk?key=71142b0293454f148cb2226dc34e248d';
+    const VAST_TAG_URL = 'https://s.magsrv.com/v1/vast.php?idzone=5756872';
 
-    // Sélecteurs
-    const playOverlay = document.getElementById('video-play-overlay');
+    // --- SÉLECTEURS ---
+    const adPlayerContainer = document.getElementById('ad-player-container');
+    const filmPlayerContainer = document.getElementById('film-player-container');
     const videoLoading = document.getElementById('video-loading-player');
     let videoIframe = document.getElementById('video-iframe-player');
     const playerButtons = document.querySelectorAll('.player-button');
     const playButton = document.querySelector('.hero-play-button');
-
-    const SMARTLINK_URL = 'https://imbueprescriptionhumiliation.com/ivjv31vgk?key=71142b0293454f148cb2226dc34e248d';
+    const playOverlay = document.getElementById('video-play-overlay'); // Overlay du lecteur de film
 
     let activePlayer = 'dood';
+    let adPlayerInstance = null;
+    let adPlayed = false; // Sécurité pour ne jouer la pub qu'une fois
 
-    // Fonction pour mettre à jour l'iframe
+    // --- FONCTION 1: Jouer la publicité VAST ---
+    function playPrerollAd() {
+        if (adPlayed) return; // Ne pas rejouer la pub
+        adPlayed = true;
+
+        // Cache l'overlay "play" du film et montre le conteneur de la pub
+        playOverlay.style.display = 'none';
+        adPlayerContainer.style.display = 'block';
+
+        // Initialise Fluid Player
+        adPlayerInstance = fluidPlayer('my-ad-player', {
+            layoutControls: {
+                // Cache tous les contrôles pour rendre la pub "unskippable"
+                controls: {
+                    playPause: false,
+                    scrubber: false,
+                    time: false,
+                    duration: false,
+                    mute: true, // L'autoplay nécessite souvent d'être muté
+                    volume: false,
+                    fullscreen: false
+                },
+                // Affiche le message de chargement
+                htmlOnPauseBlock: {
+                    html: "Chargement du film...",
+                    height: 50,
+                    width: 200
+                },
+                autoplay: true // Tente de lancer la pub automatiquement
+            },
+            vastOptions: {
+                adList: [
+                    {
+                        roll: 'preRoll',
+                        vastTag: VAST_TAG_URL
+                    }
+                ],
+                // Force "unskippable" (pas de bouton "Ignorer")
+                skipButton: {
+                    enabled: false
+                }
+            }
+        });
+
+        // --- ÉCOUTE DES ÉVÉNEMENTS DE LA PUB ---
+
+        // Événement: La pub est terminée
+        adPlayerInstance.on('adsEnded', () => {
+            console.log('Pub terminée.');
+            showFilmPlayer();
+        });
+
+        // Événement: Erreur de pub (ex: pas de pub dispo)
+        adPlayerInstance.on('adError', () => {
+            console.log('Erreur VAST (pas de pub ?)');
+            showFilmPlayer(); // On affiche le film quand même
+        });
+        
+        // Événement: L'utilisateur a cliqué sur la pub
+        adPlayerInstance.on('adClick', () => {
+            console.log('Clic sur la pub');
+            // La pub s'ouvre dans un nouvel onglet, 
+            // on peut choisir de lancer le film ou d'attendre.
+            // Pour l'instant, on attend la fin.
+        });
+    }
+
+    // --- FONCTION 2: Afficher le lecteur de film (après la pub) ---
+    function showFilmPlayer() {
+        // Détruit le lecteur de pub pour libérer les ressources
+        if (adPlayerInstance) {
+            adPlayerInstance.destroy();
+            adPlayerInstance = null;
+        }
+
+        // Cache le conteneur de pub et montre le conteneur de film
+        adPlayerContainer.style.display = 'none';
+        filmPlayerContainer.style.display = 'block';
+
+        // Charge l'iframe du film (Doodstream/Streamtape)
+        updateIframeSource();
+    }
+
+    // --- FONCTION 3: Mettre à jour l'Iframe du film ---
+    // (Votre code original, légèrement modifié pour les sélecteurs)
     function updateIframeSource() {
         const link = videoLinks[activePlayer];
         if (!link) {
             console.error(`Lien non configuré pour ${activePlayer}`);
             videoLoading.style.display = 'none';
-            playOverlay.style.display = 'flex';
+            // Remontre l'overlay de clic si le lecteur 2 ne marche pas
+            playOverlay.style.display = 'flex'; 
             return;
         }
 
         playOverlay.style.display = 'none';
         videoLoading.style.display = 'flex';
 
+        // Recrée l'iframe pour forcer le rechargement
         if (videoIframe) videoIframe.src = 'about:blank';
-
+        
         const newIframe = document.createElement('iframe');
         newIframe.id = 'video-iframe-player';
-        newIframe.src = link;
+        newIframe.src = link + (link.includes('?') ? '&' : '?') + 'autoplay=1'; // Ajout de l'autoplay
         newIframe.setAttribute('loading', 'lazy');
         newIframe.setAttribute('decoding', 'async');
         newIframe.allow = 'autoplay; fullscreen; encrypted-media';
@@ -449,32 +554,49 @@ document.addEventListener('DOMContentLoaded', () => {
             clearTimeout(loadingTimeout);
             videoLoading.style.display = 'none';
             alert('Lecteur bloqué ou indisponible. Essaie l\'autre lecteur.');
+            playOverlay.style.display = 'flex'; // Remontre l'overlay si erreur
         };
     }
 
-    // Changement de lecteur
+    // --- FONCTION 4: DÉCLENCHEUR PRINCIPAL ---
+    function launchVideo() {
+        // 1. Ouvre le popup (votre monétisation smartlink)
+        window.open(SMARTLINK_URL, '_blank');
+
+        // 2. Scrolle jusqu'au lecteur
+        const videoSection = document.querySelector('.video-section');
+        if (videoSection) {
+            videoSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        // 3. Lance la publicité VAST
+        playPrerollAd();
+    }
+
+    // --- Assignation des écouteurs ---
+
+    // Clic sur le gros bouton "LANCER LE FILM"
+    if (playButton) playButton.addEventListener('click', launchVideo);
+    
+    // Clic sur l'overlay (s'il s'affiche à nouveau)
+    if (playOverlay) playOverlay.addEventListener('click', launchVideo);
+
+    // Changement de lecteur (Dood vs Streamtape)
     playerButtons.forEach(button => {
         button.addEventListener('click', function() {
             playerButtons.forEach(btn => btn.classList.remove('active'));
             this.classList.add('active');
             activePlayer = this.dataset.playerId;
-            updateIframeSource();
+            
+            // Si la pub a déjà joué, on charge juste le nouveau lecteur
+            // Sinon, on relance le processus (au cas où)
+            if (adPlayed) {
+                updateIframeSource();
+            } else {
+                launchVideo();
+            }
         });
     });
-
-    // Fonction déclencheur du bouton
-    function launchVideo() {
-        updateIframeSource();
-        window.open(SMARTLINK_URL, '_blank');
-
-        const videoSection = document.querySelector('.video-section');
-        if (videoSection) {
-            videoSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        }
-    }
-
-    if (playButton) playButton.addEventListener('click', launchVideo);
-    if (playOverlay) playOverlay.addEventListener('click', launchVideo);
 
 });
 </script>
