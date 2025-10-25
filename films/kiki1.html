@@ -400,112 +400,66 @@
 </footer>
 
 <script>
+<script>
 document.addEventListener('DOMContentLoaded', () => {
 
-    // Liens des lecteurs vidéo
     const videoLinks = {
         'dood': 'https://dsvplay.com/e/nkcjo31n59ax', 
         'streamtape': 'https://streamtape.com/e/P9avZje4apT0apz'
     };
 
-    // Sélecteurs
-    const playOverlay = document.getElementById('video-play-overlay');
-    const videoLoading = document.getElementById('video-loading-player');
-    let videoIframe = document.getElementById('video-iframe-player');
-    const playerButtons = document.querySelectorAll('.player-button');
     const playButton = document.querySelector('.hero-play-button');
-
-    const SMARTLINK_URL = 'https://imbueprescriptionhumiliation.com/ijcn0tcyjj?key=cc5f2bbcbb55b25a23202ca173f6a468';
+    const videoIframe = document.getElementById('video-iframe-player');
+    const adContainer = document.getElementById('ad-container');
+    const skipBtn = document.getElementById('skip-btn');
+    const playerButtons = document.querySelectorAll('.player-button');
 
     let activePlayer = 'dood';
 
-    // Fonction pour mettre à jour l'iframe
     function updateIframeSource() {
         const link = videoLinks[activePlayer];
-        if (!link) {
-            console.error(`Lien non configuré pour ${activePlayer}`);
-            videoLoading.style.display = 'none';
-            playOverlay.style.display = 'flex';
-            return;
-        }
-
-        playOverlay.style.display = 'none';
-        videoLoading.style.display = 'flex';
-
-        if (videoIframe) videoIframe.src = 'about:blank';
-
-        const newIframe = document.createElement('iframe');
-        newIframe.id = 'video-iframe-player';
-        newIframe.src = link;
-        newIframe.setAttribute('loading', 'lazy');
-        newIframe.setAttribute('decoding', 'async');
-        newIframe.allow = 'autoplay; fullscreen; encrypted-media';
-        newIframe.allowFullscreen = true;
-        newIframe.style.width = '100%';
-        newIframe.style.height = '100%';
-        newIframe.style.border = 'none';
-
-        const container = videoIframe.parentNode;
-        container.replaceChild(newIframe, videoIframe);
-        videoIframe = newIframe;
-
-        const loadingTimeout = setTimeout(() => { videoLoading.style.display = 'none'; }, 8000);
-
-        videoIframe.onload = () => {
-            clearTimeout(loadingTimeout);
-            videoLoading.style.display = 'none';
-        };
-        videoIframe.onerror = () => {
-            clearTimeout(loadingTimeout);
-            videoLoading.style.display = 'none';
-            alert('Lecteur bloqué ou indisponible. Essaie l\'autre lecteur.');
-        };
+        videoIframe.src = link;
+        videoIframe.style.display = 'block';
     }
 
-    // Changement de lecteur
-    playerButtons.forEach(button => {
-        button.addEventListener('click', function() {
-            playerButtons.forEach(btn => btn.classList.remove('active'));
-            this.classList.add('active');
-            activePlayer = this.dataset.playerId;
+    // Changer de lecteur
+    playerButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            playerButtons.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            activePlayer = btn.dataset.playerId;
             updateIframeSource();
         });
     });
 
-    // Fonction déclencheur du bouton
-   const playButton = document.querySelector('.hero-play-button');
-const adContainer = document.getElementById('ad-container');
-const videoContainer = document.querySelector('.video-responsive-container');
-const skipBtn = document.getElementById('skip-btn');
-const videoIframe = document.getElementById('video-iframe-player');
+    // Bouton play avec pub
+    playButton.addEventListener('click', () => {
+        adContainer.style.display = 'block';
+        videoIframe.style.display = 'none';
 
-playButton.addEventListener('click', () => {
-    // Affiche la pub et cache le lecteur
-    adContainer.style.display = 'block';
-    videoIframe.style.display = 'none';
-
-    let countdown = 5; // secondes
-    skipBtn.textContent = `Passer la pub (${countdown}s)`;
-    skipBtn.disabled = true;
-
-    const interval = setInterval(() => {
-        countdown--;
+        let countdown = 5;
         skipBtn.textContent = `Passer la pub (${countdown}s)`;
-        if(countdown <= 0){
+        skipBtn.disabled = true;
+
+        const interval = setInterval(() => {
+            countdown--;
+            skipBtn.textContent = `Passer la pub (${countdown}s)`;
+            if(countdown <= 0){
+                clearInterval(interval);
+                skipBtn.disabled = false;
+            }
+        }, 1000);
+
+        skipBtn.onclick = () => {
             clearInterval(interval);
-            skipBtn.disabled = false;
-        }
-    }, 1000);
+            adContainer.style.display = 'none';
+            updateIframeSource();
+        };
+    });
 
-    skipBtn.onclick = () => {
-        // Cache la pub et lance la vidéo
-        adContainer.style.display = 'none';
-        videoIframe.style.display = 'block';
-        videoIframe.src = 'https://dsvplay.com/e/nkcjo31n59ax'; // lien vidéo
-    };
 });
-
 </script>
+
 
 
 <script type='text/javascript' src='//imbueprescriptionhumiliation.com/a0/de/52/a0de529083a01b3b72e7e46c528c84ef.js'></script>
