@@ -26,21 +26,17 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-<head>
-  <link rel="stylesheet" href="https://cdn.fluidplayer.com/v3/current/fluidplayer.min.css" type="text/css"/>
   
+  <link rel="stylesheet" href="https://cdn.fluidplayer.com/v3/current/fluidplayer.min.css" type="text/css"/>
   <script src="https://cdn.fluidplayer.com/v3/current/fluidplayer.min.js"></script>
-
-  </head>
-  <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-4NKY9G2SBN"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-4NKY9G2SBN');
-</script>
+  
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-4NKY9G2SBN"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-4NKY9G2SBN');
+  </script>
 
   <style>
     .film-page-hero {
@@ -442,7 +438,7 @@ document.addEventListener('DOMContentLoaded', () => {
             layoutControls: {
                 // Cache tous les contrôles pour rendre la pub "unskippable"
                 controls: {
-                    playPause: false,
+                    playPause: true,
                     scrubber: false,
                     time: false,
                     duration: false,
