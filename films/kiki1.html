@@ -400,40 +400,76 @@
 </footer>
 
 <script>
-<script>
 document.addEventListener('DOMContentLoaded', () => {
 
+    // Liens des lecteurs vidéo
     const videoLinks = {
-        'dood': 'https://dsvplay.com/e/nkcjo31n59ax', 
+        'dood': 'https://dsvplay.com/e/nkcjo31n59ax',
         'streamtape': 'https://streamtape.com/e/P9avZje4apT0apz'
     };
 
+    // Sélecteurs
+    const playOverlay = document.getElementById('video-play-overlay');
+    const videoLoading = document.getElementById('video-loading-player');
+    let videoIframe = document.getElementById('video-iframe-player');
+    const playerButtons = document.querySelectorAll('.player-button');
     const playButton = document.querySelector('.hero-play-button');
-    const videoIframe = document.getElementById('video-iframe-player');
     const adContainer = document.getElementById('ad-container');
     const skipBtn = document.getElementById('skip-btn');
-    const playerButtons = document.querySelectorAll('.player-button');
 
     let activePlayer = 'dood';
 
+    // Mettre à jour l'iframe avec le lecteur actif
     function updateIframeSource() {
         const link = videoLinks[activePlayer];
-        videoIframe.src = link;
-        videoIframe.style.display = 'block';
+        if (!link) return;
+
+        videoLoading.style.display = 'flex';
+        playOverlay.style.display = 'none';
+        if (videoIframe) videoIframe.src = 'about:blank';
+
+        const newIframe = document.createElement('iframe');
+        newIframe.id = 'video-iframe-player';
+        newIframe.src = link;
+        newIframe.setAttribute('loading', 'lazy');
+        newIframe.setAttribute('decoding', 'async');
+        newIframe.allow = 'autoplay; fullscreen; encrypted-media';
+        newIframe.allowFullscreen = true;
+        newIframe.style.width = '100%';
+        newIframe.style.height = '100%';
+        newIframe.style.border = 'none';
+
+        videoIframe.parentNode.replaceChild(newIframe, videoIframe);
+        videoIframe = newIframe;
+
+        const loadingTimeout = setTimeout(() => videoLoading.style.display = 'none', 8000);
+
+        videoIframe.onload = () => {
+            clearTimeout(loadingTimeout);
+            videoLoading.style.display = 'none';
+        };
+        videoIframe.onerror = () => {
+            clearTimeout(loadingTimeout);
+            videoLoading.style.display = 'none';
+            alert("Lecteur bloqué ou indisponible. Essaie l'autre lecteur.");
+        };
     }
 
     // Changer de lecteur
-    playerButtons.forEach(btn => {
-        btn.addEventListener('click', () => {
-            playerButtons.forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            activePlayer = btn.dataset.playerId;
+    playerButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            playerButtons.forEach(btn => btn.classList.remove('active'));
+            button.classList.add('active');
+            activePlayer = button.dataset.playerId;
             updateIframeSource();
         });
     });
 
-    // Bouton play avec pub
+    // Clic sur le bouton play → affiche pub puis lance la vidéo
     playButton.addEventListener('click', () => {
+        if (!adContainer || !skipBtn || !videoIframe) return;
+
+        // Affiche pub, cache lecteur
         adContainer.style.display = 'block';
         videoIframe.style.display = 'none';
 
@@ -444,7 +480,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const interval = setInterval(() => {
             countdown--;
             skipBtn.textContent = `Passer la pub (${countdown}s)`;
-            if(countdown <= 0){
+            if (countdown <= 0) {
                 clearInterval(interval);
                 skipBtn.disabled = false;
             }
@@ -453,10 +489,10 @@ document.addEventListener('DOMContentLoaded', () => {
         skipBtn.onclick = () => {
             clearInterval(interval);
             adContainer.style.display = 'none';
-            updateIframeSource();
+            videoIframe.style.display = 'block';
+            updateIframeSource(); // charge le lecteur actif
         };
     });
-
 });
 </script>
 
