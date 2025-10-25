@@ -393,46 +393,27 @@
         <p>Cinéma Kabyle en streaming gratuit</p>
     </div>
 </footer>
-
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-    const videoLinks = {
-        'dood': 'https://dsvplay.com/e/nkcjo31n59ax',
-        'streamtape': 'https://streamtape.com/e/P9avZje4apT0apz'
-    };
-
-    const videoIframeContainer = document.querySelector('.video-responsive-container');
-    let videoIframe = document.getElementById('video-iframe-player');
-    const playButton = document.querySelector('.hero-play-button');
     const playOverlay = document.getElementById('video-play-overlay');
-    const playerButtons = document.querySelectorAll('.player-button');
+    const videoIframeContainer = document.querySelector('.video-responsive-container');
 
-    let activePlayer = 'dood';
+    playOverlay.addEventListener('click', () => {
+        // Supprime le triangle rouge
+        playOverlay.style.display = 'none';
 
-    function updateIframeSource() {
-        const link = videoLinks[activePlayer];
-        if (!link) return;
-        const newIframe = document.createElement('iframe');
-        newIframe.src = link;
-        newIframe.allow = 'autoplay; fullscreen; encrypted-media';
-        newIframe.allowFullscreen = true;
-        newIframe.style.width = '100%';
-        newIframe.style.height = '100%';
-        newIframe.style.border = 'none';
-        videoIframeContainer.replaceChild(newIframe, videoIframe);
-        videoIframe = newIframe;
-    }
+        // Crée l'iframe de pub
+        const adIframe = document.createElement('iframe');
+        adIframe.src = "https://s.magsrv.com/v1/vast.php?idzone=5756872"; // lien de la pub
+        adIframe.width = "100%";
+        adIframe.height = "100%";
+        adIframe.style.border = "none";
+        adIframe.allow = "autoplay; fullscreen";
+        adIframe.allowFullscreen = true;
 
-    playerButtons.forEach(btn => {
-        btn.addEventListener('click', () => {
-            playerButtons.forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            activePlayer = btn.dataset.playerId;
-        });
+        // Ajoute l'iframe au container
+        videoIframeContainer.appendChild(adIframe);
     });
-
-    playButton.addEventListener('click', updateIframeSource);
-    playOverlay.addEventListener('click', updateIframeSource);
 });
 </script>
 
