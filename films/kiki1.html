@@ -1,49 +1,44 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Test Pub VAST Fonctionnel</title>
-<link href="https://vjs.zencdn.net/8.21.0/video-js.css" rel="stylesheet" />
-<style>
-  body { background: #000; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
-  .video-container { width: 80%; max-width: 800px; }
-</style>
+  <meta charset="UTF-8">
+  <title>Test VAST - ExoClick vs Google</title>
+  <style>
+    body { background:#111; color:#fff; font-family:sans-serif; text-align:center; padding:40px; }
+    iframe { width:640px; height:360px; border:none; margin:20px auto; display:block; background:#000; }
+    button { background:#e50914; border:none; color:#fff; padding:12px 25px; border-radius:8px; cursor:pointer; font-size:16px; }
+    h2 { margin-top:40px; }
+  </style>
 </head>
 <body>
 
-<div class="video-container">
-  <video
-    id="my-video"
-    class="video-js vjs-default-skin"
-    controls
-    preload="auto"
-    width="100%"
-    height="450"
-    poster=""
-    data-setup='{}'>
-  </video>
-</div>
+  <h1>🎬 Test VAST Player</h1>
 
-<script src="https://vjs.zencdn.net/8.21.0/video.min.js"></script>
-<script src="https://imasdk.googleapis.com/js/sdkloader/ima3.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/videojs-contrib-ads@6.10.2/dist/videojs.ads.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/videojs-ima@1.10.2/dist/videojs.ima.min.js"></script>
+  <h2>➡️ Test Google (pub de test, doit fonctionner)</h2>
+  <video id="videoGoogle" width="640" height="360" controls autoplay muted></video>
 
-<script>
-  const player = videojs('my-video');
+  <h2>➡️ Test ExoClick (ta zone VAST)</h2>
+  <video id="videoExo" width="640" height="360" controls autoplay muted></video>
 
-  player.ima({
-    adTagUrl: 'https://pubads.g.doubleclick.net/gampad/ads?sz=640x480&iu=/124319096/external/ad_rule_samples&ciu_szs=300x250,728x90&ad_rule=1&impl=s&gdfp_req=1&env=vp&output=vast&unviewed_position_start=1&cust_params=deployment%3Ddevsite%26sample_ct%3Dlinear&correlator=' + Date.now()
-  });
+  <script src="https://cdn.jsdelivr.net/npm/vast-player@1.2.3/dist/vast-player.min.js"></script>
+  <script>
+    // --- Player test Google ---
+    const googleVAST = "https://pubads.g.doubleclick.net/gampad/ads?sz=640x480&iu=/124319096/external/ad_rule_samples&ciu_szs=300x250,728x90&ad_rule=1&impl=s&gdfp_req=1&env=vp&output=vast&unviewed_position_start=1&cust_params=deployment%3Ddevsite%26sample_ct%3Dlinear&correlator=123456";
+    const exoVAST = "https://s.magsrv.com/v1/vast.php?idzone=5756872";
 
-  player.ready(function() {
-    player.on('play', function() {
-      if (!player.ima.getAdsManager()) {
-        player.ima.requestAds();
+    async function playVAST(url, videoElement) {
+      try {
+        const player = new VASTPlayer(videoElement);
+        await player.load(url);
+        await player.startAd();
+        console.log("✅ Pub lancée :", url);
+      } catch (err) {
+        console.error("❌ Erreur VAST :", err);
       }
-    });
-  });
-</script>
+    }
+
+    playVAST(googleVAST, document.getElementById("videoGoogle"));
+    playVAST(exoVAST, document.getElementById("videoExo"));
+  </script>
 </body>
 </html>
