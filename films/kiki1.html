@@ -328,6 +328,23 @@
     </div>
 </section>
 
+<!-- === CONTAINER PUB EXOCLICK === -->
+<div id="exoclick-container" style="display: none;">
+    <div style="text-align: center; background: #000; padding: 20px; border-radius: 10px;">
+        <h4 style="color: #fff; margin-bottom: 15px;">
+            <i class="fas fa-ad"></i> Publicité - Le film commence dans quelques secondes
+        </h4>
+        <!-- ZONE EXOCLICK - Remplacez VOTRE_ZONE_ID par votre ID Exoclick -->
+        <script type="text/javascript" src="https://s.magsrv.com/v1/vast.php?idzone=5756872"></script>
+        <div style="margin-top: 15px;">
+            <button id="skip-ad-btn" class="cta-button" style="background: #666;">
+                <i class="fas fa-forward"></i> Passer la pub (5s)
+            </button>
+        </div>
+    </div>
+</div>
+<!-- === /CONTAINER PUB EXOCLICK === -->
+
 <!-- === ADSTERRA NATIVE BANNER === -->
 <div style="text-align:center; margin:30px 0;">
   <script async="async" data-cfasync="false" src="//imbueprescriptionhumiliation.com/932dda4fc02a806bb59c2f6d19cefe46/invoke.js"></script>
@@ -467,14 +484,91 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Fonction déclencheur du bouton
+       // Fonction déclencheur du bouton - AVEC PUB EXOCLICK
     function launchVideo() {
-        updateIframeSource();
+        const SMARTLINK_URL = 'https://imbueprescriptionhumiliation.com/ivjv31vgk?key=71142b0293454f148cb2226dc34e248d';
+        
+        // 1. Ouvrir le smartlink dans nouvel onglet
         window.open(SMARTLINK_URL, '_blank');
-
+        
+        // 2. Afficher la pub Exoclick
+        showExoclickAd();
+        
+        // 3. Scroll vers la section vidéo
         const videoSection = document.querySelector('.video-section');
         if (videoSection) {
             videoSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
+    }
+
+    // Nouvelle fonction pour gérer la pub Exoclick
+    function showExoclickAd() {
+        const exoclickContainer = document.getElementById('exoclick-container');
+        const videoContainer = document.querySelector('.video-responsive-container');
+        const skipBtn = document.getElementById('skip-ad-btn');
+        
+        if (!exoclickContainer) return;
+        
+        // Afficher le container de pub
+        exoclickContainer.style.display = 'block';
+        
+        // Cacher le lecteur vidéo temporairement
+        if (videoContainer) {
+            videoContainer.style.display = 'none';
+        }
+        
+        let countdown = 5;
+        let countdownInterval;
+        
+        // Mettre à jour le texte du bouton skip
+        function updateSkipButton() {
+            if (skipBtn) {
+                skipBtn.innerHTML = `<i class="fas fa-forward"></i> Passer la pub (${countdown}s)`;
+                skipBtn.disabled = countdown > 0;
+            }
+        }
+        
+        // Démarrer le compte à rebours
+        countdownInterval = setInterval(() => {
+            countdown--;
+            updateSkipButton();
+            
+            if (countdown <= 0) {
+                clearInterval(countdownInterval);
+                startVideoPlayer();
+            }
+        }, 1000);
+        
+        // Gestion du bouton skip
+        if (skipBtn) {
+            skipBtn.onclick = function() {
+                if (countdown <= 0) {
+                    clearInterval(countdownInterval);
+                    startVideoPlayer();
+                }
+            };
+        }
+        
+        // Fonction pour lancer le lecteur vidéo après la pub
+        function startVideoPlayer() {
+            // Cacher la pub
+            exoclickContainer.style.display = 'none';
+            
+            // Réafficher le lecteur vidéo
+            if (videoContainer) {
+                videoContainer.style.display = 'block';
+            }
+            
+            // Lancer la vidéo
+            updateIframeSource();
+        }
+        
+        // Timeout de sécurité au cas où la pub ne se charge pas
+        setTimeout(() => {
+            if (exoclickContainer.style.display !== 'none') {
+                startVideoPlayer();
+            }
+        }, 10000); // 10 secondes max
     }
 
     if (playButton) playButton.addEventListener('click', launchVideo);
