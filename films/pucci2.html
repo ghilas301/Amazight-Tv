@@ -121,7 +121,49 @@
         color: #ffffff;
     }
 
-    /* Bouton hero SIMPLE et FONCTIONNEL */
+    /* Player selector */
+    .player-selector {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 20px;
+        flex-wrap: wrap;
+    }
+    .player-button {
+        padding: 10px 20px;
+        border: 2px solid #333;
+        background: #1a1a1a;
+        color: #fff;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+    .player-button.active {
+        border-color: #e50914;
+        background: #e50914;
+    }
+    .player-button:hover {
+        border-color: #e50914;
+    }
+
+    /* Video container */
+    .video-responsive-container {
+        position: relative;
+        width: 100%;
+        height: 0;
+        padding-bottom: 56.25%; /* 16:9 aspect ratio */
+        background: #000;
+        border-radius: 8px;
+        overflow: hidden;
+    }
+    .video-responsive-container > div {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+    }
+
+    /* Bouton hero */
     .hero-play-button {
         padding: 15px 35px;
         border-radius: 8px;
@@ -153,13 +195,13 @@
     }
 
     /* Overlay vidéo */
-    #video-play-overlay {
+    .video-play-overlay {
         position: absolute;
         top: 0;
         left: 0;
         width: 100%;
         height: 100%;
-        background-color: rgba(0, 0, 0, 0.6);
+        background-color: rgba(0, 0, 0, 0.7);
         display: flex;
         align-items: center;
         justify-content: center;
@@ -168,13 +210,34 @@
         transition: opacity 0.3s ease;
         border-radius: 8px;
     }
-    #video-play-overlay:hover {
+    .video-play-overlay:hover {
         background-color: rgba(0, 0, 0, 0.8);
     }
-    #video-play-overlay .play-icon-lg {
+    .video-play-overlay .play-icon-lg {
         font-size: 5em;
-        color: var(--color-primary);
+        color: #e50914;
         text-shadow: 0 0 20px rgba(0,0,0,0.5);
+    }
+
+    /* Loading */
+    .video-loading {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background: rgba(0,0,0,0.8);
+        color: white;
+        z-index: 10;
+    }
+    .loading-pulse {
+        font-size: 3em;
+        margin-bottom: 15px;
+        color: #e50914;
     }
 
     /* Section films suggérés */
@@ -230,6 +293,9 @@
             grid-template-columns: repeat(2, 1fr);
             gap: 15px;
         }
+        .player-selector {
+            justify-content: center;
+        }
     }
 
     @media (max-width: 480px) {
@@ -260,7 +326,7 @@
 <body>
 
 <header class="header">
-  <a href="index.html" class="logo">
+  <a href="../index.html" class="logo">
     <img src="../images/logo-180.png" alt="Logo Amazigh TV" class="logo-image">
     <span>Amazigh TV</span>
 </a>
@@ -286,7 +352,7 @@
                 <span><i class="fas fa-star"></i> 4.5/5</span>
                 <span><i class="fas fa-eye"></i> HD</span>
             </div>
-            <p class="description"> Mascara le mammouth, Pucci le paresseux et zenghouf le tigre alors que la banquise fond, menaçant leur vallée d’inondation. En route vers des terres plus sûres, ils rencontrent Micha, une femelle mammouth un peu… persuadée d’être un opossum. Entre glaciers qui craquent et animaux paniqués, le trio affronte le déluge avec humour. Une aventure glaciale, pleine de gags et d’émotion préhistorique.</p>
+            <p class="description">Mascara le mammouth, Pucci le paresseux et zenghouf le tigre alors que la banquise fond, menaçant leur vallée d'inondation. En route vers des terres plus sûres, ils rencontrent Micha, une femelle mammouth un peu… persuadée d'être un opossum. Entre glaciers qui craquent et animaux paniqués, le trio affronte le déluge avec humour. Une aventure glaciale, pleine de gags et d'émotion préhistorique.</p>
             <button class="hero-play-button" data-video-id="video-pucci2">
                 <i class="fas fa-play play-icon"></i> LANCER LE FILM
             </button>
@@ -295,7 +361,7 @@
   </section>
 
 <section class="video-section">
-    <h3>Regarder Pucci 1 en Streaming HD</h3>
+    <h3>Regarder Pucci 2 en Streaming HD</h3>
     <div class="player-selector" id="player-selector">
         <button class="player-button active" data-player-id="dood">
             <i class="fas fa-video"></i> Lecteur 1 (Dood)
@@ -306,39 +372,39 @@
     </div>
     
     <div class="video-responsive-container">
-        
+        <!-- Lecteur de publicité -->
         <div id="ad-player-container" style="display: none;">
-    <video id="my-ad-player" style="width: 100%; height: 100%;">
-        <!-- AJOUTEZ cette ligne -->
-        <source src="https://cdn.pixabay.com/video/2023/02/22/159254-804303017_tiny.mp4" type="video/mp4">
-        Votre navigateur ne supporte pas la lecture vidéo.
-    </video>
-</div>
+            <video id="my-ad-player" style="width: 100%; height: 100%;">
+                <source src="https://cdn.pixabay.com/video/2023/02/22/159254-804303017_tiny.mp4" type="video/mp4">
+                Votre navigateur ne supporte pas la lecture vidéo.
+            </video>
+        </div>
 
-        <div id="film-player-container" style="display: block; position: relative; width: 100%; height: 100%;">
-    <div class="video-play-overlay" id="video-play-overlay" style="display: flex;">
-        <i class="fas fa-play play-icon-lg"></i>
-    </div>
-    
-    <iframe id="video-iframe-player" 
-            loading="lazy" 
-            decoding="async"
-            src="" 
-            allow="autoplay; fullscreen" 
-            allowfullscreen 
-            title="Lecteur vidéo"
-            width="100%" 
-            height="100%"
-            style="display: none;">
-    </iframe>
-    
-    <div class="video-loading" id="video-loading-player" style="display: none;">
-        <i class="fas fa-spinner fa-spin loading-pulse"></i>
-        <p>Chargement de la vidéo...</p>
-    </div>
-</div>
+        <!-- Lecteur de film -->
+        <div id="film-player-container" style="display: block;">
+            <!-- Overlay de démarrage -->
+            <div class="video-play-overlay" id="video-play-overlay">
+                <i class="fas fa-play play-icon-lg"></i>
+            </div>
+            
+            <!-- Iframe pour la vidéo -->
+            <iframe id="video-iframe-player" 
+                    src="" 
+                    allow="autoplay; fullscreen" 
+                    allowfullscreen 
+                    title="Lecteur vidéo Pucci 2"
+                    style="width: 100%; height: 100%; border: none; display: none;">
+            </iframe>
+            
+            <!-- Indicateur de chargement -->
+            <div class="video-loading" id="video-loading-player" style="display: none;">
+                <i class="fas fa-spinner fa-spin loading-pulse"></i>
+                <p>Chargement de la vidéo...</p>
+            </div>
+        </div>
     </div>
 </section>
+
 <!-- === ADSTERRA NATIVE BANNER === -->
 <div style="text-align:center; margin:30px 0;">
   <script async="async" data-cfasync="false" src="//imbueprescriptionhumiliation.com/932dda4fc02a806bb59c2f6d19cefe46/invoke.js"></script>
@@ -356,7 +422,7 @@
                 <div class="film-info"><h4>Qezbul 1</h4><p>Comédie, 83 min</p></div>
             </article>
         </a>
-        <a href="pucci2.html" class="film-card">
+        <a href="pucci1.html" class="film-card">
              <article>
                  <div class="film-poster"><img src="../images/pucci1.jpg" alt="Pucci 1 - Film comédie kabyle" loading="lazy"></div>
                  <div class="film-info"><h4>Pucci 1</h4><p>Comédie, 75 min</p></div>
@@ -381,9 +447,9 @@
   {
     "@context": "https://schema.org",
     "@type": "Movie",
-    "name": "Pucci 1",
-    "description": "Film comédie kabyle Pucci 1 - Premier volet de la série culte Pucci",
-    "image": "https://amazigh-tv.vercel.app/images/pucci1.jpg",
+    "name": "Pucci 2",
+    "description": "Film comédie kabyle Pucci 2 - Deuxième volet de la série culte Pucci",
+    "image": "https://amazigh-tv.vercel.app/images/pucci2.jpg",
     "duration": "PT80M",
     "genre": "Comedy",
     "datePublished": "2023",
@@ -405,8 +471,8 @@
 </footer>
 
 <script>
-document.addEventListener('DOMContentLoaded', () => {
-    console.log('🚀 Initialisation du lecteur');
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('🚀 Initialisation du lecteur Pucci 2');
 
     // Configuration
     const videoLinks = {
@@ -414,102 +480,111 @@ document.addEventListener('DOMContentLoaded', () => {
         'streamtape': 'https://streamtape.com/e/JYm93KBoPYIjM7J'
     };
     
-    const SMARTLINK_URL = 'https://imbueprescriptionhumiliation.com/ivjv31vgk?key=71142b0293454f148cb2226dc34e248d';
+    // SUPPRIMÉ: const SMARTLINK_URL = 'https://imbueprescriptionhumiliation.com/ivjv31vgk?key=71142b0293454f148cb2226dc34e248d';
     const VAST_TAG_URL = 'https://pubads.g.doubleclick.net/gampad/ads?iu=/21775744923/external/single_ad_samples&sz=640x480&cust_params=sample_ct%3Dlinear&ciu_szs=300x250%2C728x90&gdfp_req=1&output=vast&unviewed_position_start=1&env=vp&impl=s&correlator=';
 
     // Éléments DOM
-    const adPlayerContainer = document.getElementById('ad-player-container');
-    const filmPlayerContainer = document.getElementById('film-player-container');
-    const videoLoading = document.getElementById('video-loading-player');
-    const videoIframe = document.getElementById('video-iframe-player');
-    const playerButtons = document.querySelectorAll('.player-button');
-    const playButton = document.querySelector('.hero-play-button');
-    const playOverlay = document.getElementById('video-play-overlay');
+    const elements = {
+        adPlayerContainer: document.getElementById('ad-player-container'),
+        filmPlayerContainer: document.getElementById('film-player-container'),
+        videoLoading: document.getElementById('video-loading-player'),
+        videoIframe: document.getElementById('video-iframe-player'),
+        playerButtons: document.querySelectorAll('.player-button'),
+        playButton: document.querySelector('.hero-play-button'),
+        playOverlay: document.getElementById('video-play-overlay')
+    };
 
-    let activePlayer = 'dood';
-    let adPlayerInstance = null;
-    let adPlayed = false;
+    // État
+    let state = {
+        activePlayer: 'dood',
+        adPlayerInstance: null,
+        adPlayed: false
+    };
 
     // Fonction pour afficher le lecteur de film
     function showFilmPlayer() {
-        console.log('🎬 Passage au film');
+        console.log('🎬 Affichage du lecteur de film');
         
         // Nettoyer le lecteur de pub
-        if (adPlayerInstance) {
-            adPlayerInstance.destroy();
-            adPlayerInstance = null;
+        if (state.adPlayerInstance) {
+            state.adPlayerInstance.destroy();
+            state.adPlayerInstance = null;
         }
 
-        // Cacher la pub et afficher le film
-        if (adPlayerContainer) adPlayerContainer.style.display = 'none';
-        
+        // Afficher le lecteur de film
+        if (elements.adPlayerContainer) {
+            elements.adPlayerContainer.style.display = 'none';
+        }
+
         // Charger la vidéo
-        loadVideo();
+        updateIframeSource();
     }
 
-    // Fonction pour charger la vidéo
-    function loadVideo() {
-        const link = videoLinks[activePlayer];
+    // Fonction pour mettre à jour l'iframe
+    function updateIframeSource() {
+        const link = videoLinks[state.activePlayer];
         if (!link) {
-            console.error('❌ Lien non configuré');
+            console.error('❌ Lien non configuré pour', state.activePlayer);
             return;
         }
 
-        console.log('📺 Chargement depuis:', activePlayer);
+        console.log('📺 Chargement depuis:', state.activePlayer);
         
         // Cacher l'overlay et afficher le loading
-        if (playOverlay) playOverlay.style.display = 'none';
-        if (videoLoading) videoLoading.style.display = 'flex';
-        if (videoIframe) videoIframe.style.display = 'block';
+        if (elements.playOverlay) elements.playOverlay.style.display = 'none';
+        if (elements.videoLoading) elements.videoLoading.style.display = 'flex';
+        if (elements.videoIframe) elements.videoIframe.style.display = 'block';
 
-        // Mettre à jour la source avec autoplay
+        // Mettre à jour la source
         const autoplayLink = link + (link.includes('?') ? '&' : '?') + 'autoplay=1';
-        videoIframe.src = autoplayLink;
+        elements.videoIframe.src = autoplayLink;
 
         // Timeout de sécurité
         const loadingTimeout = setTimeout(() => {
-            if (videoLoading) videoLoading.style.display = 'none';
+            if (elements.videoLoading) elements.videoLoading.style.display = 'none';
+            console.log('⏰ Timeout de chargement');
         }, 10000);
 
         // Gestion du chargement
-        videoIframe.onload = function() {
+        elements.videoIframe.onload = function() {
             clearTimeout(loadingTimeout);
-            if (videoLoading) videoLoading.style.display = 'none';
-            console.log('✅ Vidéo chargée');
+            if (elements.videoLoading) elements.videoLoading.style.display = 'none';
+            console.log('✅ Vidéo chargée avec succès');
         };
 
-        videoIframe.onerror = function() {
+        elements.videoIframe.onerror = function() {
             clearTimeout(loadingTimeout);
-            if (videoLoading) videoLoading.style.display = 'none';
-            console.error('❌ Erreur de chargement');
-            alert('Lecteur indisponible. Essayez l\'autre lecteur.');
-            if (playOverlay) playOverlay.style.display = 'flex';
+            if (elements.videoLoading) elements.videoLoading.style.display = 'none';
+            console.error('❌ Erreur de chargement de la vidéo');
+            alert('Lecteur indisponible. Veuillez essayer l\'autre lecteur.');
+            if (elements.playOverlay) elements.playOverlay.style.display = 'flex';
         };
     }
 
     // Fonction pour lancer la publicité
     function playPrerollAd() {
-        if (adPlayed) {
+        if (state.adPlayed) {
             showFilmPlayer();
             return;
         }
-        adPlayed = true;
+        state.adPlayed = true;
 
-        console.log('🎯 Lancement de la publicité');
+        console.log('🎯 Lancement de la publicité VAST');
 
-        // Cacher l'overlay et afficher le lecteur de pub
-        if (playOverlay) playOverlay.style.display = 'none';
-        if (adPlayerContainer) adPlayerContainer.style.display = 'block';
+        // Préparer l'affichage
+        if (elements.playOverlay) elements.playOverlay.style.display = 'none';
+        if (elements.adPlayerContainer) elements.adPlayerContainer.style.display = 'block';
 
         try {
             // Initialiser Fluid Player avec VAST
-            adPlayerInstance = fluidPlayer('my-ad-player', {
+            state.adPlayerInstance = fluidPlayer('my-ad-player', {
                 layoutControls: {
                     primaryColor: "#e50914",
                     allowDownload: false,
                     playButtonShowing: true,
                     controlBar: {
-                        autoHide: true
+                        autoHide: true,
+                        autoHideTimeout: 3
                     },
                     autoPlay: true,
                     mute: true
@@ -527,30 +602,34 @@ document.addEventListener('DOMContentLoaded', () => {
             });
 
             // Événements de la pub
-            adPlayerInstance.on('vastAdEnd', function() {
+            state.adPlayerInstance.on('vastAdStart', function() {
+                console.log('📢 Publicité démarrée');
+            });
+
+            state.adPlayerInstance.on('vastAdEnd', function() {
                 console.log('🏁 Publicité terminée');
                 showFilmPlayer();
             });
 
-            adPlayerInstance.on('vastAdError', function(error) {
-                console.log('⚠️ Erreur publicité, passage au film');
+            state.adPlayerInstance.on('vastAdError', function(error) {
+                console.log('⚠️ Erreur publicité:', error);
                 showFilmPlayer();
             });
 
-            adPlayerInstance.on('vastAdSkip', function() {
+            state.adPlayerInstance.on('vastAdSkip', function() {
                 console.log('⏭️ Publicité skipped');
                 showFilmPlayer();
             });
 
         } catch (error) {
-            console.error('💥 Erreur Fluid Player, passage au film');
+            console.error('💥 Erreur Fluid Player:', error);
             showFilmPlayer();
         }
 
         // Timeout de sécurité pour la pub
         setTimeout(function() {
-            if (adPlayerInstance) {
-                console.log('⏰ Timeout publicité');
+            if (state.adPlayerInstance) {
+                console.log('⏰ Timeout publicité - passage au film');
                 showFilmPlayer();
             }
         }, 30000);
@@ -558,10 +637,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Fonction principale de lancement
     function launchVideo() {
-        console.log('🎮 Démarrage de la lecture');
+        console.log('🎮 Lancement de la vidéo');
         
-        // Ouvrir le popup de monétisation
-        window.open(SMARTLINK_URL, '_blank');
+        // SUPPRIMÉ: window.open(SMARTLINK_URL, '_blank');
 
         // Scroller vers la section vidéo
         const videoSection = document.querySelector('.video-section');
@@ -574,35 +652,43 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Initialisation des écouteurs d'événements
-    if (playButton) {
-        playButton.addEventListener('click', launchVideo);
-    }
+    function initEventListeners() {
+        // Bouton principal "LANCER LE FILM"
+        if (elements.playButton) {
+            elements.playButton.addEventListener('click', launchVideo);
+        }
 
-    if (playOverlay) {
-        playOverlay.addEventListener('click', launchVideo);
-    }
+        // Overlay de lecture
+        if (elements.playOverlay) {
+            elements.playOverlay.addEventListener('click', launchVideo);
+        }
 
-    // Sélecteur de lecteur
-    playerButtons.forEach(button => {
-        button.addEventListener('click', function() {
-            playerButtons.forEach(btn => btn.classList.remove('active'));
-            this.classList.add('active');
-            activePlayer = this.dataset.playerId;
-            console.log('🔄 Changement de lecteur:', activePlayer);
-            
-            // Recharger si une vidéo est déjà en cours
-            if (adPlayed && videoIframe.style.display === 'block') {
-                loadVideo();
-            }
+        // Sélecteur de lecteur
+        elements.playerButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                // Mettre à jour les boutons actifs
+                elements.playerButtons.forEach(btn => btn.classList.remove('active'));
+                this.classList.add('active');
+                
+                // Mettre à jour le lecteur actif
+                state.activePlayer = this.dataset.playerId;
+                console.log('🔄 Changement de lecteur:', state.activePlayer);
+                
+                // Recharger si une vidéo est déjà en cours
+                if (state.adPlayed && elements.videoIframe.style.display === 'block') {
+                    updateIframeSource();
+                }
+            });
         });
-    });
+    }
 
-    console.log('✅ Lecteur prêt - Overlay visible');
+    // Initialiser
+    initEventListeners();
+    console.log('✅ Lecteur initialisé avec succès - Prêt à lire');
 });
 </script>
 
 <script type='text/javascript' src='//imbueprescriptionhumiliation.com/ee/cb/b5/eecbb51015c12fbfcd22b0006e446933.js'></script>
-
 <script type='text/javascript' src='//imbueprescriptionhumiliation.com/1a/84/8b/1a848bcee8d4bae2bf2bd81b1d7c5873.js'></script>
 </body>
 </html>
