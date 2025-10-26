@@ -27,6 +27,13 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+  <!-- Video.js + IMA SDK nécessaires -->
+<link href="https://vjs.zencdn.net/7.21.1/video-js.css" rel="stylesheet" />
+<script src="https://vjs.zencdn.net/7.21.1/video.min.js"></script>
+<script src="https://imasdk.googleapis.com/js/sdkloader/ima3.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/videojs-contrib-ads@6.9.0/dist/videojs-contrib-ads.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/videojs-ima@1.9.0/dist/videojs.ima.min.js"></script>
   
  <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-4NKY9G2SBN"></script>
@@ -398,15 +405,8 @@
     </div>
 </footer>
 
-<script src="https://vjs.zencdn.net/7.22.1/video.min.js"></script>
-<link href="https://vjs.zencdn.net/7.22.1/video-js.css" rel="stylesheet" />
-<script src="https://cdn.jsdelivr.net/npm/videojs-contrib-ads@6.9.0/dist/videojs-contrib-ads.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/videojs-ima@1.8.0/dist/videojs.ima.min.js"></script>
-
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-
-    // --- Ton code existant ---
     const videoLinks = {
         'dood': 'https://dsvplay.com/e/2mi71p1yjehy', 
         'streamtape': 'https://streamtape.com/e/P9avZje4apT0apz'
@@ -417,72 +417,28 @@ document.addEventListener('DOMContentLoaded', () => {
     let videoIframe = document.getElementById('video-iframe-player');
     const playerButtons = document.querySelectorAll('.player-button');
     const playButton = document.querySelector('.hero-play-button');
-
     let activePlayer = 'dood';
-
-    function updateIframeSource() {
-        const link = videoLinks[activePlayer];
-        if (!link) {
-            console.error(`Lien non configuré pour ${activePlayer}`);
-            videoLoading.style.display = 'none';
-            playOverlay.style.display = 'flex';
-            return;
-        }
-
-        playOverlay.style.display = 'none';
-        videoLoading.style.display = 'flex';
-
-        if (videoIframe) videoIframe.src = 'about:blank';
-
-        const newIframe = document.createElement('iframe');
-        newIframe.id = 'video-iframe-player';
-        newIframe.src = link;
-        newIframe.setAttribute('loading', 'lazy');
-        newIframe.setAttribute('decoding', 'async');
-        newIframe.allow = 'autoplay; fullscreen; encrypted-media';
-        newIframe.allowFullscreen = true;
-        newIframe.style.width = '100%';
-        newIframe.style.height = '100%';
-        newIframe.style.border = 'none';
-
-        const container = videoIframe.parentNode;
-        container.replaceChild(newIframe, videoIframe);
-        videoIframe = newIframe;
-
-        const loadingTimeout = setTimeout(() => { videoLoading.style.display = 'none'; }, 8000);
-
-        videoIframe.onload = () => {
-            clearTimeout(loadingTimeout);
-            videoLoading.style.display = 'none';
-        };
-        videoIframe.onerror = () => {
-            clearTimeout(loadingTimeout);
-            videoLoading.style.display = 'none';
-            alert('Lecteur bloqué ou indisponible. Essaie l\'autre lecteur.');
-        };
-    }
 
     playerButtons.forEach(button => {
         button.addEventListener('click', function() {
             playerButtons.forEach(btn => btn.classList.remove('active'));
             this.classList.add('active');
             activePlayer = this.dataset.playerId;
-            updateIframeSource();
         });
     });
 
-    // --- Nouveau : preroll VAST avant l'iframe ---
     function launchVideo() {
-        // Crée un petit player temporaire pour la pub
         const container = videoIframe.parentNode;
+
+        // Crée le lecteur vidéo temporaire pour la pub
         container.innerHTML = `
             <video
                 id="vast-player"
                 class="video-js vjs-default-skin"
-                controls
-                preload="auto"
                 width="100%"
                 height="100%"
+                autoplay
+                muted
             ></video>
         `;
 
@@ -492,10 +448,12 @@ document.addEventListener('DOMContentLoaded', () => {
             debug: false
         });
 
+        // Joue la pub dès qu'elle est prête
         player.on('adsready', () => player.play());
 
-        player.on('adend', () => {
-            // Dès que la pub finit, on lance ton iframe existant
+        // Fallback : quand la pub se termine ou échoue, lance l'iframe
+        const fallbackToIframe = () => {
+            player.dispose();
             container.innerHTML = `<iframe
                 id="video-iframe-player"
                 src="${videoLinks[activePlayer]}"
@@ -504,14 +462,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 allow="autoplay; fullscreen; encrypted-media"
                 allowfullscreen
             ></iframe>`;
-        });
+        };
+
+        player.on('adend', fallbackToIframe);
+        player.on('adtimeout', fallbackToIframe);
+        player.on('aderror', fallbackToIframe);
 
         if (playOverlay) playOverlay.style.display = 'none';
     }
 
     if (playButton) playButton.addEventListener('click', launchVideo);
     if (playOverlay) playOverlay.addEventListener('click', launchVideo);
-
 });
 </script>
 
