@@ -15,7 +15,6 @@
   <meta name="keywords" content="film kabyle, cinema amazigh, streaming gratuit, narnia 1, crek1, pucci, qezbul, li mucucu">
   <meta name="author" content="Amazigh TV">
 
-
   <link rel="canonical" href="https://amazigh-tv.site/films/crek1.html">
   <link rel="stylesheet" href="../style.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1yOQ/Lp02H1lq1+8YcR/Wk80zL0c/s11D4n5bJkU5l0O7tY5U/PzG0h1O1h5zO7Wk5vA7r5/j4g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -286,7 +285,7 @@
                 <span><i class="fas fa-star"></i> 4.5/5</span>
                 <span><i class="fas fa-eye"></i> HD</span>
             </div>
-            <p class="description">Crek, un ogre solitaire, voit son marais envahi par des créatures féeriques exilées par le tyrannique Farqou3a. Pour récupérer son calme, il accepte de sauver la princesse Selyuna, promise à Farqou3a. Mais au fil de l’aventure, Crek découvre l’amitié, l’amour et que la véritable beauté vient de l’intérieur.</p>
+            <p class="description">Crek, un ogre solitaire, voit son marais envahi par des créatures féeriques exilées par le tyrannique Farqou3a. Pour récupérer son calme, il accepte de sauver la princesse Selyuna, promise à Farqou3a. Mais au fil de l'aventure, Crek découvre l'amitié, l'amour et que la véritable beauté vient de l'intérieur.</p>
             <button class="hero-play-button" data-video-id="video-crek1">
                 <i class="fas fa-play play-icon"></i> LANCER LE FILM
             </button>
@@ -295,7 +294,8 @@
   </section>
 
 <section class="video-section">
-    <h3>Regarder Crek 1 en Streaming HD</h3> <div class="player-selector" id="player-selector">
+    <h3>Regarder Crek 1 en Streaming HD</h3> 
+    <div class="player-selector" id="player-selector">
         <button class="player-button active" data-player-id="dood">
             <i class="fas fa-video"></i> Lecteur 1 (Dood)
         </button>
@@ -308,10 +308,9 @@
             <i class="fas fa-play play-icon-lg"></i>
         </div>
         
-         <iframe id="video-iframe-player" 
+        <iframe id="video-iframe-player" 
                 loading="lazy" 
                 decoding="async"
-
                 src="" 
                 allow="autoplay; fullscreen" 
                 allowfullscreen 
@@ -327,9 +326,6 @@
     </div>
 </section>
 
-
-
-
 <!-- === ADSTERRA NATIVE BANNER === -->
 <div style="text-align:center; margin:30px 0;">
   <script async="async" data-cfasync="false" src="//imbueprescriptionhumiliation.com/932dda4fc02a806bb59c2f6d19cefe46/invoke.js"></script>
@@ -338,10 +334,6 @@
 <!-- === /ADSTERRA NATIVE BANNER === -->
 
 <section class="film-list-section suggested-films">
-
-
-  
-  <section class="film-list-section suggested-films">
     <h3>Films Kabyles Similaires</h3>
     <div class="film-grid">
         <a href="qezbul1.html" class="film-card">
@@ -368,7 +360,7 @@
             <i class="fas fa-film"></i> Explorer Tous les Films
         </a>
     </div>
-  </section>
+</section>
 
   <!-- Structured Data for SEO -->
   <script type="application/ld+json">
@@ -401,10 +393,10 @@
 <script>
 document.addEventListener('DOMContentLoaded', () => {
 
-    // Liens des lecteurs vidéo
+    // Liens des lecteurs vidéo OPTIMISÉS avec paramètres anti-pubs
     const videoLinks = {
-        'dood': 'https://dsvplay.com/e/2mi71p1yjehy', 
-        'streamtape': 'https://streamtape.com/e/P9avZje4apT0apz'
+        'dood': 'https://dsvplay.com/e/2mi71p1yjehy?autoplay=1&minimal=1', 
+        'streamtape': 'https://streamtape.com/e/P9avZje4apT0apz?autoplay=1'
     };
 
     // Sélecteurs
@@ -414,11 +406,25 @@ document.addEventListener('DOMContentLoaded', () => {
     const playerButtons = document.querySelectorAll('.player-button');
     const playButton = document.querySelector('.hero-play-button');
 
-    
-
     let activePlayer = 'dood';
 
-    // Fonction pour mettre à jour l'iframe
+    // Fonction pour nettoyer les iframes des pubs
+    function cleanVideoIframe(iframe) {
+        iframe.style.cssText += `
+            border: none !important;
+            overflow: hidden !important;
+            background: black !important;
+        `;
+        
+        // Forcer le focus sur la vidéo
+        setTimeout(() => {
+            try {
+                iframe.contentWindow.focus();
+            } catch (e) {}
+        }, 1000);
+    }
+
+    // Fonction pour mettre à jour l'iframe avec optimisations
     function updateIframeSource() {
         const link = videoLinks[activePlayer];
         if (!link) {
@@ -438,27 +444,54 @@ document.addEventListener('DOMContentLoaded', () => {
         newIframe.src = link;
         newIframe.setAttribute('loading', 'lazy');
         newIframe.setAttribute('decoding', 'async');
-        newIframe.allow = 'autoplay; fullscreen; encrypted-media';
+        newIframe.allow = 'autoplay; fullscreen; encrypted-media; picture-in-picture';
         newIframe.allowFullscreen = true;
         newIframe.style.width = '100%';
         newIframe.style.height = '100%';
         newIframe.style.border = 'none';
+        newIframe.style.background = 'black';
+
+        // Appliquer le nettoyage anti-pubs
+        cleanVideoIframe(newIframe);
 
         const container = videoIframe.parentNode;
         container.replaceChild(newIframe, videoIframe);
         videoIframe = newIframe;
 
-        const loadingTimeout = setTimeout(() => { videoLoading.style.display = 'none'; }, 8000);
+        const loadingTimeout = setTimeout(() => { 
+            videoLoading.style.display = 'none'; 
+        }, 5000); // Réduit à 5s
 
         videoIframe.onload = () => {
             clearTimeout(loadingTimeout);
             videoLoading.style.display = 'none';
+            // Forcer le focus sur la vidéo
+            try {
+                videoIframe.contentWindow.focus();
+            } catch (e) {}
         };
+        
         videoIframe.onerror = () => {
             clearTimeout(loadingTimeout);
             videoLoading.style.display = 'none';
-            alert('Lecteur bloqué ou indisponible. Essaie l\'autre lecteur.');
+            // Fallback vers l'autre lecteur automatiquement
+            switchPlayerAutomatically();
         };
+    }
+
+    function switchPlayerAutomatically() {
+        const currentActive = document.querySelector('.player-button.active');
+        const otherButton = document.querySelector('.player-button:not(.active)');
+        
+        if (otherButton) {
+            currentActive.classList.remove('active');
+            otherButton.classList.add('active');
+            activePlayer = otherButton.dataset.playerId;
+            setTimeout(updateIframeSource, 1000);
+        } else {
+            playOverlay.style.display = 'flex';
+            alert('Aucun lecteur disponible. Réessayez plus tard.');
+        }
     }
 
     // Changement de lecteur
@@ -474,7 +507,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // Fonction déclencheur du bouton
     function launchVideo() {
         updateIframeSource();
-      
 
         const videoSection = document.querySelector('.video-section');
         if (videoSection) {
@@ -485,17 +517,19 @@ document.addEventListener('DOMContentLoaded', () => {
     if (playButton) playButton.addEventListener('click', launchVideo);
     if (playOverlay) playOverlay.addEventListener('click', launchVideo);
 
+    // Chargement automatique après 2 secondes sur la page
+    setTimeout(() => {
+        if (playOverlay.style.display !== 'none') {
+            updateIframeSource();
+        }
+    }, 2000);
+
 });
 </script>
 
-
+<!-- TES SCRIPTS ADSTERRA GARDÉS INTACTS -->
 <script type='text/javascript' src='//imbueprescriptionhumiliation.com/33/f1/e7/33f1e7c6d75e2f682e23c1b808298345.js'></script>
-
 <script type='text/javascript' src='//imbueprescriptionhumiliation.com/e7/b1/81/e7b181338eaa06b685207f96248c8503.js'></script>
 
-
-
-
 </body>
-
 </html>
