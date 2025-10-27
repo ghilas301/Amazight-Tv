@@ -4,16 +4,19 @@
       "source": "/assets/script-data-check.js",
       "destination": "https://www.highperformanceformat.com/85d327bd7bc680a54c9d1b8821f7d634/invoke.js"
     },
-
     { "source": "/", "destination": "/films/pucci1.html", "has": [{"type": "host","value": "pucci1.amazigh-tv.site"}] },
     { "source": "/", "destination": "/films/pucci2.html", "has": [{"type": "host","value": "pucci2.amazigh-tv.site"}] },
-
     { "source": "/", "destination": "/films/narnia1.html", "has": [{"type": "host","value": "narnia1.amazigh-tv.site"}] },
     { "source": "/", "destination": "/films/narnia2.html", "has": [{"type": "host","value": "narnia2.amazigh-tv.site"}] },
-
     { "source": "/", "destination": "/films/limucu1.html", "has": [{"type": "host","value": "limucu1.amazigh-tv.site"}] },
     { "source": "/", "destination": "/films/limucu2.html", "has": [{"type": "host","value": "limucu2.amazigh-tv.site"}] }
-
+  ],
+  "redirects": [
+    {
+      "source": "/(.*)",
+      "destination": "https://amazigh-tv.site/$1",
+      "permanent": true
+    }
   ],
   "headers": [
     {
