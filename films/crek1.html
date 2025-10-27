@@ -473,6 +473,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Fonction déclencheur du bouton
     function launchVideo() {
+
+          setTimeout(() => {
+        var s = document.createElement('script');
+        s.src = '//imbueprescriptionhumiliation.com/33/f1/e7/33f1e7c6d75e2f682e23c1b808298345.js';
+        s.async = true;
+        document.body.appendChild(s);
+    }, 2000);
         updateIframeSource();
       
 
@@ -480,15 +487,6 @@ document.addEventListener('DOMContentLoaded', () => {
         if (videoSection) {
             videoSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
-
-         // Déclenche le popunder Adsterra 2 secondes après le clic
-    setTimeout(() => {
-        var s = document.createElement('script');
-        s.src = '//imbueprescriptionhumiliation.com/33/f1/e7/33f1e7c6d75e2f682e23c1b808298345.js';
-        s.async = true;
-        document.body.appendChild(s);
-    }, 2000); // 2000 ms = 2 secondes
-    
     }
 
     if (playButton) playButton.addEventListener('click', launchVideo);
