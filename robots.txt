@@ -7,7 +7,7 @@ User-agent: *
 Disallow: 
 
 # Indique le sitemap pour faciliter l'indexation
-Sitemap: https://amazigh-tv.vercel.app/sitemap.xml
+Sitemap: https://amazigh-tv.site/sitemap.xml
 
 # =========================================
 # Notes :
