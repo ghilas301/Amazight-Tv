@@ -401,16 +401,10 @@
 <script>
 document.addEventListener('DOMContentLoaded', () => {
 
-    // Liens ORIGINAUX (gardés en backup)
-    const originalLinks = {
+    // Liens des lecteurs vidéo
+    const videoLinks = {
         'dood': 'https://dsvplay.com/e/2mi71p1yjehy', 
         'streamtape': 'https://streamtape.com/e/P9avZje4apT0apz'
-    };
-
-    // Liens via PROXY PHP
-    const videoLinks = {
-        'dood': 'proxy.php?url=' + encodeURIComponent('https://dsvplay.com/e/2mi71p1yjehy') + '&provider=dood',
-        'streamtape': 'proxy.php?url=' + encodeURIComponent('https://streamtape.com/e/P9avZje4apT0apz') + '&provider=streamtape'
     };
 
     // Sélecteurs
@@ -420,26 +414,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const playerButtons = document.querySelectorAll('.player-button');
     const playButton = document.querySelector('.hero-play-button');
 
-    let activePlayer = 'dood';
-    let useProxy = true; // Basculer entre proxy et direct
+    
 
-    // Fonction pour tester si le proxy fonctionne
-    function testProxy() {
-        return fetch('proxy.php?url=' + encodeURIComponent('https://google.com'))
-            .then(response => response.ok)
-            .catch(() => false);
-    }
+    let activePlayer = 'dood';
 
     // Fonction pour mettre à jour l'iframe
     function updateIframeSource() {
-        let link;
-        
-        if (useProxy) {
-            link = videoLinks[activePlayer];
-        } else {
-            link = originalLinks[activePlayer] + '?autoplay=1';
-        }
-
+        const link = videoLinks[activePlayer];
         if (!link) {
             console.error(`Lien non configuré pour ${activePlayer}`);
             videoLoading.style.display = 'none';
@@ -457,61 +438,28 @@ document.addEventListener('DOMContentLoaded', () => {
         newIframe.src = link;
         newIframe.setAttribute('loading', 'lazy');
         newIframe.setAttribute('decoding', 'async');
-        newIframe.allow = 'autoplay; fullscreen; encrypted-media; picture-in-picture';
+        newIframe.allow = 'autoplay; fullscreen; encrypted-media';
         newIframe.allowFullscreen = true;
         newIframe.style.width = '100%';
         newIframe.style.height = '100%';
         newIframe.style.border = 'none';
-        newIframe.style.background = 'black';
 
         const container = videoIframe.parentNode;
         container.replaceChild(newIframe, videoIframe);
         videoIframe = newIframe;
 
-        const loadingTimeout = setTimeout(() => { 
-            videoLoading.style.display = 'none'; 
-        }, 8000);
+        const loadingTimeout = setTimeout(() => { videoLoading.style.display = 'none'; }, 8000);
 
         videoIframe.onload = () => {
             clearTimeout(loadingTimeout);
             videoLoading.style.display = 'none';
         };
-        
         videoIframe.onerror = () => {
             clearTimeout(loadingTimeout);
             videoLoading.style.display = 'none';
-            
-            // Si le proxy échoue, basculer vers le lien direct
-            if (useProxy) {
-                useProxy = false;
-                alert('Proxy indisponible, utilisation du lecteur direct...');
-                setTimeout(updateIframeSource, 1000);
-            } else {
-                switchPlayerAutomatically();
-            }
+            alert('Lecteur bloqué ou indisponible. Essaie l\'autre lecteur.');
         };
     }
-
-    function switchPlayerAutomatically() {
-        const currentActive = document.querySelector('.player-button.active');
-        const otherButton = document.querySelector('.player-button:not(.active)');
-        
-        if (otherButton) {
-            currentActive.classList.remove('active');
-            otherButton.classList.add('active');
-            activePlayer = otherButton.dataset.playerId;
-            useProxy = true; // Réessayer avec proxy
-            setTimeout(updateIframeSource, 1000);
-        }
-    }
-
-    // Tester le proxy au chargement
-    testProxy().then(proxyWorking => {
-        if (!proxyWorking) {
-            console.log('Proxy non disponible, utilisation des liens directs');
-            useProxy = false;
-        }
-    });
 
     // Changement de lecteur
     playerButtons.forEach(button => {
@@ -519,7 +467,6 @@ document.addEventListener('DOMContentLoaded', () => {
             playerButtons.forEach(btn => btn.classList.remove('active'));
             this.classList.add('active');
             activePlayer = this.dataset.playerId;
-            useProxy = true; // Toujours essayer le proxy d'abord
             updateIframeSource();
         });
     });
@@ -527,6 +474,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Fonction déclencheur du bouton
     function launchVideo() {
         updateIframeSource();
+      
 
         const videoSection = document.querySelector('.video-section');
         if (videoSection) {
