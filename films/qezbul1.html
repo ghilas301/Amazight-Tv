@@ -504,7 +504,7 @@ document.addEventListener('DOMContentLoaded', function() {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.7) url('../images/.jpg') center center/cover no-repeat;
+    background: rgba(0, 0, 0, 0.8);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -515,18 +515,55 @@ document.addEventListener('DOMContentLoaded', function() {
 }
 
 #video-play-overlay:hover {
-    background-color: rgba(0, 0, 0, 0.6);
+    background: rgba(0, 0, 0, 0.7);
 }
 
 #video-play-overlay:hover .play-icon-lg {
     transform: scale(1.1);
+    color: #ff0000;
 }
 
 .play-icon-lg {
     font-size: 5em;
     color: #e50914;
-    text-shadow: 0 0 20px rgba(0,0,0,0.8);
-    transition: transform 0.3s ease;
+    text-shadow: 0 0 30px rgba(229, 9, 20, 0.5);
+    transition: all 0.3s ease;
+}
+
+/* Styles spécifiques pour le plein écran mobile */
+@media (max-width: 768px) {
+    .video-responsive-container {
+        height: auto;
+        min-height: 300px;
+    }
+    
+    :-webkit-full-screen .video-responsive-container {
+        width: 100vw !important;
+        height: 100vh !important;
+        padding-bottom: 0 !important;
+    }
+    
+    :-moz-full-screen .video-responsive-container {
+        width: 100vw !important;
+        height: 100vh !important;
+        padding-bottom: 0 !important;
+    }
+    
+    :-ms-fullscreen .video-responsive-container {
+        width: 100vw !important;
+        height: 100vh !important;
+        padding-bottom: 0 !important;
+    }
+    
+    :fullscreen .video-responsive-container {
+        width: 100vw !important;
+        height: 100vh !important;
+        padding-bottom: 0 !important;
+    }
+    
+    .play-icon-lg {
+        font-size: 4em;
+    }
 }
 </style>
 
