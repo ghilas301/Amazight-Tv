@@ -292,35 +292,17 @@
         </div>
     </div>
   </section>
-
- <section class="video-section">
-    <h3>Regarder Qezbul 1 en Streaming HD</h3> <div class="player-selector" id="player-selector">
-        <button class="player-button active" data-player-id="dood">
-            <i class="fas fa-video"></i> Lecteur 1 (Dood)
-        </button>
-        <button class="player-button" data-player-id="streamtape">
-            <i class="fas fa-video"></i> Lecteur 2 (Streamtape)
-        </button>
-    </div>
+<section class="video-section">
+    <h3>Regarder Pucci 1 en Streaming HD</h3>
     <div class="video-responsive-container">
-        <div class="video-play-overlay" id="video-play-overlay">
-            <i class="fas fa-play play-icon-lg"></i>
-        </div>
- <iframe id="video-iframe-player" 
-                loading="lazy" 
-                decoding="async"
-                
-                src="" 
-                allow="autoplay; fullscreen" 
-                allowfullscreen 
-                title="Lecteur vidéo Crek 1"
-                width="100%" 
-                height="100%">
+        <iframe 
+            src="https://hglink.to/e/yt3txh0bxhtm" 
+            allow="autoplay; fullscreen" 
+            allowfullscreen 
+            title="Lecteur vidéo Pucci 1"
+            width="100%" 
+            height="100%">
         </iframe>
-        <div class="video-loading" id="video-loading-player" style="display: none;">
-            <i class="fas fa-spinner fa-spin loading-pulse"></i>
-            <p>Chargement de la vidéo...</p>
-        </div>
     </div>
 </section>
 <!-- === ADSTERRA NATIVE BANNER === -->
@@ -389,98 +371,117 @@
 </footer>
 
 <script>
-document.addEventListener('DOMContentLoaded', () => {
-
-    // Liens des lecteurs vidéo
-    const videoLinks = {
-        'dood': 'https://hglink.to/e/yt3txh0bxhtm', 
-        'streamtape': 'https://streamtape.com/e/QbgypGOLYAH99m'
-    };
-
-    // Sélecteurs
-    const playOverlay = document.getElementById('video-play-overlay');
-    const videoLoading = document.getElementById('video-loading-player');
-    let videoIframe = document.getElementById('video-iframe-player');
-    const playerButtons = document.querySelectorAll('.player-button');
-    const playButton = document.querySelector('.hero-play-button');
-
-
-
-    let activePlayer = 'dood';
-
-    // Fonction pour mettre à jour l'iframe
-    function updateIframeSource() {
-        const link = videoLinks[activePlayer];
-        if (!link) {
-            console.error(`Lien non configuré pour ${activePlayer}`);
-            videoLoading.style.display = 'none';
-            playOverlay.style.display = 'flex';
-            return;
+// Version optimisée mobile
+document.addEventListener('DOMContentLoaded', function() {
+    const iframe = document.querySelector('iframe');
+    const videoContainer = document.querySelector('.video-responsive-container');
+    
+    // Créer un bouton plein écran responsive
+    const fullscreenBtn = document.createElement('button');
+    fullscreenBtn.innerHTML = '<i class="fas fa-expand"></i>';
+    fullscreenBtn.setAttribute('aria-label', 'Plein écran');
+    fullscreenBtn.style.cssText = `
+        position: absolute;
+        bottom: 15px;
+        right: 15px;
+        z-index: 100;
+        background: rgba(229, 9, 20, 0.95);
+        color: white;
+        border: none;
+        padding: 12px 15px;
+        border-radius: 50%;
+        cursor: pointer;
+        font-size: 16px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.7);
+        width: 50px;
+        height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    `;
+    
+    // Styles responsives pour mobile
+    const mobileStyles = `
+        @media (max-width: 768px) {
+            .video-responsive-container iframe {
+                transform: scale(0.95);
+                transform-origin: center center;
+            }
+            
+            :-webkit-full-screen .video-responsive-container iframe {
+                transform: scale(1) !important;
+                width: 100vw !important;
+                height: 100vh !important;
+            }
+            
+            :fullscreen .video-responsive-container iframe {
+                transform: scale(1) !important;
+                width: 100vw !important;
+                height: 100vh !important;
+            }
         }
-
-        playOverlay.style.display = 'none';
-        videoLoading.style.display = 'flex';
-
-        if (videoIframe) videoIframe.src = 'about:blank';
-
-     const newIframe = document.createElement('iframe');
-newIframe.id = 'video-iframe-player';
-newIframe.src = link;
-newIframe.loading = 'lazy';
-newIframe.decoding = 'async';
-newIframe.allow = 'autoplay; fullscreen; encrypted-media';
-newIframe.setAttribute('allowfullscreen', '');  // <-- important
-newIframe.setAttribute('webkitallowfullscreen', ''); // Safari
-newIframe.setAttribute('mozallowfullscreen', '');    // Firefox
-newIframe.style.width = '100%';
-newIframe.style.height = '100%';
-newIframe.style.border = 'none';
-
-
-        const container = videoIframe.parentNode;
-        container.replaceChild(newIframe, videoIframe);
-        videoIframe = newIframe;
-
-        const loadingTimeout = setTimeout(() => { videoLoading.style.display = 'none'; }, 8000);
-
-        videoIframe.onload = () => {
-            clearTimeout(loadingTimeout);
-            videoLoading.style.display = 'none';
-        };
-        videoIframe.onerror = () => {
-            clearTimeout(loadingTimeout);
-            videoLoading.style.display = 'none';
-            alert('Lecteur bloqué ou indisponible. Essaie l\'autre lecteur.');
-        };
-    }
-
-    // Changement de lecteur
-    playerButtons.forEach(button => {
-        button.addEventListener('click', function() {
-            playerButtons.forEach(btn => btn.classList.remove('active'));
-            this.classList.add('active');
-            activePlayer = this.dataset.playerId;
-            updateIframeSource();
-        });
-    });
-
-    // Fonction déclencheur du bouton
-    function launchVideo() {
-        updateIframeSource();
-       
-
-        const videoSection = document.querySelector('.video-section');
-        if (videoSection) {
-            videoSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    `;
+    
+    // Injecter les styles mobiles
+    const styleSheet = document.createElement('style');
+    styleSheet.textContent = mobileStyles;
+    document.head.appendChild(styleSheet);
+    
+    videoContainer.appendChild(fullscreenBtn);
+    
+    function toggleFullscreen() {
+        if (!document.fullscreenElement) {
+            // Entrer en plein écran
+            if (videoContainer.requestFullscreen) {
+                videoContainer.requestFullscreen();
+            } else if (videoContainer.webkitRequestFullscreen) {
+                videoContainer.webkitRequestFullscreen();
+            } else if (videoContainer.msRequestFullscreen) {
+                videoContainer.msRequestFullscreen();
+            }
+        } else {
+            // Sortir du plein écran
+            if (document.exitFullscreen) {
+                document.exitFullscreen();
+            } else if (document.webkitExitFullscreen) {
+                document.webkitExitFullscreen();
+            } else if (document.msExitFullscreen) {
+                document.msExitFullscreen();
+            }
         }
     }
-
-    if (playButton) playButton.addEventListener('click', launchVideo);
-    if (playOverlay) playOverlay.addEventListener('click', launchVideo);
-
+    
+    fullscreenBtn.addEventListener('click', toggleFullscreen);
+    
+    // Mettre à jour l'icône
+    document.addEventListener('fullscreenchange', updateIcon);
+    document.addEventListener('webkitfullscreenchange', updateIcon);
+    
+    function updateIcon() {
+        if (document.fullscreenElement) {
+            fullscreenBtn.innerHTML = '<i class="fas fa-compress"></i>';
+        } else {
+            fullscreenBtn.innerHTML = '<i class="fas fa-expand"></i>';
+        }
+    }
+    
+    // Forcer le redimensionnement après le plein écran
+    document.addEventListener('fullscreenchange', handleResize);
+    document.addEventListener('webkitfullscreenchange', handleResize);
+    
+    function handleResize() {
+        setTimeout(() => {
+            if (document.fullscreenElement) {
+                iframe.style.width = '100vw';
+                iframe.style.height = '100vh';
+            } else {
+                iframe.style.width = '100%';
+                iframe.style.height = '100%';
+            }
+        }, 100);
+    }
 });
 </script>
-
 
 <script type='text/javascript' src='//imbueprescriptionhumiliation.com/5b/e3/c8/5be3c802690304ae4cc89040ad2ca066.js'></script>
 
