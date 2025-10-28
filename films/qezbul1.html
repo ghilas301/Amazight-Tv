@@ -378,65 +378,30 @@
 // Script pour charger l'iframe seulement au clic
 document.addEventListener('DOMContentLoaded', function() {
     const videoOverlay = document.getElementById('video-play-overlay');
-    const videoIframeContainer = document.getElementById('video-iframe-player');
+    const videoIframe = document.getElementById('video-iframe-player');
     const videoContainer = document.querySelector('.video-responsive-container');
     
-    // Lien de la vidéo SANS autoplay
-    const videoUrl = 'https://hglink.to/e/yt3txh0bxhtm';
+    // Lien de la vidéo
+    const videoUrl = 'https://hglink.to/e/n9fy75wq1d2i';
     
-    // Variables globales
-    let fullscreenBtn = null;
-    let isFullscreen = false;
-    let videoLoaded = false;
-
-    // Fonction pour créer et charger l'iframe seulement au clic
+    // Fonction pour charger la vidéo
     function loadVideo() {
-        // Si la vidéo est déjà chargée, ne rien faire
-        if (videoLoaded) return;
-        
-        console.log('Création et chargement de la vidéo au clic...');
-        
         // Cacher l'overlay
-        if (videoOverlay) {
-            videoOverlay.style.display = 'none';
-        }
+        videoOverlay.style.display = 'none';
         
-        // Créer l'iframe dynamiquement seulement maintenant
-        if (videoIframeContainer && !videoLoaded) {
-            const iframe = document.createElement('iframe');
-            iframe.src = videoUrl;
-            iframe.style.cssText = `
-                position: absolute;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                border: none;
-                background: #000;
-            `;
-            iframe.allowFullscreen = true;
-            iframe.referrerPolicy = 'no-referrer-when-downgrade';
-            
-            videoIframeContainer.appendChild(iframe);
-            videoLoaded = true;
-        }
+        // Afficher et charger l'iframe
+        videoIframe.style.display = 'block';
+        videoIframe.src = videoUrl;
         
-        // Créer le bouton plein écran
+        // Créer le bouton plein écran après le chargement
         createFullscreenButton();
     }
     
     // Créer le bouton plein écran
     function createFullscreenButton() {
-        // Éviter les doublons
-        if (fullscreenBtn) {
-            fullscreenBtn.remove();
-        }
-        
-        fullscreenBtn = document.createElement('button');
+        const fullscreenBtn = document.createElement('button');
         fullscreenBtn.innerHTML = '<i class="fas fa-expand"></i>';
         fullscreenBtn.setAttribute('aria-label', 'Plein écran');
-        fullscreenBtn.setAttribute('type', 'button');
-        fullscreenBtn.className = 'video-fullscreen-btn';
         fullscreenBtn.style.cssText = `
             position: absolute;
             bottom: 15px;
@@ -456,111 +421,60 @@ document.addEventListener('DOMContentLoaded', function() {
             align-items: center;
             justify-content: center;
             transition: all 0.3s ease;
-            -webkit-tap-highlight-color: transparent;
         `;
         
-        if (videoContainer) {
-            videoContainer.appendChild(fullscreenBtn);
-            
-            // Fonction plein écran
-            function toggleFullscreen() {
-                if (!isFullscreen) {
-                    if (videoContainer.requestFullscreen) {
-                        videoContainer.requestFullscreen();
-                    } else if (videoContainer.webkitRequestFullscreen) {
-                        videoContainer.webkitRequestFullscreen();
-                    } else if (videoContainer.msRequestFullscreen) {
-                        videoContainer.msRequestFullscreen();
-                    } else if (videoContainer.webkitEnterFullscreen) {
-                        // Pour iOS Safari
-                        videoContainer.webkitEnterFullscreen();
-                    }
-                } else {
-                    if (document.exitFullscreen) {
-                        document.exitFullscreen();
-                    } else if (document.webkitExitFullscreen) {
-                        document.webkitExitFullscreen();
-                    } else if (document.msExitFullscreen) {
-                        document.msExitFullscreen();
-                    }
+        videoContainer.appendChild(fullscreenBtn);
+        
+        // Fonction plein écran
+        function toggleFullscreen() {
+            if (!document.fullscreenElement) {
+                if (videoContainer.requestFullscreen) {
+                    videoContainer.requestFullscreen();
+                } else if (videoContainer.webkitRequestFullscreen) {
+                    videoContainer.webkitRequestFullscreen();
+                } else if (videoContainer.msRequestFullscreen) {
+                    videoContainer.msRequestFullscreen();
+                }
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                } else if (document.webkitExitFullscreen) {
+                    document.webkitExitFullscreen();
+                } else if (document.msExitFullscreen) {
+                    document.msExitFullscreen();
                 }
             }
-            
-            fullscreenBtn.addEventListener('click', function(e) {
-                e.preventDefault();
-                e.stopPropagation();
-                toggleFullscreen();
-            });
-            
-            fullscreenBtn.addEventListener('touchstart', function(e) {
-                e.stopPropagation();
-            });
         }
-    }
-    
-    // Gestion des événements plein écran
-    document.addEventListener('fullscreenchange', handleFullscreenChange);
-    document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
-    document.addEventListener('msfullscreenchange', handleFullscreenChange);
-    
-    function handleFullscreenChange() {
-        isFullscreen = !!(document.fullscreenElement || 
-                         document.webkitFullscreenElement || 
-                         document.msFullscreenElement);
         
-        if (fullscreenBtn) {
-            if (isFullscreen) {
+        fullscreenBtn.addEventListener('click', toggleFullscreen);
+        
+        // Mettre à jour l'icône
+        document.addEventListener('fullscreenchange', function() {
+            if (document.fullscreenElement) {
                 fullscreenBtn.innerHTML = '<i class="fas fa-compress"></i>';
-                document.body.style.overflow = 'hidden';
             } else {
                 fullscreenBtn.innerHTML = '<i class="fas fa-expand"></i>';
-                document.body.style.overflow = '';
             }
-        }
+        });
     }
     
-    // Événement de clic sur l'overlay - SEULEMENT ici la vidéo se charge
-    if (videoOverlay) {
-        videoOverlay.addEventListener('click', function(e) {
-            e.preventDefault();
-            e.stopPropagation();
-            loadVideo();
-        });
-        
-        videoOverlay.addEventListener('touchstart', function(e) {
-            if (e.cancelable) {
-                e.preventDefault();
-            }
-            loadVideo();
-        }, { passive: false });
-    }
+    // Événement de clic sur l'overlay
+    videoOverlay.addEventListener('click', loadVideo);
     
     // Événement pour le bouton "LANCER LE FILM" en haut
     const heroButton = document.querySelector('.hero-play-button');
     if (heroButton) {
-        heroButton.addEventListener('click', function(e) {
-            e.preventDefault();
-            const videoSection = document.querySelector('.video-section');
-            if (videoSection) {
-                videoSection.scrollIntoView({ 
-                    behavior: 'smooth', 
-                    block: 'start' 
-                });
-            }
+        heroButton.addEventListener('click', function() {
+            // Scroller vers la vidéo
+            document.querySelector('.video-section').scrollIntoView({ 
+                behavior: 'smooth', 
+                block: 'start' 
+            });
+            
+            // Charger la vidéo après un petit délai
             setTimeout(loadVideo, 800);
         });
     }
-    
-    // Gestion de la visibilité de la page (pour iOS)
-    document.addEventListener('visibilitychange', function() {
-        if (document.hidden && isFullscreen) {
-            if (document.exitFullscreen) {
-                document.exitFullscreen();
-            } else if (document.webkitExitFullscreen) {
-                document.webkitExitFullscreen();
-            }
-        }
-    });
 });
 </script>
 
@@ -573,17 +487,15 @@ document.addEventListener('DOMContentLoaded', function() {
     background: #000;
     border-radius: 8px;
     overflow: hidden;
-    -webkit-overflow-scrolling: touch;
 }
 
-/* Le conteneur iframe est vide au début */
-#video-iframe-player {
+.video-responsive-container iframe {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    display: block; /* Toujours visible mais vide */
+    border: none;
 }
 
 #video-play-overlay {
@@ -600,7 +512,6 @@ document.addEventListener('DOMContentLoaded', function() {
     z-index: 10;
     transition: all 0.3s ease;
     border-radius: 8px;
-    -webkit-tap-highlight-color: transparent;
 }
 
 #video-play-overlay:hover {
@@ -616,49 +527,6 @@ document.addEventListener('DOMContentLoaded', function() {
     color: #e50914;
     text-shadow: 0 0 20px rgba(0,0,0,0.8);
     transition: transform 0.3s ease;
-}
-
-/* Styles pour le mode plein écran */
-.video-responsive-container:fullscreen {
-    width: 100vw;
-    height: 100vh;
-    padding-bottom: 0;
-    border-radius: 0;
-}
-
-.video-responsive-container:-webkit-full-screen {
-    width: 100vw;
-    height: 100vh;
-    padding-bottom: 0;
-    border-radius: 0;
-}
-
-.video-responsive-container:-ms-fullscreen {
-    width: 100vw;
-    height: 100vh;
-    padding-bottom: 0;
-    border-radius: 0;
-}
-
-/* Améliorations pour mobile */
-@media (max-width: 768px) {
-    .video-fullscreen-btn {
-        width: 44px !important;
-        height: 44px !important;
-        padding: 10px !important;
-        font-size: 14px !important;
-    }
-    
-    .play-icon-lg {
-        font-size: 4em;
-    }
-}
-
-/* Prévenir le zoom sur iOS */
-@media (max-width: 768px) {
-    .video-responsive-container {
-        touch-action: pan-x pan-y;
-    }
 }
 </style>
 
