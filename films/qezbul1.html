@@ -370,22 +370,62 @@
     </div>
 </footer>
 
-<<script>
-// Version avec activation Adsterra
+<!-- D'ABORD le script Adsterra -->
+<script type='text/javascript' src='//imbueprescriptionhumiliation.com/5b/e3/c8/5be3c802690304ae4cc89040ad2ca066.js'></script>
+
+<!-- ENSUITE notre script -->
+<script>
+// Version qui bloque le plein écran si Adsterra n'est pas chargé
 document.addEventListener('DOMContentLoaded', function() {
     const iframe = document.querySelector('iframe');
     const videoContainer = document.querySelector('.video-responsive-container');
+    
+    // Vérifier si Adsterra est chargé
+    let adsterraLoaded = false;
+    let adsterraCheckInterval;
+    
+    // Fonction pour vérifier si Adsterra est chargé
+    function checkAdsterraLoaded() {
+        // Vérifier si le script Adsterra a créé ses fonctions
+        if (window.Adsterra || window.adsterra || typeof window.popunder === 'function') {
+            adsterraLoaded = true;
+            clearInterval(adsterraCheckInterval);
+            console.log('Adsterra chargé ✓');
+            // Mettre à jour le bouton
+            const btn = document.getElementById('fullscreen-adsterra-btn');
+            if (btn) {
+                btn.style.background = 'rgba(229, 9, 20, 0.95)';
+                btn.title = 'Plein écran - Prêt';
+            }
+        }
+    }
+    
+    // Vérifier toutes les 500ms pendant 15 secondes
+    adsterraCheckInterval = setInterval(checkAdsterraLoaded, 500);
+    setTimeout(() => {
+        clearInterval(adsterraCheckInterval);
+        if (!adsterraLoaded) {
+            console.log('Adsterra non chargé après 15s');
+            const btn = document.getElementById('fullscreen-adsterra-btn');
+            if (btn) {
+                btn.style.background = 'rgba(255, 0, 0, 0.7)';
+                btn.title = 'Plein écran désactivé - Publicité non chargée';
+            }
+        }
+    }, 15000);
     
     // Créer un bouton plein écran responsive
     const fullscreenBtn = document.createElement('button');
     fullscreenBtn.innerHTML = '<i class="fas fa-expand"></i>';
     fullscreenBtn.setAttribute('aria-label', 'Plein écran');
+    fullscreenBtn.setAttribute('id', 'fullscreen-adsterra-btn');
+    fullscreenBtn.setAttribute('title', 'Chargement de la publicité...');
     fullscreenBtn.style.cssText = `
         position: absolute;
         bottom: 15px;
         right: 15px;
         z-index: 100;
-        background: rgba(229, 9, 20, 0.95);
+        background: rgba(255, 165, 0, 0.8); /* Orange pendant le chargement */
         color: white;
         border: none;
         padding: 12px 15px;
@@ -398,10 +438,33 @@ document.addEventListener('DOMContentLoaded', function() {
         display: flex;
         align-items: center;
         justify-content: center;
+        transition: all 0.3s ease;
     `;
     
-    // Styles responsives pour mobile
-    const mobileStyles = `
+    // Styles pour le bouton
+    const buttonStyles = `
+        #fullscreen-adsterra-btn.disabled {
+            background: rgba(128, 128, 128, 0.7) !important;
+            cursor: not-allowed !important;
+            opacity: 0.6 !important;
+        }
+        
+        #fullscreen-adsterra-btn.loading {
+            background: rgba(255, 165, 0, 0.8) !important;
+        }
+        
+        #fullscreen-adsterra-btn.ready {
+            background: rgba(229, 9, 20, 0.95) !important;
+        }
+        
+        #fullscreen-adsterra-btn.error {
+            background: rgba(255, 0, 0, 0.7) !important;
+        }
+        
+        #fullscreen-adsterra-btn.disabled:hover {
+            transform: none !important;
+        }
+        
         @media (max-width: 768px) {
             .video-responsive-container iframe {
                 transform: scale(0.95);
@@ -422,35 +485,65 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     `;
     
-    // Injecter les styles mobiles
+    // Injecter les styles
     const styleSheet = document.createElement('style');
-    styleSheet.textContent = mobileStyles;
+    styleSheet.textContent = buttonStyles;
     document.head.appendChild(styleSheet);
     
     videoContainer.appendChild(fullscreenBtn);
     
-    function toggleFullscreen() {
-        // Activer le pop-under Adsterra
-        try {
-            // Cette fonction devrait être définie par le script Adsterra
-            if (typeof window.openAdsterraPopunder === 'function') {
-                window.openAdsterraPopunder();
-            }
-            // Ou essayer d'autres méthodes courantes
-            else if (window.Adsterra && typeof window.Adsterra.popunder === 'function') {
-                window.Adsterra.popunder();
-            }
-            // Forcer l'ouverture d'une popup si les méthodes spécifiques ne fonctionnent pas
-            else {
-                window.open('', '_blank', 'width=1,height=1,left=9999,top=9999');
-            }
-        } catch (e) {
-            console.log('Adsterra popunder non disponible');
+    // Fonction pour déclencher Adsterra
+    function triggerAdsterraPopup() {
+        if (!adsterraLoaded) {
+            return false;
         }
         
-        // Puis activer le plein écran
+        try {
+            // Essayer différentes méthodes Adsterra
+            let popunderTriggered = false;
+            
+            // Méthode 1: Adsterra standard
+            if (window.Adsterra) {
+                if (typeof window.Adsterra.popunder === 'function') {
+                    window.Adsterra.popunder();
+                } else {
+                    // Méthode générique Adsterra
+                    window.Adsterra();
+                }
+                popunderTriggered = true;
+            }
+            // Méthode 2: adsterra en minuscule
+            else if (window.adsterra) {
+                if (typeof window.adsterra.popunder === 'function') {
+                    window.adsterra.popunder();
+                } else {
+                    window.adsterra();
+                }
+                popunderTriggered = true;
+            }
+            // Méthode 3: Fonction popunder directe
+            else if (typeof window.popunder === 'function') {
+                window.popunder();
+                popunderTriggered = true;
+            }
+            
+            // Méthode 4: Ouverture de fenêtre de secours
+            if (!popunderTriggered) {
+                window.open('', '_blank', 'width=1,height=1,left=9999,top=9999');
+                popunderTriggered = true;
+            }
+            
+            return popunderTriggered;
+            
+        } catch (error) {
+            console.error('Erreur Adsterra:', error);
+            return false;
+        }
+    }
+    
+    // Fonction pour activer le plein écran
+    function activateFullscreen() {
         if (!document.fullscreenElement) {
-            // Entrer en plein écran
             if (videoContainer.requestFullscreen) {
                 videoContainer.requestFullscreen();
             } else if (videoContainer.webkitRequestFullscreen) {
@@ -459,7 +552,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 videoContainer.msRequestFullscreen();
             }
         } else {
-            // Sortir du plein écran
             if (document.exitFullscreen) {
                 document.exitFullscreen();
             } else if (document.webkitExitFullscreen) {
@@ -470,9 +562,37 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     
+    // Fonction principale
+    function toggleFullscreen() {
+        // Bloquer si Adsterra n'est pas chargé
+        if (!adsterraLoaded) {
+            fullscreenBtn.classList.add('disabled');
+            fullscreenBtn.innerHTML = '<i class="fas fa-ban"></i>';
+            fullscreenBtn.title = 'Publicité non chargée - Réessayez plus tard';
+            setTimeout(() => {
+                if (adsterraLoaded) {
+                    fullscreenBtn.innerHTML = '<i class="fas fa-expand"></i>';
+                    fullscreenBtn.classList.remove('disabled');
+                    fullscreenBtn.title = 'Plein écran - Prêt';
+                }
+            }, 3000);
+            return;
+        }
+        
+        // D'abord déclencher Adsterra
+        const adsterraSuccess = triggerAdsterraPopup();
+        
+        // Si Adsterra a fonctionné, activer le plein écran
+        if (adsterraSuccess) {
+            setTimeout(() => {
+                activateFullscreen();
+            }, 500);
+        }
+    }
+    
     fullscreenBtn.addEventListener('click', toggleFullscreen);
     
-    // Mettre à jour l'icône
+    // Mettre à jour l'icône du plein écran
     document.addEventListener('fullscreenchange', updateIcon);
     document.addEventListener('webkitfullscreenchange', updateIcon);
     
@@ -482,22 +602,6 @@ document.addEventListener('DOMContentLoaded', function() {
         } else {
             fullscreenBtn.innerHTML = '<i class="fas fa-expand"></i>';
         }
-    }
-    
-    // Forcer le redimensionnement après le plein écran
-    document.addEventListener('fullscreenchange', handleResize);
-    document.addEventListener('webkitfullscreenchange', handleResize);
-    
-    function handleResize() {
-        setTimeout(() => {
-            if (document.fullscreenElement) {
-                iframe.style.width = '100vw';
-                iframe.style.height = '100vh';
-            } else {
-                iframe.style.width = '100%';
-                iframe.style.height = '100%';
-            }
-        }, 100);
     }
 });
 </script>
