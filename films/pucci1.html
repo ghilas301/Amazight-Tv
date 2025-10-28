@@ -15,6 +15,8 @@
   <meta property="og:type" content="video.movie">
   <meta name="keywords" content="film kabyle, cinema amazigh, streaming gratuit, pucci1, qezbul, li mucucu">
   <meta name="author" content="Amazigh TV">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  
   
   <link rel="canonical" href="https://amazigh-tv.site/films/pucci1.html">
   <link rel="stylesheet" href="../style.css">
@@ -397,10 +399,12 @@ document.addEventListener('DOMContentLoaded', function() {
         const fullscreenBtn = document.createElement('button');
         fullscreenBtn.innerHTML = '<i class="fas fa-expand"></i>';
         fullscreenBtn.setAttribute('aria-label', 'Plein écran');
+        fullscreenBtn.setAttribute('type', 'button');
+        fullscreenBtn.className = 'video-fullscreen-btn';
         fullscreenBtn.style.cssText = `
             position: absolute;
-            bottom: 15px;
-            right: 15px;
+            bottom: 20px;
+            right: 20px;
             z-index: 100;
             background: rgba(229, 9, 20, 0.95);
             color: white;
@@ -416,19 +420,30 @@ document.addEventListener('DOMContentLoaded', function() {
             align-items: center;
             justify-content: center;
             transition: all 0.3s ease;
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
         `;
         
         videoContainer.appendChild(fullscreenBtn);
         
-        // Fonction plein écran
+        // Fonction plein écran améliorée
         function toggleFullscreen() {
             if (!document.fullscreenElement) {
+                // Empêcher le zoom
+                const metaViewport = document.querySelector('meta[name="viewport"]');
+                if (metaViewport) {
+                    metaViewport.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no');
+                }
+                
                 if (videoContainer.requestFullscreen) {
                     videoContainer.requestFullscreen();
                 } else if (videoContainer.webkitRequestFullscreen) {
                     videoContainer.webkitRequestFullscreen();
                 } else if (videoContainer.msRequestFullscreen) {
                     videoContainer.msRequestFullscreen();
+                } else if (videoIframe.webkitEnterFullscreen) {
+                    // Pour les iframes sur iOS
+                    videoIframe.webkitEnterFullscreen();
                 }
             } else {
                 if (document.exitFullscreen) {
@@ -438,23 +453,65 @@ document.addEventListener('DOMContentLoaded', function() {
                 } else if (document.msExitFullscreen) {
                     document.msExitFullscreen();
                 }
+                
+                // Restaurer le viewport normal
+                setTimeout(() => {
+                    const metaViewport = document.querySelector('meta[name="viewport"]');
+                    if (metaViewport) {
+                        metaViewport.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no');
+                    }
+                }, 100);
             }
         }
         
-        fullscreenBtn.addEventListener('click', toggleFullscreen);
+        fullscreenBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            toggleFullscreen();
+        });
         
-        // Mettre à jour l'icône
-        document.addEventListener('fullscreenchange', function() {
-            if (document.fullscreenElement) {
+        // Événement tactile pour mobile
+        fullscreenBtn.addEventListener('touchstart', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }, { passive: false });
+        
+        // Mettre à jour l'icône et gérer le viewport
+        function handleFullscreenChange() {
+            if (document.fullscreenElement || 
+                document.webkitFullscreenElement || 
+                document.msFullscreenElement) {
                 fullscreenBtn.innerHTML = '<i class="fas fa-compress"></i>';
+                
+                // Bloquer le zoom en plein écran
+                document.body.style.overflow = 'hidden';
+                const metaViewport = document.querySelector('meta[name="viewport"]');
+                if (metaViewport) {
+                    metaViewport.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no');
+                }
             } else {
                 fullscreenBtn.innerHTML = '<i class="fas fa-expand"></i>';
+                
+                // Restaurer le défilement
+                document.body.style.overflow = '';
             }
-        });
+        }
+        
+        document.addEventListener('fullscreenchange', handleFullscreenChange);
+        document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
+        document.addEventListener('msfullscreenchange', handleFullscreenChange);
     }
     
     // Événement de clic sur l'overlay
     videoOverlay.addEventListener('click', loadVideo);
+    
+    // Événement tactile pour l'overlay
+    videoOverlay.addEventListener('touchstart', function(e) {
+        if (e.cancelable) {
+            e.preventDefault();
+        }
+        loadVideo();
+    }, { passive: false });
     
     // Événement pour le bouton "LANCER LE FILM" en haut
     const heroButton = document.querySelector('.hero-play-button');
@@ -470,10 +527,31 @@ document.addEventListener('DOMContentLoaded', function() {
             setTimeout(loadVideo, 800);
         });
     }
+    
+    // Gestion du redimensionnement pour mobile
+    window.addEventListener('resize', function() {
+        if (document.fullscreenElement || 
+            document.webkitFullscreenElement || 
+            document.msFullscreenElement) {
+            // Forcer le viewport en plein écran
+            const metaViewport = document.querySelector('meta[name="viewport"]');
+            if (metaViewport) {
+                metaViewport.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no');
+            }
+        }
+    });
 });
 </script>
 
 <style>
+/* Empêcher le zoom sur mobile */
+html {
+    -webkit-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+    touch-action: manipulation;
+}
+
 .video-responsive-container {
     position: relative;
     width: 100%;
@@ -482,6 +560,8 @@ document.addEventListener('DOMContentLoaded', function() {
     background: #000;
     border-radius: 8px;
     overflow: hidden;
+    -webkit-overflow-scrolling: touch;
+    touch-action: pan-x pan-y;
 }
 
 .video-responsive-container iframe {
@@ -491,6 +571,32 @@ document.addEventListener('DOMContentLoaded', function() {
     width: 100%;
     height: 100%;
     border: none;
+    background: #000;
+}
+
+/* Styles pour le mode plein écran */
+.video-responsive-container:fullscreen {
+    width: 100vw !important;
+    height: 100vh !important;
+    padding-bottom: 0 !important;
+    border-radius: 0 !important;
+    background: #000;
+}
+
+.video-responsive-container:-webkit-full-screen {
+    width: 100vw !important;
+    height: 100vh !important;
+    padding-bottom: 0 !important;
+    border-radius: 0 !important;
+    background: #000;
+}
+
+.video-responsive-container:-ms-fullscreen {
+    width: 100vw !important;
+    height: 100vh !important;
+    padding-bottom: 0 !important;
+    border-radius: 0 !important;
+    background: #000;
 }
 
 #video-play-overlay {
@@ -507,6 +613,8 @@ document.addEventListener('DOMContentLoaded', function() {
     z-index: 10;
     transition: all 0.3s ease;
     border-radius: 8px;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
 }
 
 #video-play-overlay:hover {
@@ -522,6 +630,39 @@ document.addEventListener('DOMContentLoaded', function() {
     color: #e50914;
     text-shadow: 0 0 20px rgba(0,0,0,0.8);
     transition: transform 0.3s ease;
+}
+
+/* Améliorations pour mobile */
+@media (max-width: 768px) {
+    .video-fullscreen-btn {
+        width: 44px !important;
+        height: 44px !important;
+        padding: 10px !important;
+        font-size: 14px !important;
+        bottom: 15px !important;
+        right: 15px !important;
+    }
+    
+    .play-icon-lg {
+        font-size: 4em;
+    }
+    
+    .video-responsive-container {
+        border-radius: 4px;
+    }
+    
+    #video-play-overlay {
+        border-radius: 4px;
+    }
+}
+
+/* Désactiver le zoom sur les éléments interactifs */
+button, .video-fullscreen-btn, #video-play-overlay {
+    touch-action: manipulation;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 </style>
 
