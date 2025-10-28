@@ -377,6 +377,41 @@ function scrollToVideo() {
     }
 }
 </script>
+<script>
+// Forcer le plein écran si le bouton natif ne fonctionne pas
+document.addEventListener('DOMContentLoaded', function() {
+    const iframe = document.querySelector('iframe');
+    
+    // Créer un bouton plein écran personnalisé
+    const fullscreenBtn = document.createElement('button');
+    fullscreenBtn.innerHTML = '<i class="fas fa-expand"></i> Plein écran';
+    fullscreenBtn.style.cssText = `
+        position: absolute;
+        bottom: 10px;
+        right: 10px;
+        z-index: 100;
+        background: rgba(0,0,0,0.7);
+        color: white;
+        border: none;
+        padding: 8px 12px;
+        border-radius: 4px;
+        cursor: pointer;
+    `;
+    
+    document.querySelector('.video-responsive-container').appendChild(fullscreenBtn);
+    
+    fullscreenBtn.addEventListener('click', function() {
+        const container = document.querySelector('.video-responsive-container');
+        if (container.requestFullscreen) {
+            container.requestFullscreen();
+        } else if (container.webkitRequestFullscreen) {
+            container.webkitRequestFullscreen();
+        } else if (container.msRequestFullscreen) {
+            container.msRequestFullscreen();
+        }
+    });
+});
+</script>
 
 <script type='text/javascript' src='//imbueprescriptionhumiliation.com/a0/6a/fd/a06afd1b91c7859c505a158626b21ab5.js'></script>
 <script type='text/javascript' src='//imbueprescriptionhumiliation.com/e6/44/c9/e644c95728921f21f50be95a8e83406f.js'></script>
