@@ -423,16 +423,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (videoIframe) videoIframe.src = 'about:blank';
 
-        const newIframe = document.createElement('iframe');
-        newIframe.id = 'video-iframe-player';
-        newIframe.src = link;
-        newIframe.setAttribute('loading', 'lazy');
-        newIframe.setAttribute('decoding', 'async');
-        newIframe.allow = 'autoplay; fullscreen; encrypted-media';
-        newIframe.allowFullscreen = true;
-        newIframe.style.width = '100%';
-        newIframe.style.height = '100%';
-        newIframe.style.border = 'none';
+     const newIframe = document.createElement('iframe');
+newIframe.id = 'video-iframe-player';
+newIframe.src = link;
+newIframe.loading = 'lazy';
+newIframe.decoding = 'async';
+newIframe.allow = 'autoplay; fullscreen; encrypted-media';
+newIframe.setAttribute('allowfullscreen', '');  // <-- important
+newIframe.setAttribute('webkitallowfullscreen', ''); // Safari
+newIframe.setAttribute('mozallowfullscreen', '');    // Firefox
+newIframe.style.width = '100%';
+newIframe.style.height = '100%';
+newIframe.style.border = 'none';
+
 
         const container = videoIframe.parentNode;
         container.replaceChild(newIframe, videoIframe);
