@@ -155,46 +155,22 @@
     }
 
     .video-responsive-container {
-    position: relative;
-    width: 100%;
-    height: 0;
-    padding-bottom: 56.25%; /* Ratio 16:9 */
-    background: #000;
-    border-radius: 8px;
-    overflow: hidden;
-}
+        position: relative;
+        width: 100%;
+        height: 0;
+        padding-bottom: 56.25%; /* Ratio 16:9 */
+        background: #000;
+        border-radius: 8px;
+        overflow: hidden;
+    }
 
-.video-responsive-container iframe {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    border: none;
-}
-    /* Overlay vidéo */
-    #video-play-overlay {
+    .video-responsive-container iframe {
         position: absolute;
         top: 0;
         left: 0;
         width: 100%;
         height: 100%;
-        background-color: rgba(0, 0, 0, 0.6);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        z-index: 5;
-        transition: opacity 0.3s ease;
-        border-radius: 8px;
-    }
-    #video-play-overlay:hover {
-        background-color: rgba(0, 0, 0, 0.8);
-    }
-    #video-play-overlay .play-icon-lg {
-        font-size: 5em;
-        color: var(--color-primary);
-        text-shadow: 0 0 20px rgba(0,0,0,0.5);
+        border: none;
     }
 
     /* Section films suggérés */
@@ -306,8 +282,8 @@
                 <span><i class="fas fa-star"></i> 4.5/5</span>
                 <span><i class="fas fa-eye"></i> HD</span>
             </div>
-            <p class="description">À l’époque glaciaire, un mammouth solitaire nommé Manny, un paresseux maladroit appelé pucci, et un tigre à dents de sabre rusé nommé zenghouf se retrouvent à devoir ramener un bébé humain perdu à sa tribu. Malgré leurs différences, ce trio improbable traverse un monde gelé semé d’embûches et finit par former une véritable petite famille.</p>
-            <button class="hero-play-button" data-video-id="video-pucci1">
+            <p class="description">À l'époque glaciaire, un mammouth solitaire nommé Manny, un paresseux maladroit appelé pucci, et un tigre à dents de sabre rusé nommé zenghouf se retrouvent à devoir ramener un bébé humain perdu à sa tribu. Malgré leurs différences, ce trio improbable traverse un monde gelé semé d'embûches et finit par former une véritable petite famille.</p>
+            <button class="hero-play-button" onclick="scrollToVideo()">
                 <i class="fas fa-play play-icon"></i> LANCER LE FILM
             </button>
         </div>
@@ -315,34 +291,16 @@
   </section>
 
 <section class="video-section">
-    <h3>Regarder Pucci 1 en Streaming HD</h3> <div class="player-selector" id="player-selector">
-        <button class="player-button active" data-player-id="dood">
-            <i class="fas fa-video"></i> Lecteur 1 (Dood)
-        </button>
-        <button class="player-button" data-player-id="streamtape">
-            <i class="fas fa-video"></i> Lecteur 2 (Streamtape)
-        </button>
-    </div>
+    <h3>Regarder Pucci 1 en Streaming HD</h3>
     <div class="video-responsive-container">
-        <div class="video-play-overlay" id="video-play-overlay">
-            <i class="fas fa-play play-icon-lg"></i>
-        </div>
-        
-      <iframe id="video-iframe-player" 
-                loading="lazy" 
-                decoding="async"
-               
-                src="" 
-                allow="autoplay; fullscreen" 
-                allowfullscreen 
-                title="Lecteur vidéo Crek 1"
-                width="100%" 
-                height="100%">
+        <iframe 
+            src="https://hglink.to/e/j9tsobh2m54t" 
+            allow="autoplay; fullscreen" 
+            allowfullscreen 
+            title="Lecteur vidéo Pucci 1"
+            width="100%" 
+            height="100%">
         </iframe>
-        <div class="video-loading" id="video-loading-player" style="display: none;">
-            <i class="fas fa-spinner fa-spin loading-pulse"></i>
-            <p>Chargement de la vidéo...</p>
-        </div>
     </div>
 </section>
   
@@ -410,110 +368,18 @@
     </div>
 </footer>
 
-// Remplacer toute la section script par ceci :
-
 <script>
-document.addEventListener('DOMContentLoaded', () => {
-    const videoLinks = {
-        'dood': 'https://hglink.to/e/j9tsobh2m54t', 
-        'streamtape': 'https://streamtape.com/e/JYm93KBoPYIjM7J'
-    };
-
-    const playOverlay = document.getElementById('video-play-overlay');
-    const videoLoading = document.getElementById('video-loading-player');
-    const videoIframe = document.getElementById('video-iframe-player');
-    const playerButtons = document.querySelectorAll('.player-button');
-    const playButton = document.querySelector('.hero-play-button');
-
-    let activePlayer = 'dood';
-    let videoStarted = false;
-
-    // Précharger le premier lecteur
-    function preloadFirstPlayer() {
-        const firstLink = videoLinks[activePlayer];
-        if (firstLink && videoIframe) {
-            videoIframe.src = firstLink;
-        }
+// Fonction simple pour scroller vers la vidéo
+function scrollToVideo() {
+    const videoSection = document.querySelector('.video-section');
+    if (videoSection) {
+        videoSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
-
-    // Fonction pour mettre à jour l'iframe
-    function updateIframeSource() {
-        const link = videoLinks[activePlayer];
-        if (!link) {
-            console.error(`Lien non configuré pour ${activePlayer}`);
-            videoLoading.style.display = 'none';
-            playOverlay.style.display = 'flex';
-            return;
-        }
-
-        playOverlay.style.display = 'none';
-        videoLoading.style.display = 'flex';
-        videoStarted = true;
-
-        // Utiliser directement l'iframe existante
-        videoIframe.src = link;
-        videoIframe.style.display = 'block';
-
-        const loadingTimeout = setTimeout(() => { 
-            videoLoading.style.display = 'none'; 
-        }, 5000);
-
-        videoIframe.onload = () => {
-            clearTimeout(loadingTimeout);
-            videoLoading.style.display = 'none';
-            
-            // Forcer le plein écran après chargement
-            try {
-                videoIframe.contentWindow.focus();
-            } catch (e) {
-                console.log("Focus impossible pour des raisons de sécurité");
-            }
-        };
-
-        videoIframe.onerror = () => {
-            clearTimeout(loadingTimeout);
-            videoLoading.style.display = 'none';
-            alert('Lecteur bloqué ou indisponible. Essaie l\'autre lecteur.');
-        };
-    }
-
-    // Changement de lecteur
-    playerButtons.forEach(button => {
-        button.addEventListener('click', function() {
-            playerButtons.forEach(btn => btn.classList.remove('active'));
-            this.classList.add('active');
-            activePlayer = this.dataset.playerId;
-            updateIframeSource();
-        });
-    });
-
-    // Fonction déclencheur du bouton
-    function launchVideo() {
-        if (!videoStarted) {
-            updateIframeSource();
-        }
-
-        const videoSection = document.querySelector('.video-section');
-        if (videoSection) {
-            videoSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
-    }
-
-    // Événements
-    if (playButton) playButton.addEventListener('click', launchVideo);
-    if (playOverlay) playOverlay.addEventListener('click', launchVideo);
-
-    // Précharger au chargement de la page
-    preloadFirstPlayer();
-});
+}
 </script>
 
-
 <script type='text/javascript' src='//imbueprescriptionhumiliation.com/a0/6a/fd/a06afd1b91c7859c505a158626b21ab5.js'></script>
-
 <script type='text/javascript' src='//imbueprescriptionhumiliation.com/e6/44/c9/e644c95728921f21f50be95a8e83406f.js'></script>
-
-
 
 </body>
 </html>
