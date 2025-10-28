@@ -378,7 +378,7 @@
 // Script pour charger l'iframe seulement au clic
 document.addEventListener('DOMContentLoaded', function() {
     const videoOverlay = document.getElementById('video-play-overlay');
-    const videoIframe = document.getElementById('video-iframe-player');
+    const videoIframeContainer = document.getElementById('video-iframe-player');
     const videoContainer = document.querySelector('.video-responsive-container');
     
     // Lien de la vidéo SANS autoplay
@@ -388,25 +388,36 @@ document.addEventListener('DOMContentLoaded', function() {
     let fullscreenBtn = null;
     let isFullscreen = false;
     let videoLoaded = false;
-    
-    // Fonction pour charger la vidéo seulement au clic
+
+    // Fonction pour créer et charger l'iframe seulement au clic
     function loadVideo() {
         // Si la vidéo est déjà chargée, ne rien faire
         if (videoLoaded) return;
         
-        console.log('Chargement de la vidéo au clic...');
+        console.log('Création et chargement de la vidéo au clic...');
         
         // Cacher l'overlay
         if (videoOverlay) {
             videoOverlay.style.display = 'none';
         }
         
-        // Afficher et charger l'iframe SANS autoplay
-        if (videoIframe) {
-            videoIframe.style.display = 'block';
+        // Créer l'iframe dynamiquement seulement maintenant
+        if (videoIframeContainer && !videoLoaded) {
+            const iframe = document.createElement('iframe');
+            iframe.src = videoUrl;
+            iframe.style.cssText = `
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                border: none;
+                background: #000;
+            `;
+            iframe.allowFullscreen = true;
+            iframe.referrerPolicy = 'no-referrer-when-downgrade';
             
-            // Charger l'URL sans paramètres d'autoplay
-            videoIframe.src = videoUrl;
+            videoIframeContainer.appendChild(iframe);
             videoLoaded = true;
         }
         
@@ -475,14 +486,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             }
             
-            // Utiliser click plutôt que touchstart pour éviter les conflits
             fullscreenBtn.addEventListener('click', function(e) {
                 e.preventDefault();
                 e.stopPropagation();
                 toggleFullscreen();
             });
             
-            // Éviter la propagation des événements tactiles
             fullscreenBtn.addEventListener('touchstart', function(e) {
                 e.stopPropagation();
             });
@@ -502,11 +511,9 @@ document.addEventListener('DOMContentLoaded', function() {
         if (fullscreenBtn) {
             if (isFullscreen) {
                 fullscreenBtn.innerHTML = '<i class="fas fa-compress"></i>';
-                // Ajustements pour le mode plein écran
                 document.body.style.overflow = 'hidden';
             } else {
                 fullscreenBtn.innerHTML = '<i class="fas fa-expand"></i>';
-                // Restaurer le défilement
                 document.body.style.overflow = '';
             }
         }
@@ -514,8 +521,12 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Événement de clic sur l'overlay - SEULEMENT ici la vidéo se charge
     if (videoOverlay) {
-        videoOverlay.addEventListener('click', loadVideo);
-        // Ajouter également le support tactile
+        videoOverlay.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            loadVideo();
+        });
+        
         videoOverlay.addEventListener('touchstart', function(e) {
             if (e.cancelable) {
                 e.preventDefault();
@@ -527,8 +538,8 @@ document.addEventListener('DOMContentLoaded', function() {
     // Événement pour le bouton "LANCER LE FILM" en haut
     const heroButton = document.querySelector('.hero-play-button');
     if (heroButton) {
-        heroButton.addEventListener('click', function() {
-            // Scroller vers la vidéo
+        heroButton.addEventListener('click', function(e) {
+            e.preventDefault();
             const videoSection = document.querySelector('.video-section');
             if (videoSection) {
                 videoSection.scrollIntoView({ 
@@ -536,8 +547,6 @@ document.addEventListener('DOMContentLoaded', function() {
                     block: 'start' 
                 });
             }
-            
-            // Charger la vidéo après un petit délai
             setTimeout(loadVideo, 800);
         });
     }
@@ -545,7 +554,6 @@ document.addEventListener('DOMContentLoaded', function() {
     // Gestion de la visibilité de la page (pour iOS)
     document.addEventListener('visibilitychange', function() {
         if (document.hidden && isFullscreen) {
-            // Sortir du plein écran si la page devient invisible
             if (document.exitFullscreen) {
                 document.exitFullscreen();
             } else if (document.webkitExitFullscreen) {
@@ -553,9 +561,6 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
     });
-    
-    // NE PAS charger automatiquement au démarrage
-    console.log('Vidéo prête - Attente du clic utilisateur');
 });
 </script>
 
@@ -571,15 +576,14 @@ document.addEventListener('DOMContentLoaded', function() {
     -webkit-overflow-scrolling: touch;
 }
 
-.video-responsive-container iframe {
+/* Le conteneur iframe est vide au début */
+#video-iframe-player {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    border: none;
-    background: #000;
-    display: none; /* Caché par défaut */
+    display: block; /* Toujours visible mais vide */
 }
 
 #video-play-overlay {
