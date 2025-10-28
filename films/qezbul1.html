@@ -374,6 +374,7 @@
     </div>
 </footer>
 
+
 <script>
 // Script pour charger l'iframe seulement au clic
 document.addEventListener('DOMContentLoaded', function() {
@@ -382,8 +383,12 @@ document.addEventListener('DOMContentLoaded', function() {
     const videoContainer = document.querySelector('.video-responsive-container');
     
     // Lien de la vidéo
-    const videoUrl = 'https://hglink.to/e/n9fy75wq1d2i';
+    const videoUrl = 'https://hglink.to/e/yt3txh0bxhtm';
+   
     
+    let fullscreenBtn = null;
+    let isFullscreen = false;
+
     // Fonction pour charger la vidéo
     function loadVideo() {
         // Cacher l'overlay
@@ -399,13 +404,20 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Créer le bouton plein écran
     function createFullscreenButton() {
-        const fullscreenBtn = document.createElement('button');
+        // Supprimer le bouton existant s'il y en a un
+        if (fullscreenBtn) {
+            fullscreenBtn.remove();
+        }
+        
+        fullscreenBtn = document.createElement('button');
         fullscreenBtn.innerHTML = '<i class="fas fa-expand"></i>';
         fullscreenBtn.setAttribute('aria-label', 'Plein écran');
+        fullscreenBtn.setAttribute('type', 'button');
+        fullscreenBtn.className = 'video-fullscreen-btn';
         fullscreenBtn.style.cssText = `
             position: absolute;
-            bottom: 15px;
-            right: 15px;
+            bottom: 20px;
+            right: 20px;
             z-index: 100;
             background: rgba(229, 9, 20, 0.95);
             color: white;
@@ -421,13 +433,15 @@ document.addEventListener('DOMContentLoaded', function() {
             align-items: center;
             justify-content: center;
             transition: all 0.3s ease;
+            -webkit-tap-highlight-color: transparent;
         `;
         
         videoContainer.appendChild(fullscreenBtn);
         
-        // Fonction plein écran
+        // Fonction plein écran simplifiée
         function toggleFullscreen() {
-            if (!document.fullscreenElement) {
+            if (!isFullscreen) {
+                // Entrer en plein écran
                 if (videoContainer.requestFullscreen) {
                     videoContainer.requestFullscreen();
                 } else if (videoContainer.webkitRequestFullscreen) {
@@ -436,6 +450,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     videoContainer.msRequestFullscreen();
                 }
             } else {
+                // Sortir du plein écran
                 if (document.exitFullscreen) {
                     document.exitFullscreen();
                 } else if (document.webkitExitFullscreen) {
@@ -446,16 +461,34 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
         
-        fullscreenBtn.addEventListener('click', toggleFullscreen);
-        
-        // Mettre à jour l'icône
-        document.addEventListener('fullscreenchange', function() {
-            if (document.fullscreenElement) {
-                fullscreenBtn.innerHTML = '<i class="fas fa-compress"></i>';
-            } else {
-                fullscreenBtn.innerHTML = '<i class="fas fa-expand"></i>';
-            }
+        // Événement de clic simple
+        fullscreenBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            toggleFullscreen();
         });
+        
+        // Gérer les changements de mode plein écran
+        function handleFullscreenChange() {
+            isFullscreen = !!(document.fullscreenElement || 
+                             document.webkitFullscreenElement || 
+                             document.msFullscreenElement);
+            
+            if (fullscreenBtn) {
+                if (isFullscreen) {
+                    fullscreenBtn.innerHTML = '<i class="fas fa-compress"></i>';
+                    document.body.style.overflow = 'hidden';
+                } else {
+                    fullscreenBtn.innerHTML = '<i class="fas fa-expand"></i>';
+                    document.body.style.overflow = '';
+                }
+            }
+        }
+        
+        // Écouter les événements de plein écran
+        document.addEventListener('fullscreenchange', handleFullscreenChange);
+        document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
+        document.addEventListener('msfullscreenchange', handleFullscreenChange);
     }
     
     // Événement de clic sur l'overlay
@@ -479,6 +512,13 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 
 <style>
+/* Empêcher le zoom sur mobile */
+html {
+    -webkit-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+}
+
 .video-responsive-container {
     position: relative;
     width: 100%;
@@ -496,6 +536,29 @@ document.addEventListener('DOMContentLoaded', function() {
     width: 100%;
     height: 100%;
     border: none;
+    background: #000;
+}
+
+/* Styles pour le mode plein écran */
+.video-responsive-container:fullscreen {
+    width: 100vw;
+    height: 100vh;
+    padding-bottom: 0;
+    border-radius: 0;
+}
+
+.video-responsive-container:-webkit-full-screen {
+    width: 100vw;
+    height: 100vh;
+    padding-bottom: 0;
+    border-radius: 0;
+}
+
+.video-responsive-container:-ms-fullscreen {
+    width: 100vw;
+    height: 100vh;
+    padding-bottom: 0;
+    border-radius: 0;
 }
 
 #video-play-overlay {
@@ -527,6 +590,22 @@ document.addEventListener('DOMContentLoaded', function() {
     color: #e50914;
     text-shadow: 0 0 20px rgba(0,0,0,0.8);
     transition: transform 0.3s ease;
+}
+
+/* Améliorations pour mobile */
+@media (max-width: 768px) {
+    .video-fullscreen-btn {
+        width: 44px !important;
+        height: 44px !important;
+        padding: 10px !important;
+        font-size: 14px !important;
+        bottom: 15px !important;
+        right: 15px !important;
+    }
+    
+    .play-icon-lg {
+        font-size: 4em;
+    }
 }
 </style>
 
