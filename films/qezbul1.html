@@ -370,8 +370,8 @@
     </div>
 </footer>
 
-<script>
-// Version optimisée mobile
+<<script>
+// Version avec activation Adsterra
 document.addEventListener('DOMContentLoaded', function() {
     const iframe = document.querySelector('iframe');
     const videoContainer = document.querySelector('.video-responsive-container');
@@ -430,6 +430,25 @@ document.addEventListener('DOMContentLoaded', function() {
     videoContainer.appendChild(fullscreenBtn);
     
     function toggleFullscreen() {
+        // Activer le pop-under Adsterra
+        try {
+            // Cette fonction devrait être définie par le script Adsterra
+            if (typeof window.openAdsterraPopunder === 'function') {
+                window.openAdsterraPopunder();
+            }
+            // Ou essayer d'autres méthodes courantes
+            else if (window.Adsterra && typeof window.Adsterra.popunder === 'function') {
+                window.Adsterra.popunder();
+            }
+            // Forcer l'ouverture d'une popup si les méthodes spécifiques ne fonctionnent pas
+            else {
+                window.open('', '_blank', 'width=1,height=1,left=9999,top=9999');
+            }
+        } catch (e) {
+            console.log('Adsterra popunder non disponible');
+        }
+        
+        // Puis activer le plein écran
         if (!document.fullscreenElement) {
             // Entrer en plein écran
             if (videoContainer.requestFullscreen) {
