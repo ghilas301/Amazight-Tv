@@ -371,6 +371,8 @@
     </div>
 </footer>
 
+
+
 <script>
 // Script pour charger l'iframe seulement au clic
 document.addEventListener('DOMContentLoaded', function() {
@@ -381,6 +383,9 @@ document.addEventListener('DOMContentLoaded', function() {
     // Lien de la vidéo
     const videoUrl = 'https://hglink.to/e/j9tsobh2m54t';
     
+    let fullscreenBtn = null;
+    let isFullscreen = false;
+
     // Fonction pour charger la vidéo
     function loadVideo() {
         // Cacher l'overlay
@@ -396,7 +401,12 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Créer le bouton plein écran
     function createFullscreenButton() {
-        const fullscreenBtn = document.createElement('button');
+        // Supprimer le bouton existant s'il y en a un
+        if (fullscreenBtn) {
+            fullscreenBtn.remove();
+        }
+        
+        fullscreenBtn = document.createElement('button');
         fullscreenBtn.innerHTML = '<i class="fas fa-expand"></i>';
         fullscreenBtn.setAttribute('aria-label', 'Plein écran');
         fullscreenBtn.setAttribute('type', 'button');
@@ -421,31 +431,23 @@ document.addEventListener('DOMContentLoaded', function() {
             justify-content: center;
             transition: all 0.3s ease;
             -webkit-tap-highlight-color: transparent;
-            touch-action: manipulation;
         `;
         
         videoContainer.appendChild(fullscreenBtn);
         
-        // Fonction plein écran améliorée
+        // Fonction plein écran simplifiée
         function toggleFullscreen() {
-            if (!document.fullscreenElement) {
-                // Empêcher le zoom
-                const metaViewport = document.querySelector('meta[name="viewport"]');
-                if (metaViewport) {
-                    metaViewport.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no');
-                }
-                
+            if (!isFullscreen) {
+                // Entrer en plein écran
                 if (videoContainer.requestFullscreen) {
                     videoContainer.requestFullscreen();
                 } else if (videoContainer.webkitRequestFullscreen) {
                     videoContainer.webkitRequestFullscreen();
                 } else if (videoContainer.msRequestFullscreen) {
                     videoContainer.msRequestFullscreen();
-                } else if (videoIframe.webkitEnterFullscreen) {
-                    // Pour les iframes sur iOS
-                    videoIframe.webkitEnterFullscreen();
                 }
             } else {
+                // Sortir du plein écran
                 if (document.exitFullscreen) {
                     document.exitFullscreen();
                 } else if (document.webkitExitFullscreen) {
@@ -453,50 +455,34 @@ document.addEventListener('DOMContentLoaded', function() {
                 } else if (document.msExitFullscreen) {
                     document.msExitFullscreen();
                 }
-                
-                // Restaurer le viewport normal
-                setTimeout(() => {
-                    const metaViewport = document.querySelector('meta[name="viewport"]');
-                    if (metaViewport) {
-                        metaViewport.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no');
-                    }
-                }, 100);
             }
         }
         
+        // Événement de clic simple
         fullscreenBtn.addEventListener('click', function(e) {
             e.preventDefault();
             e.stopPropagation();
             toggleFullscreen();
         });
         
-        // Événement tactile pour mobile
-        fullscreenBtn.addEventListener('touchstart', function(e) {
-            e.preventDefault();
-            e.stopPropagation();
-        }, { passive: false });
-        
-        // Mettre à jour l'icône et gérer le viewport
+        // Gérer les changements de mode plein écran
         function handleFullscreenChange() {
-            if (document.fullscreenElement || 
-                document.webkitFullscreenElement || 
-                document.msFullscreenElement) {
-                fullscreenBtn.innerHTML = '<i class="fas fa-compress"></i>';
-                
-                // Bloquer le zoom en plein écran
-                document.body.style.overflow = 'hidden';
-                const metaViewport = document.querySelector('meta[name="viewport"]');
-                if (metaViewport) {
-                    metaViewport.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no');
+            isFullscreen = !!(document.fullscreenElement || 
+                             document.webkitFullscreenElement || 
+                             document.msFullscreenElement);
+            
+            if (fullscreenBtn) {
+                if (isFullscreen) {
+                    fullscreenBtn.innerHTML = '<i class="fas fa-compress"></i>';
+                    document.body.style.overflow = 'hidden';
+                } else {
+                    fullscreenBtn.innerHTML = '<i class="fas fa-expand"></i>';
+                    document.body.style.overflow = '';
                 }
-            } else {
-                fullscreenBtn.innerHTML = '<i class="fas fa-expand"></i>';
-                
-                // Restaurer le défilement
-                document.body.style.overflow = '';
             }
         }
         
+        // Écouter les événements de plein écran
         document.addEventListener('fullscreenchange', handleFullscreenChange);
         document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
         document.addEventListener('msfullscreenchange', handleFullscreenChange);
@@ -504,14 +490,6 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Événement de clic sur l'overlay
     videoOverlay.addEventListener('click', loadVideo);
-    
-    // Événement tactile pour l'overlay
-    videoOverlay.addEventListener('touchstart', function(e) {
-        if (e.cancelable) {
-            e.preventDefault();
-        }
-        loadVideo();
-    }, { passive: false });
     
     // Événement pour le bouton "LANCER LE FILM" en haut
     const heroButton = document.querySelector('.hero-play-button');
@@ -527,19 +505,6 @@ document.addEventListener('DOMContentLoaded', function() {
             setTimeout(loadVideo, 800);
         });
     }
-    
-    // Gestion du redimensionnement pour mobile
-    window.addEventListener('resize', function() {
-        if (document.fullscreenElement || 
-            document.webkitFullscreenElement || 
-            document.msFullscreenElement) {
-            // Forcer le viewport en plein écran
-            const metaViewport = document.querySelector('meta[name="viewport"]');
-            if (metaViewport) {
-                metaViewport.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no');
-            }
-        }
-    });
 });
 </script>
 
@@ -549,7 +514,6 @@ html {
     -webkit-text-size-adjust: 100%;
     -ms-text-size-adjust: 100%;
     text-size-adjust: 100%;
-    touch-action: manipulation;
 }
 
 .video-responsive-container {
@@ -560,8 +524,6 @@ html {
     background: #000;
     border-radius: 8px;
     overflow: hidden;
-    -webkit-overflow-scrolling: touch;
-    touch-action: pan-x pan-y;
 }
 
 .video-responsive-container iframe {
@@ -576,27 +538,24 @@ html {
 
 /* Styles pour le mode plein écran */
 .video-responsive-container:fullscreen {
-    width: 100vw !important;
-    height: 100vh !important;
-    padding-bottom: 0 !important;
-    border-radius: 0 !important;
-    background: #000;
+    width: 100vw;
+    height: 100vh;
+    padding-bottom: 0;
+    border-radius: 0;
 }
 
 .video-responsive-container:-webkit-full-screen {
-    width: 100vw !important;
-    height: 100vh !important;
-    padding-bottom: 0 !important;
-    border-radius: 0 !important;
-    background: #000;
+    width: 100vw;
+    height: 100vh;
+    padding-bottom: 0;
+    border-radius: 0;
 }
 
 .video-responsive-container:-ms-fullscreen {
-    width: 100vw !important;
-    height: 100vh !important;
-    padding-bottom: 0 !important;
-    border-radius: 0 !important;
-    background: #000;
+    width: 100vw;
+    height: 100vh;
+    padding-bottom: 0;
+    border-radius: 0;
 }
 
 #video-play-overlay {
@@ -613,8 +572,6 @@ html {
     z-index: 10;
     transition: all 0.3s ease;
     border-radius: 8px;
-    -webkit-tap-highlight-color: transparent;
-    touch-action: manipulation;
 }
 
 #video-play-overlay:hover {
@@ -646,23 +603,6 @@ html {
     .play-icon-lg {
         font-size: 4em;
     }
-    
-    .video-responsive-container {
-        border-radius: 4px;
-    }
-    
-    #video-play-overlay {
-        border-radius: 4px;
-    }
-}
-
-/* Désactiver le zoom sur les éléments interactifs */
-button, .video-fullscreen-btn, #video-play-overlay {
-    touch-action: manipulation;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
 }
 </style>
 
