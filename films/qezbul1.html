@@ -381,27 +381,36 @@ document.addEventListener('DOMContentLoaded', function() {
     const videoIframe = document.getElementById('video-iframe-player');
     const videoContainer = document.querySelector('.video-responsive-container');
     
-    // Lien de la vidéo
+    // Lien de la vidéo SANS autoplay
     const videoUrl = 'https://hglink.to/e/yt3txh0bxhtm';
     
     // Variables globales
     let fullscreenBtn = null;
     let isFullscreen = false;
+    let videoLoaded = false;
     
-    // Fonction pour charger la vidéo
+    // Fonction pour charger la vidéo seulement au clic
     function loadVideo() {
+        // Si la vidéo est déjà chargée, ne rien faire
+        if (videoLoaded) return;
+        
+        console.log('Chargement de la vidéo au clic...');
+        
         // Cacher l'overlay
         if (videoOverlay) {
             videoOverlay.style.display = 'none';
         }
         
-        // Afficher et charger l'iframe
+        // Afficher et charger l'iframe SANS autoplay
         if (videoIframe) {
             videoIframe.style.display = 'block';
+            
+            // Charger l'URL sans paramètres d'autoplay
             videoIframe.src = videoUrl;
+            videoLoaded = true;
         }
         
-        // Créer le bouton plein écran après le chargement
+        // Créer le bouton plein écran
         createFullscreenButton();
     }
     
@@ -503,7 +512,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     
-    // Événement de clic sur l'overlay
+    // Événement de clic sur l'overlay - SEULEMENT ici la vidéo se charge
     if (videoOverlay) {
         videoOverlay.addEventListener('click', loadVideo);
         // Ajouter également le support tactile
@@ -544,6 +553,9 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
     });
+    
+    // NE PAS charger automatiquement au démarrage
+    console.log('Vidéo prête - Attente du clic utilisateur');
 });
 </script>
 
@@ -567,6 +579,7 @@ document.addEventListener('DOMContentLoaded', function() {
     height: 100%;
     border: none;
     background: #000;
+    display: none; /* Caché par défaut */
 }
 
 #video-play-overlay {
