@@ -233,7 +233,7 @@ class AdsManager {
             // Créer le script de chargement
             const loadScript = document.createElement('script');
             loadScript.type = 'text/javascript';
-            loadScript.src = `//www.highperformanceformat.com/${adKey}/invoke.js`;
+            loadScript.src = `https://www.highperformanceformat.com/${adKey}/invoke.js`;
             document.head.appendChild(loadScript);
             
             console.log(`✅ ${type} injecté avec succès: ${adKey}`);
