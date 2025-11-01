@@ -4,157 +4,149 @@ class AdsManager {
         this.lowCPMCountries = ['DZ', 'MA', 'TN', 'LY', 'EG', 'NG', 'SN', 'CI', 'KE', 'ZA', 'GH', 'UG', 'ET'];
         this.highCPMCountries = ['FR', 'DE', 'US', 'CA', 'GB', 'IT', 'ES', 'NL', 'BE', 'CH', 'SE', 'NO', 'AU'];
         
-        // CONFIGURATION DES CODES PUB PAR PAGE
+        // CONFIGURATION DES CODES PUB PAR PAGE - SIMPLIFIÉE
         this.adsConfig = {
             // PAGE D'ACCUEIL
             'index.html': {
                 lowCPM: {
-            
-                    socialbar: `<script type='text/javascript' src='//foreststobaccodecember.com/31/c4/9c/31c49ce66a7cc87dbcb332ef3d028acb.js'></script>`
+                    socialbar: '31c49ce66a7cc87dbcb332ef3d028acb'
                 },
                 highCPM: {
-                   
-                    socialbar: `<script type='text/javascript' src='//foreststobaccodecember.com/1a/84/8b/1a848bcee8d4bae2bf2bd81b1d7c5873.js'></script>`
+                    socialbar: '1a848bcee8d4bae2bf2bd81b1d7c5873'
                 }
             },
             
             // PAGE CATALOGUE
-             'films.html': {
+            'films.html': {
                 lowCPM: {
-            
-                    socialbar: `<script type='text/javascript' src='//foreststobaccodecember.com/31/c4/9c/31c49ce66a7cc87dbcb332ef3d028acb.js'></script>`
+                    socialbar: '31c49ce66a7cc87dbcb332ef3d028acb'
                 },
                 highCPM: {
-                   
-                    socialbar: `<script type='text/javascript' src='//foreststobaccodecember.com/1a/84/8b/1a848bcee8d4bae2bf2bd81b1d7c5873.js'></script>`
+                    socialbar: '1a848bcee8d4bae2bf2bd81b1d7c5873'
                 }
             },
             
             // PAGES FILMS
             'crek1.html': {
                 lowCPM: {
-                    popunder: `<script type='text/javascript' src='//foreststobaccodecember.com/33/f1/e7/33f1e7c6d75e2f682e23c1b808298345.js'></script>`,
-                    socialbar: `<script type='text/javascript' src='//foreststobaccodecember.com/e7/b1/81/e7b181338eaa06b685207f96248c8503.js'></script>`
+                    popunder: '33f1e7c6d75e2f682e23c1b808298345',
+                    socialbar: 'e7b181338eaa06b685207f96248c8503'
                 },
                 highCPM: {
-                    popunder: `<script type='text/javascript' src='//foreststobaccodecember.com/31/e3/50/31e35007374249b8ff4b29d59023c901.js'></script>`,
-                    socialbar: `<script type='text/javascript' src='//foreststobaccodecember.com/64/a4/3d/64a43db18adc60ad084e70f6cf2320b0.js'></script>`
+                    popunder: '31e35007374249b8ff4b29d59023c901',
+                    socialbar: '64a43db18adc60ad084e70f6cf2320b0'
                 }
             },
             
-                     'qiq1.html': {
+            'qiq1.html': {
                 lowCPM: {
-                    popunder: `<script type='text/javascript' src='//foreststobaccodecember.com/33/f1/e7/33f1e7c6d75e2f682e23c1b808298345.js'></script>`,
-                    socialbar: `<script type='text/javascript' src='//foreststobaccodecember.com/e7/b1/81/e7b181338eaa06b685207f96248c8503.js'></script>`
+                    popunder: '33f1e7c6d75e2f682e23c1b808298345',
+                    socialbar: 'e7b181338eaa06b685207f96248c8503'
                 },
                 highCPM: {
-                    popunder: `<script type='text/javascript' src='//foreststobaccodecember.com/31/e3/50/31e35007374249b8ff4b29d59023c901.js'></script>`,
-                    socialbar: `<script type='text/javascript' src='//foreststobaccodecember.com/64/a4/3d/64a43db18adc60ad084e70f6cf2320b0.js'></script>`
+                    popunder: '31e35007374249b8ff4b29d59023c901',
+                    socialbar: '64a43db18adc60ad084e70f6cf2320b0'
                 }
             },
 
             'limucucu1.html': {
                 lowCPM: {
-                    popunder: `<script type='text/javascript' src='//foreststobaccodecember.com/d5/75/c8/d575c843848496f1953b8976c8fb3699.js'></script>`,
-                    socialbar: `<script type='text/javascript' src='//foreststobaccodecember.com/a1/a2/f3/a1a2f3e477b00d7ba5af25a4d1a70d86.js'></script>`
+                    popunder: 'd575c843848496f1953b8976c8fb3699',
+                    socialbar: 'a1a2f3e477b00d7ba5af25a4d1a70d86'
                 },
                 highCPM: {
-                    popunder: `<script type='text/javascript' src='//foreststobaccodecember.com/2f/d9/8a/2fd98a043f3b6e5e13801758f641d1ed.js'></script>`, 
-                    socialbar: `<script type='text/javascript' src='//foreststobaccodecember.com/f7/44/6a/f7446a9645e376ef3a15c6fdafc9adc3.js'></script>`
+                    popunder: '2fd98a043f3b6e5e13801758f641d1ed',
+                    socialbar: 'f7446a9645e376ef3a15c6fdafc9adc3'
                 }
             },
             
-              'limucucu2.html': {
+            'limucucu2.html': {
                 lowCPM: {
-                    popunder: `<script type='text/javascript' src='//foreststobaccodecember.com/d5/75/c8/d575c843848496f1953b8976c8fb3699.js'></script>`,
-                    socialbar: `<script type='text/javascript' src='//foreststobaccodecember.com/a1/a2/f3/a1a2f3e477b00d7ba5af25a4d1a70d86.js'></script>`
+                    popunder: 'd575c843848496f1953b8976c8fb3699',
+                    socialbar: 'a1a2f3e477b00d7ba5af25a4d1a70d86'
                 },
                 highCPM: {
-                    popunder: `<script type='text/javascript' src='//foreststobaccodecember.com/2f/d9/8a/2fd98a043f3b6e5e13801758f641d1ed.js'></script>`, 
-                    socialbar: `<script type='text/javascript' src='//foreststobaccodecember.com/f7/44/6a/f7446a9645e376ef3a15c6fdafc9adc3.js'></script>`
+                    popunder: '2fd98a043f3b6e5e13801758f641d1ed',
+                    socialbar: 'f7446a9645e376ef3a15c6fdafc9adc3'
                 }
             },
 
-                'narnia1.html': {
+            'narnia1.html': {
                 lowCPM: {
-                    popunder: `<script type='text/javascript' src='//foreststobaccodecember.com/c3/68/d4/c368d4070317dd34c662d9be76de6991.js'></script>`,
-                    socialbar: `<script type='text/javascript' src='//foreststobaccodecember.com/e1/4c/f2/e14cf2faff0ae082f33320f37b42bc48.js'></script>`
+                    popunder: 'c368d4070317dd34c662d9be76de6991',
+                    socialbar: 'e14cf2faff0ae082f33320f37b42bc48'
                 },
                 highCPM: {
-                    popunder: `<script type='text/javascript' src='//foreststobaccodecember.com/e6/74/11/e6741100cf4581e3832806de7f4d3142.js'></script>`, 
-                    socialbar: `<script type='text/javascript' src='//foreststobaccodecember.com/d2/7f/78/d27f787ad701664d297cc3b8663127f3.js'></script>`
+                    popunder: 'e6741100cf4581e3832806de7f4d3142',
+                    socialbar: 'd27f787ad701664d297cc3b8663127f3'
                 }
             },
             
             'narnia2.html': {
                 lowCPM: {
-                    popunder: `<script type='text/javascript' src='//foreststobaccodecember.com/c3/68/d4/c368d4070317dd34c662d9be76de6991.js'></script>`,
-                    socialbar: `<script type='text/javascript' src='//foreststobaccodecember.com/e1/4c/f2/e14cf2faff0ae082f33320f37b42bc48.js'></script>`
+                    popunder: 'c368d4070317dd34c662d9be76de6991',
+                    socialbar: 'e14cf2faff0ae082f33320f37b42bc48'
                 },
                 highCPM: {
-                    popunder: `<script type='text/javascript' src='//foreststobaccodecember.com/e6/74/11/e6741100cf4581e3832806de7f4d3142.js'></script>`, 
-                    socialbar: `<script type='text/javascript' src='//foreststobaccodecember.com/d2/7f/78/d27f787ad701664d297cc3b8663127f3.js'></script>`
+                    popunder: 'e6741100cf4581e3832806de7f4d3142',
+                    socialbar: 'd27f787ad701664d297cc3b8663127f3'
                 }
             },
             
             'pucci1.html': {
                 lowCPM: {
-                    popunder: `<script type='text/javascript' src='//foreststobaccodecember.com/a0/6a/fd/a06afd1b91c7859c505a158626b21ab5.js'></script>`,
-                    socialbar: `<script type='text/javascript' src='//foreststobaccodecember.com/e6/44/c9/e644c95728921f21f50be95a8e83406f.js'></script>`
+                    popunder: 'a06afd1b91c7859c505a158626b21ab5',
+                    socialbar: 'e644c95728921f21f50be95a8e83406f'
                 },
                 highCPM: {
-                    popunder: `<script type='text/javascript' src='//foreststobaccodecember.com/5a/ab/a7/5aaba7859189c74547218590262636ef.js'></script>`, 
-                    socialbar: `<script type='text/javascript' src='//foreststobaccodecember.com/a1/47/1a/a1471a6204e5a288a2109076b3952161.js'></script>`
+                    popunder: '5aaba7859189c74547218590262636ef',
+                    socialbar: 'a1471a6204e5a288a2109076b3952161'
                 }
             },
             
             'pucci2.html': {
                 lowCPM: {
-                    popunder: `<script type='text/javascript' src='//foreststobaccodecember.com/a0/6a/fd/a06afd1b91c7859c505a158626b21ab5.js'></script>`,
-                    socialbar: `<script type='text/javascript' src='//foreststobaccodecember.com/e6/44/c9/e644c95728921f21f50be95a8e83406f.js'></script>`
+                    popunder: 'a06afd1b91c7859c505a158626b21ab5',
+                    socialbar: 'e644c95728921f21f50be95a8e83406f'
                 },
                 highCPM: {
-                    popunder: `<script type='text/javascript' src='//foreststobaccodecember.com/5a/ab/a7/5aaba7859189c74547218590262636ef.js'></script>`, 
-                    socialbar: `<script type='text/javascript' src='//foreststobaccodecember.com/a1/47/1a/a1471a6204e5a288a2109076b3952161.js'></script>`
+                    popunder: '5aaba7859189c74547218590262636ef',
+                    socialbar: 'a1471a6204e5a288a2109076b3952161'
                 }
             },
             
             'qezbul1.html': {
                 lowCPM: {
-                    popunder: `<script type='text/javascript' src='//foreststobaccodecember.com/5b/e3/c8/5be3c802690304ae4cc89040ad2ca066.js'></script>`,
-                    socialbar: `<script type='text/javascript' src='//foreststobaccodecember.com/01/35/4d/01354df7fb75c47a65a288d747225f1a.js'></script>`
+                    popunder: '5be3c802690304ae4cc89040ad2ca066',
+                    socialbar: '01354df7fb75c47a65a288d747225f1a'
                 },
                 highCPM: {
-                    popunder: `<script type='text/javascript' src='//foreststobaccodecember.com/ee/cb/b5/eecbb51015c12fbfcd22b0006e446933.js'></script>`, 
-                    socialbar: `<script type='text/javascript' src='//foreststobaccodecember.com/1a/84/8b/1a848bcee8d4bae2bf2bd81b1d7c5873.js'></script>`
+                    popunder: 'eecbb51015c12fbfcd22b0006e446933',
+                    socialbar: '1a848bcee8d4bae2bf2bd81b1d7c5873'
                 }
             },
 
-              'pucci4.html': {
+            'pucci4.html': {
                 lowCPM: {
-                    popunder: `<script type='text/javascript' src='//foreststobaccodecember.com/5b/e3/c8/5be3c802690304ae4cc89040ad2ca066.js'></script>`,
-                    socialbar: `<script type='text/javascript' src='//foreststobaccodecember.com/01/35/4d/01354df7fb75c47a65a288d747225f1a.js'></script>`
+                    popunder: '5be3c802690304ae4cc89040ad2ca066',
+                    socialbar: '01354df7fb75c47a65a288d747225f1a'
                 },
                 highCPM: {
-                    popunder: `<script type='text/javascript' src='//foreststobaccodecember.com/ee/cb/b5/eecbb51015c12fbfcd22b0006e446933.js'></script>`, 
-                    socialbar: `<script type='text/javascript' src='//foreststobaccodecember.com/1a/84/8b/1a848bcee8d4bae2bf2bd81b1d7c5873.js'></script>`
+                    popunder: 'eecbb51015c12fbfcd22b0006e446933',
+                    socialbar: '1a848bcee8d4bae2bf2bd81b1d7c5873'
                 }
             },
 
-              'kiki1.html': {
+            'kiki1.html': {
                 lowCPM: {
-                    popunder: `<script type='text/javascript' src='//foreststobaccodecember.com/a8/ca/69/a8ca693f5012e520d2a420a7cbe98c99.js'></script>`,
-                    socialbar: `<script type='text/javascript' src='//foreststobaccodecember.com/b0/35/26/b03526d32d904a850f5b42807a87b09f.js'></script>`
+                    popunder: 'a8ca693f5012e520d2a420a7cbe98c99',
+                    socialbar: 'b03526d32d904a850f5b42807a87b09f'
                 },
                 highCPM: {
-                 popunder: `<script type='text/javascript' src='//foreststobaccodecember.com/a8/ca/69/a8ca693f5012e520d2a420a7cbe98c99.js'></script>`,
-                 socialbar: `<script type='text/javascript' src='//foreststobaccodecember.com/b0/35/26/b03526d32d904a850f5b42807a87b09f.js'></script>`
+                    popunder: 'a8ca693f5012e520d2a420a7cbe98c99',
+                    socialbar: 'b03526d32d904a850f5b42807a87b09f'
                 }
-            },
-            
-            
-            
-            // AJOUTEZ TOUTES VOS AUTRES PAGES FILMS ICI...
+            }
         };
     }
 
@@ -175,11 +167,13 @@ class AdsManager {
         const country = await this.detectCountry();
         const currentPage = this.getCurrentPage();
         
-        console.log(`Page: ${currentPage}, Pays: ${country}`);
+        console.log(`📄 Page: ${currentPage}, 🌍 Pays: ${country}`);
         
         if (this.lowCPMCountries.includes(country)) {
+            console.log('💰 CPM FAIBLE - Chargement des pubs Low CPM');
             this.loadAdsForPage(currentPage, 'lowCPM');
         } else {
+            console.log('💎 CPM ÉLEVÉ - Chargement des pubs High CPM');
             this.loadAdsForPage(currentPage, 'highCPM');
         }
     }
@@ -195,11 +189,12 @@ class AdsManager {
         const pageConfig = this.adsConfig[pageName];
         
         if (!pageConfig) {
-            console.log(`Configuration manquante pour: ${pageName}`);
+            console.log(`❌ Configuration manquante pour: ${pageName}`);
             return;
         }
 
         const ads = pageConfig[tier];
+        console.log(`🎯 Chargement pubs ${tier} pour ${pageName}:`, ads);
         
         // Charger PopUnder
         if (ads.popunder) {
@@ -217,33 +212,41 @@ class AdsManager {
     }
 
     // Fonction générique pour charger un script Adsterra
-   
-loadAdsterraScript(scriptHTML, type) {
-    console.log(`🔄 Tentative d'injection ${type}:`, scriptHTML);
-    
-    try {
-        const tempDiv = document.createElement('div');
-        tempDiv.innerHTML = scriptHTML;
-        const scriptElement = tempDiv.querySelector('script');
+    loadAdsterraScript(adKey, type) {
+        console.log(`🔄 Injection ${type} avec clé: ${adKey}`);
         
-        if (scriptElement && scriptElement.src) {
-            const newScript = document.createElement('script');
-            newScript.src = scriptElement.src;
-            newScript.type = scriptElement.type || 'text/javascript';
+        try {
+            // Créer le script avec la configuration Adsterra
+            const script = document.createElement('script');
+            script.type = 'text/javascript';
+            script.innerHTML = `
+                var atOptions = {
+                    'key' : '${adKey}',
+                    'format' : 'iframe',
+                    'height' : ${type === 'socialbar' ? 50 : 1},
+                    'width' : ${type === 'socialbar' ? 320 : 1},
+                    'params' : {}
+                };
+            `;
+            document.head.appendChild(script);
             
-            document.head.appendChild(newScript);
-            console.log(`✅ ${type} injecté avec succès: ${scriptElement.src}`);
-        } else {
-            console.error(`❌ Script ${type} invalide: pas de source trouvée`);
+            // Créer le script de chargement
+            const loadScript = document.createElement('script');
+            loadScript.type = 'text/javascript';
+            loadScript.src = `//www.highperformanceformat.com/${adKey}/invoke.js`;
+            document.head.appendChild(loadScript);
+            
+            console.log(`✅ ${type} injecté avec succès: ${adKey}`);
+            
+        } catch (error) {
+            console.error(`❌ Erreur injection ${type}:`, error);
         }
-    } catch (error) {
-        console.error(`❌ Erreur injection ${type}:`, error);
     }
-}
 }
 
 // Initialisation automatique
 document.addEventListener('DOMContentLoaded', function() {
+    console.log('🚀 Initialisation AdsManager...');
     const adsManager = new AdsManager();
     adsManager.loadSmartAds();
 });
