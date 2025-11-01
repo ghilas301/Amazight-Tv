@@ -217,25 +217,29 @@ class AdsManager {
     }
 
     // Fonction générique pour charger un script Adsterra
-    loadAdsterraScript(adKey, type) {
-        const script = document.createElement('script');
-        script.innerHTML = `
-            var atOptions = {
-                'key' : '${adKey}',
-                'format' : 'iframe',
-                'height' : ${type === 'socialbar' ? 50 : 1},
-                'width' : ${type === 'socialbar' ? 320 : 1},
-                'params' : {}
-            };
-        `;
-        document.head.appendChild(script);
+   
+loadAdsterraScript(scriptHTML, type) {
+    console.log(`🔄 Tentative d'injection ${type}:`, scriptHTML);
+    
+    try {
+        const tempDiv = document.createElement('div');
+        tempDiv.innerHTML = scriptHTML;
+        const scriptElement = tempDiv.querySelector('script');
         
-        const loadScript = document.createElement('script');
-        loadScript.src = `//www.highperformanceformat.com/${adKey}/invoke.js`;
-        document.head.appendChild(loadScript);
-        
-        console.log(`Pub ${type} chargée: ${adKey}`);
+        if (scriptElement && scriptElement.src) {
+            const newScript = document.createElement('script');
+            newScript.src = scriptElement.src;
+            newScript.type = scriptElement.type || 'text/javascript';
+            
+            document.head.appendChild(newScript);
+            console.log(`✅ ${type} injecté avec succès: ${scriptElement.src}`);
+        } else {
+            console.error(`❌ Script ${type} invalide: pas de source trouvée`);
+        }
+    } catch (error) {
+        console.error(`❌ Erreur injection ${type}:`, error);
     }
+}
 }
 
 // Initialisation automatique
