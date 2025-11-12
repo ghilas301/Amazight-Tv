@@ -46,8 +46,7 @@
     gtag('js', new Date());
     gtag('config', 'G-2L50HTQ2Z6');
   </script>
-
-  <style>
+ <style>
     .film-page-hero {
         position: relative; 
         min-height: 60vh;
@@ -65,7 +64,7 @@
         right: 0;
         bottom: 0;
         background: rgba(0,0,0,0.6);
-        backdrop-filter: blur(5px);
+        backdrop-filter: blur(15px); /* Augmenté le flou d'arrière-plan */
         z-index: 0;
     }
     .film-details-container {
@@ -77,17 +76,69 @@
         margin: auto;
         align-items: flex-start;
     }
+    
+    /* EFFET NETFLIX SUR LE POSTER - Version améliorée */
     .film-poster-large { 
         width: 300px; 
         flex-shrink: 0; 
-        border-radius: 12px; 
-        box-shadow: 0 15px 40px rgba(0,0,0,0.8);
+        border-radius: 16px;
+        position: relative;
+        /* Effet glow Netflix */
+        box-shadow: 
+            0 0 0 1px rgba(255, 255, 255, 0.1), /* Bordure très fine */
+            0 0 40px rgba(255, 255, 255, 0.1),   /* Halo externe doux */
+            0 0 80px rgba(255, 255, 255, 0.05),  /* Halo plus large */
+            0 20px 50px rgba(0, 0, 0, 0.6);      /* Ombre portée */
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        backdrop-filter: blur(15px);
+        transform: translateZ(0); /* Hardware acceleration */
+        transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     }
+    
+    .film-poster-large::before {
+        content: '';
+        position: absolute;
+        top: -2px;
+        left: -2px;
+        right: -2px;
+        bottom: -2px;
+        background: linear-gradient(
+            45deg,
+            rgba(255,255,255,0.1) 0%,
+            rgba(255,255,255,0.05) 50%,
+            rgba(255,255,255,0.1) 100%
+        );
+        border-radius: 18px;
+        z-index: -1;
+        opacity: 0;
+        transition: opacity 0.4s ease;
+    }
+    
+    .film-poster-large:hover {
+        transform: translateY(-5px) scale(1.02);
+        box-shadow: 
+            0 0 0 1px rgba(255, 255, 255, 0.2),
+            0 0 60px rgba(255, 255, 255, 0.15),
+            0 0 100px rgba(255, 255, 255, 0.08),
+            0 25px 60px rgba(0, 0, 0, 0.7);
+    }
+    
+    .film-poster-large:hover::before {
+        opacity: 1;
+    }
+    
     .film-poster-large img { 
         width: 100%; 
         display: block; 
-        border-radius: 12px; 
+        border-radius: 16px;
+        filter: brightness(1.05) contrast(1.1); /* Légère amélioration des couleurs */
+        transition: filter 0.3s ease;
     }
+    
+    .film-poster-large:hover img {
+        filter: brightness(1.1) contrast(1.15); /* Boost des couleurs au hover */
+    }
+
     .film-info-main h1 { 
         font-family: 'Bebas Neue', cursive; 
         font-size: 4em; 
@@ -104,10 +155,12 @@
         flex-wrap: wrap;
     }
     .film-info-main .metadata span {
-        background: rgba(229, 9, 20, 0.2);
-        padding: 5px 12px;
+        background: rgba(229, 9, 20, 0.15);
+        backdrop-filter: blur(10px);
+        padding: 8px 16px;
         border-radius: 20px;
         border: 1px solid rgba(229, 9, 20, 0.3);
+        box-shadow: 0 4px 15px rgba(229, 9, 20, 0.1); /* Ajout d'un glow rouge subtil */
     }
     .film-info-main .description { 
         font-size: 1.2em; 
@@ -130,30 +183,35 @@
         color: #ffffff;
     }
 
-    /* Bouton hero SIMPLE et FONCTIONNEL */
+    /* Bouton hero NETFLIX STYLE */
     .hero-play-button {
         padding: 15px 35px;
-        border-radius: 8px;
+        border-radius: 12px;
         font-size: 1.3em;
         text-transform: uppercase;
         font-weight: 800;
-        background-color: rgba(255,255,255,0.95);
+        background: rgba(255,255,255,0.95);
+        backdrop-filter: blur(10px);
         color: #0d0d0d;
-        box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+        box-shadow: 
+            0 8px 32px rgba(0,0,0,0.3),
+            0 0 20px rgba(255, 255, 255, 0.1); /* Glow blanc ajouté */
         margin: 0;
-        border: none;
+        border: 1px solid rgba(255,255,255,0.3);
         cursor: pointer;
         transition: all 0.3s ease;
         position: relative; 
         z-index: 10;
     }
     .hero-play-button:hover { 
-        background-color: #ffffff;
-        transform: translateY(-2px);
-        box-shadow: 0 12px 30px rgba(0,0,0,0.4);
+        background: rgba(255,255,255,1);
+        transform: translateY(-3px);
+        box-shadow: 
+            0 15px 40px rgba(0,0,0,0.4),
+            0 0 30px rgba(255, 255, 255, 0.2); /* Glow augmenté au hover */
     }
     .hero-play-button:active { 
-        transform: translateY(0); 
+        transform: translateY(-1px); 
     }
     .hero-play-button i.play-icon { 
         font-size: 1.4em; 
@@ -161,29 +219,41 @@
         margin-right: 12px; 
     }
 
-    /* Overlay vidéo */
+    /* Overlay vidéo avec effet Netflix */
     #video-play-overlay {
         position: absolute;
         top: 0;
         left: 0;
         width: 100%;
         height: 100%;
-        background-color: rgba(0, 0, 0, 0.6);
+        background: rgba(0, 0, 0, 0.7);
+        backdrop-filter: blur(2px);
         display: flex;
         align-items: center;
         justify-content: center;
         cursor: pointer;
         z-index: 5;
-        transition: opacity 0.3s ease;
-        border-radius: 8px;
+        transition: all 0.3s ease;
+        border-radius: 16px;
     }
     #video-play-overlay:hover {
-        background-color: rgba(0, 0, 0, 0.8);
+        background: rgba(0, 0, 0, 0.8);
+        backdrop-filter: blur(5px);
     }
     #video-play-overlay .play-icon-lg {
         font-size: 5em;
         color: var(--color-primary);
-        text-shadow: 0 0 20px rgba(0,0,0,0.5);
+        text-shadow: 
+            0 0 30px rgba(229, 9, 20, 0.8),
+            0 0 60px rgba(229, 9, 20, 0.4); /* Double glow pour plus d'impact */
+        transition: all 0.3s ease;
+        filter: drop-shadow(0 0 10px rgba(229, 9, 20, 0.5));
+    }
+    #video-play-overlay:hover .play-icon-lg {
+        transform: scale(1.1);
+        text-shadow: 
+            0 0 40px rgba(229, 9, 20, 1),
+            0 0 80px rgba(229, 9, 20, 0.6);
     }
 
     /* Section films suggérés */
@@ -207,6 +277,18 @@
             width: 80%; 
             max-width: 280px; 
             margin-bottom: 25px; 
+            border-radius: 12px;
+            /* Réduction des effets sur mobile pour les performances */
+            box-shadow: 
+                0 0 0 1px rgba(255, 255, 255, 0.1),
+                0 0 20px rgba(255, 255, 255, 0.05),
+                0 15px 30px rgba(0, 0, 0, 0.5);
+        }
+        .film-poster-large img {
+            border-radius: 12px;
+        }
+        .film-poster-large:hover {
+            transform: translateY(-3px) scale(1.01);
         }
         .film-info-main h1 { 
             font-size: 3em; 
@@ -224,6 +306,7 @@
             padding: 14px 28px; 
             width: 100%;
             max-width: 300px;
+            border-radius: 10px;
         }
         .video-section {
             padding: 30px 15px;
@@ -238,6 +321,12 @@
         .film-grid {
             grid-template-columns: repeat(2, 1fr);
             gap: 15px;
+        }
+        #video-play-overlay {
+            border-radius: 12px;
+        }
+        #video-play-overlay .play-icon-lg {
+            font-size: 4em;
         }
     }
 
@@ -255,6 +344,10 @@
             font-size: 1em; 
             padding: 12px 24px; 
         }
+        .film-info-main .metadata span {
+            padding: 6px 12px;
+            font-size: 0.9em;
+        }
     }
 
     .video-section {
@@ -264,7 +357,7 @@
     .film-list-section {
       margin-top: 0;
     }
-  </style>
+</style>
 </head>
 <body>
 

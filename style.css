@@ -7,10 +7,13 @@
   --font-stack: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   --font-logo: 'Bebas Neue', cursive;
   
-  /* Nouvelles variables */
+  /* Nouvelles variables Glassmorphism */
   --transition-smooth: 0.3s ease;
-  --shadow-soft: 0 5px 15px rgba(0,0,0,0.3);
-  --border-radius: 8px;
+  --shadow-soft: 0 8px 32px rgba(0,0,0,0.3);
+  --border-radius: 12px; /* Augmenté pour plus de modernité */
+  --glass-bg: rgba(31, 31, 31, 0.6);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --glass-blur: blur(20px);
 }
 
 * { margin:0; padding:0; box-sizing:border-box; }
@@ -22,14 +25,16 @@ body {
   line-height: 1.6;
 }
 
-/* Header amélioré */
+/* Header Glassmorphism */
 .header {
   display:flex; justify-content:space-between; align-items:center;
   padding:15px 30px;
-  background-color: rgba(0,0,0,0.95);
+  background: rgba(0,0,0,0.7); /* Transparent */
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
   position:fixed; top:0; width:100%; z-index:100;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.5);
-  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 30px rgba(0,0,0,0.1);
+  border-bottom: 1px solid var(--glass-border);
 }
 .logo {
   font-family: var(--font-logo);
@@ -73,7 +78,7 @@ body {
 
 .main-content { padding-top:60px; }
 
-/* Hero Section améliorée */
+/* Hero Section améliorée - Effet plus immersif */
 .hero-section {
   position: relative;
   min-height: 90vh;
@@ -124,22 +129,24 @@ body {
 .hero-metadata span { margin-right: 20px; }
 .hero-metadata i { color: var(--color-primary); margin-right: 5px; }
 
+/* Bouton Hero Glassmorphism */
 .hero-play-button {
   padding: 12px 30px;
   border-radius: var(--border-radius);
   font-size: 1.2em;
   text-transform: uppercase;
   font-weight: 700;
-  background-color: rgba(255,255,255,0.9);
+  background: rgba(255,255,255,0.95);
+  backdrop-filter: blur(10px);
   color: #0d0d0d;
   box-shadow: var(--shadow-soft);
   margin: 0;
-  border: none;
+  border: 1px solid rgba(255,255,255,0.3);
   cursor: pointer;
   transition: transform 0.2s, background-color var(--transition-smooth);
 }
 .hero-play-button:hover { 
-  background-color: #fff; 
+  background: rgba(255,255,255,1); 
   transform: scale(1.02); 
 }
 .hero-play-button:active { 
@@ -159,7 +166,7 @@ body {
   .hero-play-button { font-size: 1em; padding: 10px 20px; }
 }
 
-/* Film Grid amélioré */
+/* Film Grid Glassmorphism */
 .film-list-section { 
   padding:40px 40px;
   margin-top: -50px;
@@ -186,17 +193,23 @@ body {
   }
 }
 
+/* Carte Film Glassmorphism */
 .film-card {
-  background-color: var(--color-card-bg);
-  border-radius:var(--border-radius);
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border-radius: var(--border-radius);
+  border: 1px solid var(--glass-border);
   overflow:hidden;
   cursor:pointer; 
   transition: transform var(--transition-smooth), box-shadow var(--transition-smooth);
 }
 .film-card:hover { 
   transform: scale(1.03); 
-  box-shadow: 0 15px 30px rgba(0,0,0,0.8); 
+  box-shadow: 0 20px 40px rgba(0,0,0,0.4); 
   z-index: 10;
+  background: rgba(31, 31, 31, 0.8);
+  border: 1px solid rgba(229, 9, 20, 0.3);
 }
 .film-card:active {
   transform: scale(0.97);
@@ -251,7 +264,7 @@ body {
     background: rgba(0,0,0,0.7);
     opacity: 0;
     transition: opacity 0.3s ease;
-    border-radius: 8px;
+    border-radius: var(--border-radius);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -280,7 +293,7 @@ body {
     }
 }
 
-/* === Statistiques Visiteurs === */
+/* === Statistiques Visiteurs Glassmorphism === */
 .visitor-stats-container {
   display: flex;
   justify-content: center;
@@ -292,16 +305,19 @@ body {
 .stat-item {
   text-align: center;
   padding: 15px;
-  background: var(--color-card-bg);
-  border-radius: 10px;
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border-radius: var(--border-radius);
   min-width: 120px;
-  border: 1px solid #333;
+  border: 1px solid var(--glass-border);
   transition: transform var(--transition-smooth), box-shadow var(--transition-smooth);
 }
 
 .stat-item:hover {
   transform: translateY(-5px);
-  box-shadow: 0 10px 25px rgba(229, 9, 20, 0.2);
+  box-shadow: 0 15px 30px rgba(229, 9, 20, 0.2);
+  background: rgba(31, 31, 31, 0.8);
 }
 
 .stat-number {
@@ -334,16 +350,24 @@ body {
   }
 }
 
-/* Footer */
+/* Footer Glassmorphism */
 .footer {
-  background-color:#000; padding:25px 40px; text-align:center; color:#777; font-size:0.9em; margin-top:50px;
+  background: rgba(0,0,0,0.8);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  padding:25px 40px; 
+  text-align:center; 
+  color:#777; 
+  font-size:0.9em; 
+  margin-top:50px;
   box-shadow: 0 -2px 10px rgba(0,0,0,0.5);
+  border-top: 1px solid var(--glass-border);
 }
 .footer-content p { margin-bottom: 5px; }
 .footer a { color: var(--color-primary); text-decoration:none; transition: color var(--transition-smooth); }
 .footer a:hover { color: var(--color-hover); }
 
-/* Modales améliorées */
+/* Modales Glassmorphism */
 .modal {
   display: none; 
   position: fixed; 
@@ -363,9 +387,12 @@ body {
 }
 
 .modal-content {
-  background-color: var(--color-card-bg);
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
   padding: 20px;
   border-radius: var(--border-radius);
+  border: 1px solid var(--glass-border);
   position: relative;
   transform: scale(0.95);
   transition: transform var(--transition-smooth);
@@ -390,12 +417,13 @@ body {
 }
 .close-button:hover { color:var(--color-primary); }
 
-/* Bouton CTA */
+/* Bouton CTA Glassmorphism */
 .cta-button {
   padding: 12px 30px;
-  background-color: var(--color-primary);
+  background: rgba(229, 9, 20, 0.9);
+  backdrop-filter: blur(10px);
   color: white;
-  border: none;
+  border: 1px solid rgba(229, 9, 20, 0.4);
   border-radius: var(--border-radius);
   font-size: 1.1em;
   font-weight: bold;
@@ -404,7 +432,7 @@ body {
   transition: background-color var(--transition-smooth), transform 0.2s;
 }
 .cta-button:hover {
-  background-color: var(--color-hover);
+  background: rgba(255, 26, 43, 0.9);
   transform: translateY(-2px);
 }
 
@@ -413,8 +441,10 @@ body {
   max-width: 600px;
   padding: 30px;
   text-align: center;
-  border: 3px solid var(--color-primary);
-  box-shadow: 0 0 40px rgba(229, 9, 20, 0.7);
+  border: 1px solid rgba(229, 9, 20, 0.3);
+  box-shadow: 0 0 40px rgba(229, 9, 20, 0.3);
+  background: rgba(31, 31, 31, 0.9);
+  backdrop-filter: var(--glass-blur);
 }
 
 .adblock-title {
@@ -448,6 +478,7 @@ body {
   overflow: hidden;
   border-radius: var(--border-radius);
   box-shadow: 0 0 30px rgba(0,0,0,0.8);
+  border: 1px solid var(--glass-border);
 }
 .video-responsive-container iframe {
   position: absolute;
@@ -455,7 +486,7 @@ body {
   left: 0;
   width: 100%;
   height: 100%;
-  border: none; /* J'ajoute ça pour enlever les bordures moches */
+  border: none;
 }
 
 
@@ -553,6 +584,7 @@ a:focus {
   position: relative;
   z-index: 3;
 }
+
 /* === Styles pour le logo dans le header === */
 .header .logo {
     display: flex;
@@ -618,6 +650,7 @@ a:focus {
     padding: 15px 15px 25px 15px;
   }
 }
+
 /* === CORRECTION TITRE FILMS EN VEDETTE === */
 @media (max-width: 768px) {
   .film-list-section {
@@ -642,6 +675,7 @@ a:focus {
     margin-bottom: 20px !important;
   }
 }
+
 /* === CORRECTION PLUS FORTE POUR FILMS.HTML === */
 @media (max-width: 768px) {
   /* Encore plus d'espace pour films.html */
@@ -666,6 +700,7 @@ a:focus {
     margin-bottom: 30px !important;
   }
 }
+
 /* === CORRECTION GRILLE FILMS SUGGÉRÉS === */
 @media (max-width: 768px) {
   /* Forcer 2 colonnes sur mobile pour les films suggérés */
@@ -694,71 +729,21 @@ a:focus {
     font-size: 0.8em !important;
   }
 }
-/* === SÉLECTEUR DE LECTEUR === */
-.player-selector {
-    display: flex;
-    gap: 15px;
-    margin-bottom: 25px; /* Espace avant le lecteur */
-    justify-content: center; /* Centrer les boutons sous la vidéo */
-}
 
-.player-button {
-    background-color: var(--color-card-bg); /* Utilise la couleur de fond des cartes #1f1f1f */
-    color: var(--color-text);
-    border: 2px solid #333;
-    padding: 12px 25px;
-    border-radius: var(--border-radius); /* Bords arrondis de 8px */
-    cursor: pointer;
-    font-size: 1em;
-    font-weight: 600;
-    transition: all var(--transition-smooth);
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.player-button:hover {
-    background-color: #333;
-    border-color: var(--color-primary); /* Bordure rouge au survol */
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-soft); /* Ombre douce au survol */
-}
-
-.player-button.active {
-    background-color: var(--color-primary); /* Couleur principale rouge */
-    color: var(--color-background); /* Texte sombre sur fond rouge */
-    border-color: var(--color-primary);
-    transform: none;
-}
-
-.player-button.active i {
-    color: var(--color-background);
-}
-
-/* Responsive pour les petits écrans */
-@media (max-width: 600px) {
-    .player-selector {
-        flex-direction: column;
-        gap: 10px;
-        margin-bottom: 20px;
-    }
-    .player-button {
-        width: 100%; /* Pleine largeur sur mobile */
-        justify-content: center;
-    }
-}/* === SÉLECTEUR DE LECTEUR === */
+/* === SÉLECTEUR DE LECTEUR Glassmorphism === */
 .player-selector {
     display: flex;
     gap: 15px;
     margin-bottom: 25px; 
     justify-content: center;
-    padding: 0 10px; /* Ajout d'un petit padding pour les bords sur mobile */
+    padding: 0 10px;
 }
 
 .player-button {
-    background-color: var(--color-card-bg);
+    background: var(--glass-bg);
+    backdrop-filter: blur(10px);
     color: var(--color-text);
-    border: 2px solid #333;
+    border: 1px solid var(--glass-border);
     padding: 12px 25px;
     border-radius: var(--border-radius);
     cursor: pointer;
@@ -768,21 +753,21 @@ a:focus {
     display: flex;
     align-items: center;
     gap: 8px;
-    flex-grow: 1; /* Pour que les boutons prennent plus de place */
-    max-width: 250px; /* Limite la taille des boutons sur grand écran */
+    flex-grow: 1;
+    max-width: 250px;
     text-align: center;
     justify-content: center;
 }
 
 .player-button:hover {
-    background-color: #333;
+    background: rgba(51, 51, 51, 0.7);
     border-color: var(--color-primary);
     transform: translateY(-2px);
     box-shadow: var(--shadow-soft);
 }
 
 .player-button.active {
-    background-color: var(--color-primary);
+    background: rgba(229, 9, 20, 0.9);
     color: var(--color-background);
     border-color: var(--color-primary);
     transform: none;
@@ -805,9 +790,7 @@ a:focus {
     }
 }
 
-/* === CORRECTION FINALE DE L'ANIMATION DE CHARGEMENT (SPÉCIFICITÉ FORCÉE) === */
-
-/* Clé d'animation pour la rotation */
+/* === CORRECTION FINALE DE L'ANIMATION DE CHARGEMENT === */
 @keyframes fa-spin {
     0% {
         transform: rotate(0deg);
@@ -817,15 +800,11 @@ a:focus {
     }
 }
 
-/* 1. Applique l'animation à la classe fa-spin avec un sélecteur plus spécifique */
-/* On cible l'icône de chargement à l'intérieur de son conteneur */
 #video-loading-player .fa-spin {
-    /* Utilisation de !important pour garantir que l'animation n'est pas écrasée */
     -webkit-animation: fa-spin 2s infinite linear !important; 
     animation: fa-spin 2s infinite linear !important;
 }
 
-/* 2. Style de l'indicateur de chargement pour s'assurer qu'il est bien au-dessus */
 #video-loading-player {
     position: absolute;
     top: 0;
@@ -836,10 +815,10 @@ a:focus {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background-color: rgba(0, 0, 0, 0.9); /* Fond légèrement plus sombre */
+    background-color: rgba(0, 0, 0, 0.9);
     color: var(--color-primary);
     font-size: 2.5em; 
-    z-index: 999; /* Assurez-vous qu'il est au-dessus de tout */
+    z-index: 999;
 }
 
 #video-loading-player p {
@@ -847,25 +826,25 @@ a:focus {
     color: var(--color-text);
     margin-top: 15px;
 }
+
 /* Correction overlay mobile */
 @media (max-width: 768px) {
   .film-poster .play-overlay {
-    opacity: 0.8 !important; /* Toujours visible sur mobile */
+    opacity: 0.8 !important;
   }
   
-  /* Meilleure taille de bouton */
   .player-button {
     padding: 15px 20px !important;
     font-size: 0.9em !important;
   }
 }
+
 /* Mode économie de données pour mobile */
 @media (max-width: 768px) {
   .video-responsive-container {
     background: #000;
   }
   
-  /* Réduire légèrement la qualité visuelle sur mobile */
   .film-poster-large img {
     filter: brightness(0.95);
   }
@@ -891,17 +870,17 @@ a:focus {
 .quality-btn.active {
     background: var(--color-primary);
 }
-/* Ajouter dans style.css */
+
+/* Optimisations images existantes */
 .film-poster img {
   transition: transform 0.3s ease;
-  /* Optimisation mobile */
   image-rendering: -webkit-optimize-contrast;
   image-rendering: crisp-edges;
 }
 
 @media (max-width: 768px) {
   .film-poster img {
-    transform: translateZ(0); /* Hardware acceleration */
+    transform: translateZ(0);
     backface-visibility: hidden;
   }
 }
