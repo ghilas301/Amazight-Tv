@@ -884,3 +884,27 @@ a:focus {
     backface-visibility: hidden;
   }
 }
+
+
+/* Ajustement spécifique pour PC seulement */
+@media (min-width: 769px) {
+  .hero-details {
+    padding-bottom: 60px; /* Réduit le padding en bas sur PC */
+    margin-top: -30px; /* Remonte le contenu */
+  }
+  
+  .hero-section {
+    align-items: center; /* Centre verticalement sur PC */
+  }
+}
+
+/* Gardez les réglages mobiles existants */
+@media (max-width: 768px) {
+  .hero-details { 
+    padding: 0 20px 30px 20px; /* Conserve le padding mobile */
+    margin-top: 0; /* Pas de remontée sur mobile */
+  }
+  .hero-section {
+    align-items: flex-end; /* Garde en bas sur mobile */
+  }
+}
