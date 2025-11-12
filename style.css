@@ -910,19 +910,3 @@ a:focus {
 }
 
 
-/* === CORRECTION TAILLE TEXTE LOGO MOBILE POUR FILMS.HTML === */
-
-@media (max-width: 768px) {
-  /* Force la même taille de texte pour "Amazigh TV" sur toutes les pages mobile */
-  body .header .logo {
-    font-size: 2em !important; /* Exactement la même taille que index.html */
-    margin-bottom: 10px !important;
-  }
-}
-
-/* Pour les très petits écrans */
-@media (max-width: 480px) {
-  body .header .logo {
-    font-size: 1.8em !important; /* Même réduction que index.html */
-  }
-}
