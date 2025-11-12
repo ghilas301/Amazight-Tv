@@ -891,3 +891,17 @@ a:focus {
 .quality-btn.active {
     background: var(--color-primary);
 }
+/* Ajouter dans style.css */
+.film-poster img {
+  transition: transform 0.3s ease;
+  /* Optimisation mobile */
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+}
+
+@media (max-width: 768px) {
+  .film-poster img {
+    transform: translateZ(0); /* Hardware acceleration */
+    backface-visibility: hidden;
+  }
+}
