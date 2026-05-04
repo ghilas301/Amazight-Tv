@@ -81,6 +81,12 @@ export default function handler(req, res) {
       <changefreq>monthly</changefreq>
       <priority>0.8</priority>
    </url>
+
+        <loc>https://amazigh-tv.vercel.app/films/limucucu3.html</loc>
+      <lastmod>2025-01-25</lastmod>
+      <changefreq>monthly</changefreq>
+      <priority>0.8</priority>
+   </url>
 </urlset>`;
 
   res.send(xmlContent);
