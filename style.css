@@ -910,3 +910,29 @@ a:focus {
   }
 }
 
+
+/* Logo styles - Ajouter ceci dans style.css */
+.logo-container {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+}
+
+.logo-text {
+  font-family: 'Bebas Neue', cursive;
+  font-size: 2.5em;
+  color: var(--color-primary);
+  font-weight: 900;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+}
+
+@media (max-width: 768px) {
+  .logo-container {
+    gap: 8px;
+  }
+  .logo-text {
+    font-size: 1.8em;
+  }
+}
