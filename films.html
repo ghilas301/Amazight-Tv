@@ -38,30 +38,71 @@
   gtag('config', 'G-4NKY9G2SBN');
 </script>
 
+  <style>
+    /* Styles additionnels pour le logo dans le header */
+    .logo-container {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+    }
+    .logo-image {
+      height: 40px;
+      width: auto;
+      border-radius: 6px;
+    }
+    .logo-text {
+      font-family: 'Bebas Neue', cursive;
+      font-size: 2.5em;
+      color: var(--color-primary);
+      font-weight: 900;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+    }
 
+    /* Ajustement responsive pour le header avec logo */
+    @media (max-width: 768px) {
+      .logo-container {
+        gap: 8px;
+      }
+      .logo-image {
+        height: 32px;
+      }
+      .logo-text {
+        font-size: 1.8em;
+        letter-spacing: 2px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .logo-image {
+        height: 28px;
+      }
+      .logo-text {
+        font-size: 1.6em;
+      }
+    }
+  </style>
 
 </head>
 <body>
 
-
-
-
-<header class="header">
-  <a href="../index.html" class="logo">
+<header class="header" role="banner">
+  <a href="../index.html" class="logo-container" aria-label="Amazigh TV - Retour à l'accueil">
     <img src="./images/logo-180.png" alt="Logo Amazigh TV" class="logo-image">
-    <span>Amazigh TV</span>
-</a>
-  <nav class="navigation">
-    <a href="index.html"><i class="fas fa-home"></i> Accueil</a>
-    <a href="films.html" class="nav-active"><i class="fas fa-film"></i> Catalogue</a>
-    <a href="contact.html"><i class="fas fa-envelope"></i> Contact</a>
+    <span class="logo-text">Amazigh TV</span>
+  </a>
+  <nav class="navigation" role="navigation" aria-label="Menu principal">
+    <a href="../index.html" aria-label="Aller à l'accueil"><i class="fas fa-home" aria-hidden="true"></i> <span>Accueil</span></a>
+    <a href="films.html" class="nav-active" aria-current="page"><i class="fas fa-film" aria-hidden="true"></i> <span>Catalogue</span></a>
+    <a href="../contact.html" aria-label="Nous contacter"><i class="fas fa-envelope" aria-hidden="true"></i> <span>Contact</span></a>
   </nav>
 </header>
 
 <main class="main-content">
 
   <section class="film-list-section" id="films" style="padding-top: 100px;">
-    <h3>Catalogue Complet des Films</h3>
+    <h2>Catalogue Complet des Films</h2>
 
     <!-- BARRE DE RECHERCHE -->
 <div class="search-section" style="margin: 30px 0;">
@@ -97,74 +138,73 @@
 <!-- FIN BARRE DE RECHERCHE -->
 
 
-    <div class="film-grid">
+    <div class="film-grid" role="region" aria-label="Galerie de films">
 
 
 
-
-        <a href="films/rubiccu.html" class="film-card">
+        <a href="films/rubiccu.html" class="film-card" aria-label="Rubiccu - Film comédie Kabyle, 80 min">
           <article>
             <div class="film-poster">
-              <img src="images/Rubiccu.jpg" alt="Rubiccu Film comédie Kabyle" loading="lazy">
-              <div class="play-overlay"><i class="fas fa-play play-icon-lg"></i></div>
+              <img src="images/Rubiccu.jpg" alt="Affiche du film Rubiccu" loading="lazy">
+              <div class="play-overlay" aria-hidden="true"><i class="fas fa-play play-icon-lg"></i></div>
             </div>
             <div class="film-info">
-              <h4>Rubiccu</h4>
-              <p>comedie, 80 min</p>
+              <h3>Rubiccu</h3>
+              <p>Comédie, 80 min</p>
             </div>
           </article>
         </a>
 
-<a href="films/lacuvette.html" class="film-card">
+<a href="films/lacuvette.html" class="film-card" aria-label="Yamara la cuvette 1 - Film comédie Kabyle, 80 min">
           <article>
             <div class="film-poster">
-              <img src="images/Yamara la cuvette 1.jpg" alt="yamara la cuvette Film comédie Kabyle" loading="lazy">
-              <div class="play-overlay"><i class="fas fa-play play-icon-lg"></i></div>
+              <img src="images/Yamara la cuvette 1.jpg" alt="Affiche du film Yamara la cuvette 1" loading="lazy">
+              <div class="play-overlay" aria-hidden="true"><i class="fas fa-play play-icon-lg"></i></div>
             </div>
             <div class="film-info">
-              <h4>Yamara la cuvette 1</h4>
-              <p>comedie, 80 min</p>
+              <h3>Yamara la cuvette 1</h3>
+              <p>Comédie, 80 min</p>
             </div>
           </article>
         </a>
       
       
-       <a href="films/iqjan.html" class="film-card">
+       <a href="films/iqjan.html" class="film-card" aria-label="Iqjan Imcac - Film comédie Kabyle, 80 min">
           <article>
             <div class="film-poster">
-              <img src="images/Iqjan Imcac.png" alt="Iqjan Imcac Film comédie Kabyle" loading="lazy">
-              <div class="play-overlay"><i class="fas fa-play play-icon-lg"></i></div>
+              <img src="images/Iqjan Imcac.png" alt="Affiche du film Iqjan Imcac" loading="lazy">
+              <div class="play-overlay" aria-hidden="true"><i class="fas fa-play play-icon-lg"></i></div>
             </div>
             <div class="film-info">
-              <h4>Iqjan Imcac</h4>
-              <p>comedie, 80 min</p>
+              <h3>Iqjan Imcac</h3>
+              <p>Comédie, 80 min</p>
             </div>
           </article>
         </a>
 
 
-      <a href="films/transporteur.html" class="film-card">
+      <a href="films/transporteur.html" class="film-card" aria-label="Transporteur - Film action Kabyle, 85 min">
           <article>
             <div class="film-poster">
-              <img src="images/Transporteur.jpg" alt="Transporteur Film comédie Kabyle" loading="lazy">
-              <div class="play-overlay"><i class="fas fa-play play-icon-lg"></i></div>
+              <img src="images/Transporteur.jpg" alt="Affiche du film Transporteur" loading="lazy">
+              <div class="play-overlay" aria-hidden="true"><i class="fas fa-play play-icon-lg"></i></div>
             </div>
             <div class="film-info">
-              <h4>Transporteur</h4>
-              <p>action, 85 min</p>
+              <h3>Transporteur</h3>
+              <p>Action, 85 min</p>
             </div>
           </article>
         </a>
 
 
-      <a href="films/uzru.html" class="film-card">
+      <a href="films/uzru.html" class="film-card" aria-label="At Dawuzru - Film comédie Kabyle, 90 min">
           <article>
             <div class="film-poster">
-              <img src="images/At Dawuzru.jpg" alt="At Dawuzru - Film comédie Kabyle" loading="lazy">
-              <div class="play-overlay"><i class="fas fa-play play-icon-lg"></i></div>
+              <img src="images/At Dawuzru.jpg" alt="Affiche du film At Dawuzru" loading="lazy">
+              <div class="play-overlay" aria-hidden="true"><i class="fas fa-play play-icon-lg"></i></div>
             </div>
             <div class="film-info">
-              <h4>At Dawuzru</h4>
+              <h3>At Dawuzru</h3>
               <p>Comédie, 90 min</p>
             </div>
           </article>
@@ -172,14 +212,14 @@
 
 
 
-         <a href="films/kypous.html" class="film-card">
+         <a href="films/kypous.html" class="film-card" aria-label="Kypous 1 - Film comédie Kabyle, 70 min">
           <article>
             <div class="film-poster">
-              <img src="images/kypous.jpg" alt="kypous - Film comédie Kabyle" loading="lazy">
-              <div class="play-overlay"><i class="fas fa-play play-icon-lg"></i></div>
+              <img src="images/kypous.jpg" alt="Affiche du film Kypous 1" loading="lazy">
+              <div class="play-overlay" aria-hidden="true"><i class="fas fa-play play-icon-lg"></i></div>
             </div>
             <div class="film-info">
-              <h4>Kypous 1</h4>
+              <h3>Kypous 1</h3>
               <p>Comédie, 70 min</p>
             </div>
           </article>
@@ -188,328 +228,31 @@
 
 
 
-       <a href="films/qezbul2.html" class="film-card">
+       <a href="films/qezbul2.html" class="film-card" aria-label="Qezbul 2 - Film comédie Kabyle, 83 min">
           <article>
             <div class="film-poster">
-              <img src="images/qezbul2.jpg" alt="Qezbul 2 - Film comédie Kabyle" loading="lazy">
-              <div class="play-overlay"><i class="fas fa-play play-icon-lg"></i></div>
+              <img src="images/qezbul2.jpg" alt="Affiche du film Qezbul 2" loading="lazy">
+              <div class="play-overlay" aria-hidden="true"><i class="fas fa-play play-icon-lg"></i></div>
             </div>
             <div class="film-info">
-              <h4>Qezbul 2</h4>
+              <h3>Qezbul 2</h3>
               <p>Comédie, 83 min</p>
             </div>
           </article>
         </a>
-
-
-        <a href="films/heliopolis.html" class="film-card">
-          <article>
-            <div class="film-poster">
-              <img src="images/helio.jpg"alt="Heliopolis هيليوبوليس" loading="lazy">
-              <div class="play-overlay"><i class="fas fa-play play-icon-lg"></i></div>
-            </div>
-            <div class="film-info">
-              <h4>Héliopolis هيليوبوليس</h4>
-              <p>Historique, 116 min</p>
-            </div>
-          </article>
-        </a>
-
-      <a href="films/queen.html" class="film-card">
-          <article>
-            <div class="film-poster">
-              <img src="images/queen.jpg" alt="La dernière reine film algerien" loading="lazy">
-              <div class="play-overlay"><i class="fas fa-play play-icon-lg"></i></div>
-            </div>
-            <div class="film-info">
-              <h4>La dernière reine</h4>
-              <p>Historique, 113 min</p>
-            </div>
-          </article>
-        </a>
-      
-      <a href="films/limucucu3.html" class="film-card">
-          <article>
-            <div class="film-poster">
-              <img src="images/li mucucu 3.jpg" alt="Li Mucucu 3 Film comédie Kabyle" loading="lazy">
-              <div class="play-overlay"><i class="fas fa-play play-icon-lg"></i></div>
-            </div>
-            <div class="film-info">
-              <h4>Li mucucu 3</h4>
-              <p>comédie, 79 min</p>
-            </div>
-          </article>
-        </a>
-
-          <a href="films/iferfucen.html" class="film-card">
-          <article>
-            <div class="film-poster">
-              <img src="images/iferfucen.jpg" alt="Iferfucen Film comédie Kabyle" loading="lazy">
-              <div class="play-overlay"><i class="fas fa-play play-icon-lg"></i></div>
-            </div>
-            <div class="film-info">
-              <h4>Iferfucen</h4>
-              <p>comédie, 79 min</p>
-            </div>
-          </article>
-        </a>
-
-      <a href="films/pucci3.html" class="film-card">
-          <article>
-            <div class="film-poster">
-              <img src="images/pucci3.jpg" alt="3ichucha Film comédie Kabyle" loading="lazy">
-              <div class="play-overlay"><i class="fas fa-play play-icon-lg"></i></div>
-            </div>
-            <div class="film-info">
-              <h4>Pucci 3</h4>
-              <p>comédie, 90 min</p>
-            </div>
-          </article>
-        </a>
-
-<a href="films/3ichucha.html" class="film-card">
-          <article>
-            <div class="film-poster">
-              <img src="images/3ichucha.jpg" alt="3ichucha Film comédie Kabyle" loading="lazy">
-              <div class="play-overlay"><i class="fas fa-play play-icon-lg"></i></div>
-            </div>
-            <div class="film-info">
-              <h4>3ichucha</h4>
-              <p>fantastique, 85 min</p>
-            </div>
-          </article>
-        </a>
-
-
-        <a href="films/crek2.html" class="film-card">
-          <article>
-            <div class="film-poster">
-              <img src="images/crek2.jpg" alt="li mucucu - Film comedie Kabyle" loading="lazy">
-              <div class="play-overlay"><i class="fas fa-play play-icon-lg"></i></div>
-            </div>
-            <div class="film-info">
-              <h4>Crek 2</h4>
-              <p>Comédie, 90 min</p>
-            </div>
-          </article>
-        </a>
-
-         
-     
-      
-        <a href="films/narnia2.html" class="film-card">
-          <article>
-            <div class="film-poster">
-              <img src="images/narnia2.jpg" alt="narnia 2 - Film Fantastique Kabyle" loading="lazy">
-              <div class="play-overlay"><i class="fas fa-play play-icon-lg"></i></div>
-            </div>
-            <div class="film-info">
-              <h4>Narnia 2</h4>
-              <p>Fantastique, 127 min</p>
-            </div>
-          </article>
-        </a>
-
-      <a href="films/kiki1.html" class="film-card">
-          <article>
-            <div class="film-poster">
-              <img src="images/kiki1.jpg" alt="kiki 1 - Film comédie Kabyle" loading="lazy">
-              <div class="play-overlay"><i class="fas fa-play play-icon-lg"></i></div>
-            </div>
-            <div class="film-info">
-              <h4>Kiki 1</h4>
-              <p>Comédie, 75 min</p>
-            </div>
-          </article>
-        </a>
-        
-
-
-        
-        <a href="films/crek1.html" class="film-card">
-          <article>
-            <div class="film-poster">
-              <img src="images/crek1.jpg" alt="narnia 1 - Film Fantastique Comédie Kabyle" loading="lazy">
-              <div class="play-overlay"><i class="fas fa-play play-icon-lg"></i></div>
-            </div>
-            <div class="film-info">
-              <h4>Crek 1</h4>
-              <p>Comédie, Come 127 min</p>
-            </div>
-          </article>
-        </a>
-        
-        <a href="films/limucucu1.html" class="film-card">
-          <article>
-            <div class="film-poster">
-              <img src="images/li mucucu 1.jpg" alt="li mucucu - Film comedie Kabyle" loading="lazy">
-              <div class="play-overlay"><i class="fas fa-play play-icon-lg"></i></div>
-            </div>
-            <div class="film-info">
-              <h4>Li mucucu 1</h4>
-              <p>Comédie, 74 min</p>
-            </div>
-          </article>
-        </a>
-
-        <a href="films/narnia1.html" class="film-card">
-          <article>
-            <div class="film-poster">
-              <img src="images/narnia 1.jpg" alt="narnia 1 - Film Fantastique Kabyle" loading="lazy">
-              <div class="play-overlay"><i class="fas fa-play play-icon-lg"></i></div>
-            </div>
-            <div class="film-info">
-              <h4>Narnia 1</h4>
-              <p>Fantastique, 127 min</p>
-            </div>
-          </article>
-        </a>
-
-        <a href="films/qezbul1.html" class="film-card">
-          <article>
-            <div class="film-poster">
-              <img src="images/qezbul 1.jpg" alt="Qezbul 1 - Film comédie Kabyle" loading="lazy">
-              <div class="play-overlay"><i class="fas fa-play play-icon-lg"></i></div>
-            </div>
-            <div class="film-info">
-              <h4>Qezbul 1</h4>
-              <p>Comédie, 83 min</p>
-            </div>
-          </article>
-        </a>
-
-         <a href="films/pucci1.html" class="film-card">
-          <article>
-            <div class="film-poster">
-              <img src="images/pucci1.jpg" alt="Pucci 1 - Film comédie Kabyle" loading="lazy">
-              <div class="play-overlay"><i class="fas fa-play play-icon-lg"></i></div>
-            </div>
-            <div class="film-info">
-              <h4>Pucci 1</h4>
-              <p>Comédie, 80 min</p>
-            </div>
-          </article>
-        </a>
-
-        <a href="films/pucci2.html" class="film-card">
-          <article>
-            <div class="film-poster">
-              <img src="images/pucci2.jpg" alt="Pucci 2 - Film comédie Kabyle" loading="lazy">
-             <div class="play-overlay"><i class="fas fa-play play-icon-lg"></i></div>
-            </div>
-            <div class="film-info">
-              <h4>Pucci 2</h4>
-              <p>Comédie, 121 min</p>
-            </div>
-          </article>
-        </a>
-
-        <a href="films/pucci4.html" class="film-card">
-          <article>
-            <div class="film-poster">
-              <img src="images/pucci4.jpg" alt="Pucci 4 - Film comédie Kabyle" loading="lazy">
-              <div class="play-overlay"><i class="fas fa-play play-icon-lg"></i></div>
-            </div>
-            <div class="film-info">
-              <h4>Pucci 4</h4>
-              <p>Comédie, 115 min</p>
-            </div>
-          </article>
-        </a>
-        
-       
-          <a href="films/limucucu2.html" class="film-card">
-          <article>
-            <div class="film-poster">
-              <img src="images/li mucucu 2.jpg" alt="li mucucu - Film comedie Kabyle" loading="lazy">
-              <div class="play-overlay"><i class="fas fa-play play-icon-lg"></i></div>
-            </div>
-            <div class="film-info">
-              <h4>Li mucucu 2</h4>
-              <p>Comédie, 74 min</p>
-            </div>
-          </article>
-        </a>
-      
-              <a href="films/qiqi1.html" class="film-card">
-          <article>
-            <div class="film-poster">
-              <img src="images/qiqi1.jpg" alt="Qiqi bu lemraqi 1 - Film comédie Kabyle" loading="lazy">
-              <div class="play-overlay"><i class="fas fa-play play-icon-lg"></i></div>
-            </div>
-            <div class="film-info">
-              <h4>Qiqi Bu Lemraqi 1</h4>
-              <p>Comédie, 75 min</p>
-            </div>
-          </article>
-        </a>
-        <script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "Organization", 
-  "name": "Amazigh TV",
-  "url": "https://amazigh-tv.site",
-  "logo": "https://amazigh-tv.site/images/logo-512.png",
-  "description": "Films kabyle Pucci, Qezbul, Crek, Narnia, 3ichucha, kiki, qiqi bu lemraqi, lamara la cuvette, ali d wali, skarfez,, kypous",
-  "sameAs": []
-}
-</script>
 
     </div>
+
   </section>
 
-  <div id="data-check-box" class="data-validator-container block-300x250"></div>
-
-  
-    
 </main>
 
 <footer class="footer">
   <div class="footer-content">
     <p>&copy; 2025 Amazigh TV. Tous droits réservés.</p>
-    <p>Une initiative de la communauté Kabyle. <a href="mailto:contact@amazightv.com">Contactez-nous</a></p>
-    <div class="visitor-badge-container">
-        <img src="https://visitor-badge.laobi.icu/badge?page_id=amazighflix-home&countColor=%23e50914&style=flat-square"
-             alt="Nombre de visiteurs" class="visitor-badge" />
-        <span class="visitor-text">Visites totales</span>
-    </div>
+    <p>Cinéma Kabyle en streaming gratuit</p>
   </div>
 </footer>
-
-<script src="script.js"></script>
-<script>
-// SYSTÈME DE RECHERCHE
-document.addEventListener('DOMContentLoaded', function() {
-    const searchInput = document.getElementById('film-search');
-    const filmCards = document.querySelectorAll('.film-card');
-    const searchResults = document.getElementById('search-results');
-    
-    searchInput.addEventListener('input', function() {
-        const searchTerm = this.value.toLowerCase().trim();
-        let visibleCount = 0;
-        
-        filmCards.forEach(card => {
-            const filmTitle = card.querySelector('h4').textContent.toLowerCase();
-            
-            if (filmTitle.includes(searchTerm)) {
-                card.style.display = 'block';
-                visibleCount++;
-            } else {
-                card.style.display = 'none';
-            }
-        });
-        
-        // Affichage du nombre de résultats
-        if (searchTerm.length > 0) {
-            searchResults.textContent = visibleCount + ' film(s) trouvé(s)';
-        } else {
-            searchResults.textContent = '';
-        }
-    });
-});
-</script>
-
-
 
 </body>
 </html>
