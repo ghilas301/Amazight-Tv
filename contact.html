@@ -3,34 +3,94 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="07fe427079b43a826e1ea8975e129a746b4b42be" content="07fe427079b43a826e1ea8975e129a746b4b42be" />
-
-<meta name="referrer" content="no-referrer-when-downgrade" />
-
   <title>Contact - Amazigh TV</title>
   <meta name="description" content="Contactez l'équipe d'Amazigh TV pour toute question ou suggestion.">
+  
+  <meta name="07fe427079b43a826e1ea8975e129a746b4b42be" content="07fe427079b43a826e1ea8975e129a746b4b42be" />
+  <meta name="referrer" content="no-referrer-when-downgrade" />
+
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/logo-32.png">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/logo-180.png">
+  <link rel="shortcut icon" href="/images/logo-32.png" type="image/x-icon">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-4NKY9G2SBN"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-4NKY9G2SBN');
+  </script>
+
+  <style>
+    /* Styles additionnels pour le logo dans le header */
+    .logo-container {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+    }
+    .logo-image {
+      height: 40px;
+      width: auto;
+      border-radius: 6px;
+    }
+    .logo-text {
+      font-family: 'Bebas Neue', cursive;
+      font-size: 2.5em;
+      color: var(--color-primary);
+      font-weight: 900;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+    }
+
+    /* Ajustement responsive pour le header avec logo */
+    @media (max-width: 768px) {
+      .logo-container {
+        gap: 8px;
+      }
+      .logo-image {
+        height: 32px;
+      }
+      .logo-text {
+        font-size: 1.8em;
+        letter-spacing: 2px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .logo-image {
+        height: 28px;
+      }
+      .logo-text {
+        font-size: 1.6em;
+      }
+    }
+  </style>
 </head>
 <body>
 
-<header class="header">
-  <a href="index.html" class="logo">
+<header class="header" role="banner">
+  <a href="index.html" class="logo-container" aria-label="Amazigh TV - Retour à l'accueil">
     <img src="./images/logo-180.png" alt="Logo Amazigh TV" class="logo-image">
-    <span>Amazigh TV</span>
+    <span class="logo-text">Amazigh TV</span>
   </a>
-  <nav class="navigation">
-    <a href="index.html"><i class="fas fa-home"></i> Accueil</a>
-    <a href="films.html"><i class="fas fa-film"></i> Catalogue</a>
-    <a href="contact.html" class="nav-active"><i class="fas fa-envelope"></i> Contact</a>
+  <nav class="navigation" role="navigation" aria-label="Menu principal">
+    <a href="index.html" aria-label="Aller à l'accueil"><i class="fas fa-home" aria-hidden="true"></i> <span>Accueil</span></a>
+    <a href="films.html" aria-label="Aller au catalogue complet"><i class="fas fa-film" aria-hidden="true"></i> <span>Catalogue</span></a>
+    <a href="contact.html" class="nav-active" aria-current="page"><i class="fas fa-envelope" aria-hidden="true"></i> <span>Contact</span></a>
   </nav>
 </header>
 
-<main class="main-content">
+<main class="main-content" role="main">
   <section class="film-list-section" style="padding-top: 100px; text-align: center;">
-    <h3>Contactez-Nous</h3>
+    <h2>Contactez-Nous</h2>
     <div style="max-width: 600px; margin: 0 auto; padding: 20px;">
       <p style="font-size: 1.2em; margin-bottom: 30px;">
         Vous avez une question, une suggestion ou vous souhaitez nous proposer un film ?
@@ -38,9 +98,9 @@
       </p>
       
       <div style="background: var(--color-card-bg); padding: 30px; border-radius: 10px;">
-        <h4 style="color: var(--color-primary); margin-bottom: 20px;">
+        <h3 style="color: var(--color-primary); margin-bottom: 20px;">
           <i class="fas fa-envelope"></i> Email de contact
-        </h4>
+        </h3>
         <p style="font-size: 1.3em;">
           <a href="mailto:contact@amazightv.com" style="color: var(--color-primary); text-decoration: none;">
             contact@amazightv.com
@@ -49,18 +109,18 @@
       </div>
 
       <div style="margin-top: 40px;">
-        <h4>Suivez-nous</h4>
+        <h3>Suivez-nous</h3>
         <div style="display: flex; justify-content: center; gap: 20px; margin-top: 15px;">
-          <a href="#" style="color: var(--color-text); font-size: 2em;"><i class="fab fa-facebook"></i></a>
-          <a href="#" style="color: var(--color-text); font-size: 2em;"><i class="fab fa-youtube"></i></a>
-          <a href="#" style="color: var(--color-text); font-size: 2em;"><i class="fab fa-instagram"></i></a>
+          <a href="#" style="color: var(--color-text); font-size: 2em;" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+          <a href="#" style="color: var(--color-text); font-size: 2em;" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+          <a href="#" style="color: var(--color-text); font-size: 2em;" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
         </div>
       </div>
     </div>
   </section>
 </main>
 
-<footer class="footer">
+<footer class="footer" role="contentinfo">
   <div class="footer-content">
     <p>&copy; 2025 Amazigh TV. Tous droits réservés.</p>
     <p>Cinéma Kabyle en streaming gratuit</p>
