@@ -106,6 +106,12 @@ document.addEventListener('DOMContentLoaded', () => {
         modalElement.style.display = 'flex';
         setTimeout(() => modalElement.classList.add('is-open'), 10);
         document.body.style.overflow = 'hidden';
+        
+        // Accessibility: Set focus to first focusable element
+        const firstButton = modalElement.querySelector('button, [tabindex]:not([tabindex="-1"])');
+        if (firstButton) {
+            setTimeout(() => firstButton.focus(), 100);
+        }
     }
 
     function closeModal(modalElement) {
@@ -128,10 +134,11 @@ document.addEventListener('DOMContentLoaded', () => {
     function showErrorMessage(message) {
         const errorDiv = document.createElement('div');
         errorDiv.className = 'error-message';
+        errorDiv.setAttribute('role', 'alert');
         errorDiv.innerHTML = `
-            <i class="fas fa-exclamation-triangle"></i>
+            <i class="fas fa-exclamation-triangle" aria-hidden="true"></i>
             <p>${message}</p>
-            <button onclick="this.parentElement.remove()" class="cta-button">Fermer</button>
+            <button onclick="this.parentElement.remove()" class="cta-button" aria-label="Fermer le message d'erreur">Fermer</button>
         `;
         errorDiv.style.cssText = `
             position: fixed;
@@ -170,26 +177,18 @@ document.addEventListener('DOMContentLoaded', () => {
         
         let videoLink = data.link;
 
-        
-
 if (data.type === 'youtube') {
     videoLink += (videoLink.includes('?') ? '&' : '?') + 'autoplay=1&rel=0';
 } else if (data.type === 'dood') {
-    // DoodStream / DSVPlay : on met juste le lien embed
     videoLink = data.link;
 } else {
-    // Mega / Drive
     videoLink = data.link;
 }
 
-   // 4. Charger l'embed
-videoIframe.src = videoLink;
+   videoIframe.src = videoLink;
 
-// Réinitialise tout style inline sur l'iframe (on laisse le CSS faire le travail)
 videoIframe.removeAttribute('style');
 
-// Assure que l'iframe occupe correctement le conteneur responsive
-// (le conteneur .video-responsive-container contrôle le ratio via CSS)
 videoIframe.style.position = 'absolute';
 videoIframe.style.top = '0';
 videoIframe.style.left = '0';
@@ -198,17 +197,14 @@ videoIframe.style.height = '100%';
 videoIframe.style.border = 'none';
 videoIframe.style.background = 'black';
 videoIframe.style.display = 'block';
-videoIframe.style.borderRadius = ''; // laisse le CSS décider
+videoIframe.style.borderRadius = '';
 
-// Pour YouTube : demande autoplay proprement (on avait déjà ajouté, garde au cas où)
 if (data.type === 'youtube' && !videoLink.includes('autoplay')) {
     videoIframe.src += (videoIframe.src.includes('?') ? '&' : '?') + 'autoplay=1&rel=0';
 }
 
-// Ouvre la modale
 openModal(genericModal);
 
-// Affichage loader -> container quand l'iframe est ready
 let loadHandled = false;
 videoIframe.onload = () => {
     if (loadHandled) return;
@@ -217,7 +213,6 @@ videoIframe.onload = () => {
     videoContainer.style.display = 'block';
 };
 
-// Fallback : si onload ne se déclenche pas (certains embeds sur mobile), on force l'affichage proprement après 1.6s
 setTimeout(() => {
     if (!loadHandled) {
         loadHandled = true;
@@ -226,12 +221,11 @@ setTimeout(() => {
     }
 }, 1600);
 
-// En cas d'erreur de chargement
 videoIframe.onerror = () => {
     videoLoading.innerHTML = `
-        <i class="fas fa-exclamation-triangle"></i>
+        <i class="fas fa-exclamation-triangle" aria-hidden="true"></i>
         <p>Erreur de chargement de la vidéo</p>
-        <button onclick="closeModal(genericModal)" class="cta-button">Fermer</button>
+        <button onclick="document.getElementById('generic-video-modal').style.display='none'" class="cta-button" aria-label="Fermer le lecteur">Fermer</button>
     `;
 };
 
@@ -247,9 +241,9 @@ videoIframe.onerror = () => {
         // 6. Gestion d'erreur
         videoIframe.onerror = () => {
             videoLoading.innerHTML = `
-                <i class="fas fa-exclamation-triangle"></i>
+                <i class="fas fa-exclamation-triangle" aria-hidden="true"></i>
                 <p>Erreur de chargement de la vidéo</p>
-                <button onclick="closeModal(genericModal)" class="cta-button">Fermer</button>
+                <button onclick="document.getElementById('generic-video-modal').style.display='none'" class="cta-button" aria-label="Fermer le lecteur">Fermer</button>
             `;
         };
     }
@@ -275,8 +269,7 @@ videoIframe.onerror = () => {
 
     if (heroButton) {
         heroButton.addEventListener('click', (e) => {
-            const videoId = e.currentTarget.dataset.videoId;
-            if (videoId) setupGenericVideoModal(videoId);
+            window.location.href = 'films.html';
         });
     }
 
@@ -291,6 +284,7 @@ videoIframe.onerror = () => {
 
         // Accessibilité: navigation clavier sur les cartes
         card.setAttribute('tabindex', '0');
+        card.setAttribute('role', 'button');
         card.addEventListener('keydown', (e) => {
             if (e.key === 'Enter' || e.key === ' ') {
                 e.preventDefault();
@@ -309,13 +303,15 @@ videoIframe.onerror = () => {
         });
     });
 
+    // Fermeture au clic extérieur (sauf AdBlock modal)
     window.addEventListener('click', e => {
         const modal = e.target;
-        if (modal.classList.contains('modal') && modal.id !== 'modal-access-denied') {
+        if (modal.classList && modal.classList.contains('modal') && modal.id !== 'modal-access-denied') {
             closeModal(modal);
         }
     });
 
+    // Fermeture à l'Escape (sauf AdBlock modal)
     document.addEventListener('keydown', e => {
         if (e.key === 'Escape') {
             const openModalElement = document.querySelector('.modal.is-open');
@@ -334,7 +330,8 @@ videoIframe.onerror = () => {
         }
     });
 
-    // --- Navigation active ---
+    // --- Navigation active avec Debounce pour performance ---
+    let scrollTimeout;
     function updateActiveNav() {
         const sections = document.querySelectorAll('section');
         const navLinks = document.querySelectorAll('.navigation a');
@@ -356,7 +353,11 @@ videoIframe.onerror = () => {
         });
     }
 
-    window.addEventListener('scroll', updateActiveNav);
+    // Debounce scroll events - améliore les performances
+    window.addEventListener('scroll', () => {
+        if (scrollTimeout) clearTimeout(scrollTimeout);
+        scrollTimeout = setTimeout(updateActiveNav, 100);
+    });
     
     // Lancer la vérification initiale après un délai raisonnable
     setTimeout(checkAdBlockAdvanced, 2000);
