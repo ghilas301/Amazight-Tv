@@ -3,105 +3,105 @@
 
   <url>
     <loc>https://amazigh-tv.site/</loc>
-    <lastmod>2025-01-26</lastmod>
+    <lastmod>2026-01-26</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
 
   <url>
     <loc>https://amazigh-tv.site/films.html</loc>
-    <lastmod>2025-01-26</lastmod>
+    <lastmod>2026-01-26</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
 
   <url>
     <loc>https://amazigh-tv.site/contact.html</loc>
-    <lastmod>2025-01-26</lastmod>
+    <lastmod>2026-01-26</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
 
   <url>
     <loc>https://amazigh-tv.site/films/limucucu1.html</loc>
-    <lastmod>2025-01-26</lastmod>
+    <lastmod>2026-01-26</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://amazigh-tv.site/films/limucucu2.html</loc>
-    <lastmod>2025-10-27</lastmod>
+    <lastmod>2026-10-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://amazigh-tv.site/films/qezbul1.html</loc>
-    <lastmod>2025-01-26</lastmod>
+    <lastmod>2026-01-26</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://amazigh-tv.site/films/pucci1.html</loc>
-    <lastmod>2025-01-26</lastmod>
+    <lastmod>2026-01-26</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://amazigh-tv.site/films/pucci2.html</loc>
-    <lastmod>2025-01-26</lastmod>
+    <lastmod>2026-01-26</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://amazigh-tv.site/films/pucci4.html</loc>
-    <lastmod>2025-01-26</lastmod>
+    <lastmod>2026-01-26</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://amazigh-tv.site/films/narnia1.html</loc>
-    <lastmod>2025-01-26</lastmod>
+    <lastmod>2026-01-26</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://amazigh-tv.site/films/narnia2.html</loc>
-    <lastmod>2025-01-26</lastmod>
+    <lastmod>2026-01-26</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://amazigh-tv.site/films/crek1.html</loc>
-    <lastmod>2025-01-26</lastmod>
+    <lastmod>2026-01-26</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://amazigh-tv.site/films/crek2.html</loc>
-    <lastmod>2025-11-05</lastmod>
+    <lastmod>2026-11-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://amazigh-tv.site/films/kiki1.html</loc>
-    <lastmod>2025-01-26</lastmod>
+    <lastmod>2026-01-26</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://amazigh-tv.site/films/qiqi1.html</loc>
-    <lastmod>2025-01-26</lastmod>
+    <lastmod>2026-01-26</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -109,11 +109,83 @@
 
   <url>
     <loc>https://amazigh-tv.site/films/limucucu3.html</loc>
-    <lastmod>2025-01-26</lastmod>
+    <lastmod>2026-01-26</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
+ <url>
+    <loc>https://amazigh-tv.site/films/rubiccu.html</loc>
+    <lastmod>2026-06-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+ <url>
+    <loc>https://amazigh-tv.site/films/lacuvette.html</loc>
+    <lastmod>2026-06-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
   
+
+   <url>
+    <loc>https://amazigh-tv.site/films/iqjan.html</loc>
+    <lastmod>2026-06-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+
+   <url>
+    <loc>https://amazigh-tv.site/films/transporteur.html</loc>
+    <lastmod>2026-06-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+   <url>
+    <loc>https://amazigh-tv.site/films/uzru.html</loc>
+    <lastmod>2026-06-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+
+ <url>
+    <loc>https://amazigh-tv.site/films/kypous.html</loc>
+    <lastmod>2026-06-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+   <url>
+    <loc>https://amazigh-tv.site/films/qezbul2.html</loc>
+    <lastmod>2026-06-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+
+   <url>
+    <loc>https://amazigh-tv.site/films/helioplis.html</loc>
+    <lastmod>2026-06-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+   <url>
+    <loc>https://amazigh-tv.site/films/queen.html</loc>
+    <lastmod>2026-06-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+   <url>
+    <loc>https://amazigh-tv.site/films/iferfucen.html</loc>
+    <lastmod>2026-06-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
 
 </urlset>
